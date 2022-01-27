@@ -6,13 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "npx nodemon index.js"
-    
   },
   "author": "Alexander Mehks",
   "license": "ISC",
   "dependencies": {
     "all": "^0.0.0",
+    "connect-livereload": "^0.6.1",
     "express": "^4.17.2",
+    "livereload": "^0.9.3",
     "nodemon": "^2.0.15",
     "sqlite3": "^5.0.2"
   }
