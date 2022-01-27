@@ -19,6 +19,9 @@ app.use('/', routes);
 //    res.sendFile(homepage, { root: __dirname });
 //});
 
+/**
+ * Listening to port!
+ */
 app.listen(port, () => {
      console.log('Now listening on port ' + port);
 });
