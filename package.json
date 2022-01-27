@@ -9,6 +9,7 @@
   "author": "Alexander Mehks",
   "license": "ISC",
   "dependencies": {
+    "all": "^0.0.0",
     "express": "^4.17.2",
     "nodemon": "^2.0.15",
     "sqlite3": "^5.0.2"
