@@ -20,11 +20,5 @@ app.use('/', routes);
 //});
 
 app.listen(port, () => {
-     console.log('Now listening on port ' + port);
+    console.log('Now listening on port ' + port);
 });
-
-
-
-
-
-
