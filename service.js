@@ -7,12 +7,12 @@ const fs = require('fs');
 
 const app = express();
 const port = 3000;
-const homepage = ('/public/index.html')
 
 //const routes = require('./public/html_renders.js')
 
 //Setting statick folder and removing the .html in the end of the file. 
-app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
 
 app.use(express.json());
 //app.use('/', routes);
