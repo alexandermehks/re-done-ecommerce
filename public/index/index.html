@@ -9,10 +9,11 @@
 
 <body>
      <div class="container" id="app">
-          <div>Öl och cider, sebbe glider!!</div>
+          <div id="FAK">Öl och cider, sebbe glider!!</div>
           <a href="/admin" role="button">ADMIN</a>
           <button type="submit" class="btn btn-danger float-right" v-on:click="do_test">Click
-               here</button>
+
+               <button type="submit" class="btn btn-danger float-right" v-on:click="getUser">Fetch user from DB</button>
      </div>
 
 
