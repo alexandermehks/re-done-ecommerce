@@ -6,6 +6,7 @@ const vm = new Vue({
 
      methods: {
           do_test() {
+               alert("Function from index.js VUE WORKS")
                console.log("From index.js")
           },
 
