@@ -8,7 +8,7 @@
           "server": "node service",
           "dev": "npx nodemon service.js"
      },
-     "author": "Alexander Mehks",
+     "author": "Alexander Mehks, Tobias Lager, Sebastian Nilsson, Johan Nilsson",
      "license": "ISC",
      "dependencies": {
           "all": "^0.0.0",
