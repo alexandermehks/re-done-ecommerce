@@ -1,28 +1,41 @@
 -- SQLite
-DROP TABLE IF EXISTS sweater;
+
 CREATE TABLE if not EXISTS sweater(
 propID INTEGER PRIMARY KEY AUTOINCREMENT,
+type VARCHAR(100),
+name VARCHAR(250),
+price INTEGER,
+description text,
 color VARCHAR(50),
 balance INTEGER);
 
 ----------------------------------------------------------
-DROP TABLE IF EXISTS pants;
 CREATE TABLE if not EXISTS pants(
 propID INTEGER PRIMARY KEY AUTOINCREMENT,
+type VARCHAR(100),
+name VARCHAR(250),
+price INTEGER,
+description text,
 color VARCHAR(50),
 balance INTEGER);
 
 ------------------------------------------------------------
-DROP TABLE IF EXISTS tshirt;
 CREATE TABLE if not EXISTS tshirt(
 propID INTEGER PRIMARY KEY AUTOINCREMENT,
+type VARCHAR(100),
+name VARCHAR(250),
+price INTEGER,
+description text,
 color VARCHAR(50),
 balance INTEGER);
 
 --------------------------------------------------------------
-DROP TABLE IF EXISTS shoes;
 CREATE TABLE if not EXISTS shoes(
 propID INTEGER PRIMARY KEY AUTOINCREMENT,
+type VARCHAR(100),
+name VARCHAR(250),
+price INTEGER,
+description text,
 color VARCHAR(50),
 balance INTEGER);
 
@@ -32,14 +45,7 @@ DROP TABLE IF EXISTS product;
 CREATE TABLE if not EXISTS product(
 prodID INTEGER PRIMARY KEY AUTOINCREMENT,
 propID INTEGER,
-name VARCHAR(50),
-price INTEGER,
-description TEXT,
-type varchar(50),
-FOREIGN KEY (propID) references pants(propID),
-FOREIGN KEY (propID) references sweater(propID),
-FOREIGN KEY (propID) references tshirt(propID),
-FOREIGN KEY (propID) references shoes(propID)
+type VARCHAR(100)
 );
 
 
@@ -112,9 +118,4 @@ FOREIGN KEY (propID) references product(prodID)
 
 
 
-
-
-
-
-
-
+SELECT * FROM sweater WHERE propID = 1;
