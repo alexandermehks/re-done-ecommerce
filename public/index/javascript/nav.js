@@ -43,23 +43,43 @@ $(document).ready(function() {
             $(".navigation-profile").slideUp();
 
         }
+
+        var container2 = $(".navigation-cart")
+            // if the target of the click isn't the container nor a descendant of the container
+        if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+            $(".navigation-cart").slideUp();
+
+        }
     });
+
+
 
 
     $("#category-categories").hover(
         function() {
 
             $(".navigation-categories").slideDown();
-            $(".navigation-profile").slideUp();
+            $(".navigation-profile").hide();
+            $(".navigation-cart").hide();
         }
     );
 
     $("#profile-icon").hover(
         function() {
-            $(".navigation-categories").slideUp();
+            $(".navigation-categories").hide();
+            $(".navigation-cart").hide();
             $(".navigation-profile").slideDown();
         }
     );
+
+    $("#cart-icon").hover(
+        function() {
+            $(".navigation-categories").hide();
+            $(".navigation-cart").slideDown();
+            $(".navigation-profile").hide();
+        }
+    );
+
 
 
 
