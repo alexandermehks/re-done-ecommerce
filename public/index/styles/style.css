@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
 html,
 body {
     height: 100%;
     width: 100%!important;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500px;
 }
 
 body {
@@ -14,6 +17,8 @@ body {
     left: 0px;
     width: 100%;
     background: #eee;
+    transition: top 0.3s;
+    z-index: 100;
 }
 
 .navigation-categories {
@@ -36,6 +41,7 @@ nav {
     justify-content: center;
     padding-left: 100px;
     padding-right: 100px;
+    background: blue;
 }
 
 .nav-side {
@@ -88,9 +94,9 @@ nav {
 }
 
 .wrapper {
-    margin-left: 60px;
-    margin-right: 60px;
     margin-top: 100px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 input {
@@ -100,8 +106,70 @@ input {
 }
 
 .hero {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.centered-hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 300;
+}
+
+.centered-hero-text .hero-small {
+    font-size: 14px;
+    margin: 0;
+}
+
+.centered-hero-text .hero-big {
+    font-size: 40px;
+    margin: 0;
+}
+
+.sub-hero {
+    position: relative;
+}
+
+.sub-hero-gray {
+    background-color: silver;
+    height: 70%;
     width: 100%;
-    height: 100px;
-    background-color: red;
-    background-image: url("../images/header.png");
+    position: absolute;
+    top: 15%;
+    z-index: -1;
+}
+
+.sub-hero-gray-flex {
+    display: flex;
+    width: 100%;
+}
+
+.sub-hero-img {
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    width: 30%;
+}
+
+.sub-hero-text {
+    align-items: right;
+    justify-content: center;
+    width: 70%;
+}
+
+.sub-hero-inner-text {
+    width: 70%;
+    margin-top: 5%;
+    margin-left: 15%;
+}
+
+.centered-img {
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/girl.png");
+    background-repeat: no-repeat;
+    background-position: center;
 }

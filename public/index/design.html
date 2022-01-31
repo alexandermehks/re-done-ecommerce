@@ -7,7 +7,6 @@
     <title>Kingnation</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
-
 </head>
 
 <body>
@@ -82,15 +81,72 @@
 
 
             <div class="hero">
-                <div>
-                    <p>asd</p>
+                <img src="images/header.png" style="width:100%;">
+                <div class="centered-hero-text">
+                    <p class="hero-small">Lorum impsum</p>
+                    <p class="hero-big">Winter collection</p>
+                </div>
+            </div>
+
+            <div style="height: 40px"></div>
+            <div class="sub-hero">
+                <div class="sub-hero-gray"></div>
+                <div class="sub-hero-gray-flex">
+                    <div class="sub-hero-img">
+
+                        <div class="centered-img"></div>
+
+                    </div>
+                    <div class="sub-hero-text">
+                        <div class="sub-hero-inner-text">
+                            <h1>Tobias Loves Kungen av Edsbyn!</h1>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at tempor commodo. Mauris commodo quis imperdiet massa tincidunt.
+                                Turpis tincidunt id aliquet risus feugiat in ante metus dictum. Tellus id interdum velit laoreet id. Sed id semper risus in hendrerit gravida. Faucibus vitae aliquet nec ullamcorper sit amet risus. Vitae tempus quam pellentesque
+                                nec nam. Sapien pellentesque habitant morbi tristique. Mi eget mauris pharetra et ultrices neque ornare aenean. Velit ut tortor pretium viverra suspendisse potenti nullam ac tortor. Ipsum nunc aliquet bibendum enim facilisis
+                                gravida neque convallis.
+                            </p>
+                            <p>Ac odio tempor orci dapibus. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Sem et tortor consequat id porta nibh venenatis cras sed. Tempus quam pellentesque nec nam aliquam sem et tortor consequat.
+                                Vitae congue mauris rhoncus aenean vel elit. Tellus id interdum velit laoreet id donec ultrices tincidunt. Tellus in hac habitasse platea. Proin libero nunc consequat interdum varius sit amet mattis. Rhoncus urna neque
+                                viverra justo nec ultrices dui sapien eget. Morbi non arcu risus quis varius quam quisque.
+                            </p>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
 
-
         </div>
+
+        asd<br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br />asd<br /> asd
+
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br /> asd
+        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
+        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
+        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
+        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
+        <br />asd<br />asd<br />asd<br />asd<br />asd<br />
+
+    </div>
 
     </div>
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -122,6 +178,17 @@
         $(".navigation").mouseleave(function() {
             $(".navigation-categories").hide();
         });
+
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function() {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                $(".navigation").slideDown();
+            } else {
+                $(".navigation").slideUp();
+            }
+            prevScrollpos = currentScrollPos;
+        }
     </script>
 </body>
 
