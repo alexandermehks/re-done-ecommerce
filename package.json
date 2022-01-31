@@ -8,10 +8,10 @@
           "server": "node service",
           "dev": "npx nodemon service.js"
      },
-     "author": "Alexander Mehks, Tobias Lager, Sebastian Nilsson, Johan Nilsson",
+     "author": "Alexander Mehks, Tobias Lager, Sebastian Nilsson, Johan Nilsson, Luca Randazzo",
      "license": "ISC",
      "dependencies": {
-          "all": "^0.0.0",
+          "all": "0.0.0",
           "express": "^4.17.2",
           "sqlite": "^4.0.23",
           "sqlite3": "^5.0.2"
