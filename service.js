@@ -27,11 +27,5 @@ app.use('/user', user_routes);
  * Listening to port!
  */
 app.listen(port, () => {
-     console.log('Now listening on port ' + port);
+    console.log('Now listening on port ' + port);
 });
-
-
-
-
-
-
