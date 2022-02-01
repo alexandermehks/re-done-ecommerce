@@ -1,14 +1,6 @@
 $(document).ready(function() {
 
 
-    function distance(rect, p) {
-        console.log(rect)
-        var dx = Math.max(rect.left - p.x, 0, p.x - rect.top);
-        var dy = Math.max(rect.bottom - p.y, 0, p.y - rect.bottom);
-        console.log(dx, dy, "bajs", Math.sqrt(dx * dx + dy * dy))
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
     var currentMousePos = { x: -1, y: -1 };
     $(document).mousemove(function(event) {
         currentMousePos.x = event.pageX;
@@ -20,13 +12,13 @@ $(document).ready(function() {
     var prevScrollpos = window.pageYOffset;
     window.onscroll = function() {
         var currentScrollPos = window.pageYOffset;
-        //$("#navigation").get(0).style.setProperty("width", 10);
         document.getElementById("navigation").style.top = -currentScrollPos + "px";
 
 
         if (currentScrollPos > navHeight) {
             $("#searchbar").fadeOut()
             $(".navigation-profile").slideUp();
+            $(".navigation-cart").slideUp();
             if (prevScrollpos > currentScrollPos) {
 
 
@@ -51,9 +43,6 @@ $(document).ready(function() {
 
         }
     });
-
-
-
 
     $("#category-categories").hover(
         function() {
@@ -80,18 +69,12 @@ $(document).ready(function() {
         }
     );
 
-
-
-
     $(".navigation").hover(function() {
         document.getElementById("navigation").style.top = 0 + "px";
     });
 
-
     $(".navigation").mouseleave(function() {
         $(".navigation-categories").slideUp();
-
-
     });
 
     $("#search-icon").click(function() {
