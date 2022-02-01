@@ -14,10 +14,12 @@ const dbPromise = (async () => {
      }
 })();
 
+
+
 const getUsers = async () => {
      try {
           const dbConnection = await dbPromise;
-          const users = await dbConnection.all("SELECT * FROM CUSTOMER");
+          const users = await dbConnection.all("SELECT userID, role, name,email,password FROM user");
           return users;
      }
      catch (error) {
