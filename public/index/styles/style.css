@@ -23,6 +23,7 @@ input {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 100%;
     transform: translate(-50%, -50%);
     font-weight: 300;
 }
@@ -35,6 +36,36 @@ input {
 .centered-hero-text .hero-big {
     font-size: 40px;
     margin: 0;
+}
+
+.rounded-corner {
+    border-radius: 5px;
+}
+
+.centered-hero-text .hero-bigger {
+    font-size: 72px;
+    width: 100%;
+    margin: 0;
+}
+
+.centered-hero-text input {
+    width: 50%;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 0;
+    border-radius: 3px;
+}
+
+.centered-hero-text button {
+    margin-top: 12px;
+    width: 50%;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 0;
+    border-radius: 3px;
+    background-color: #2b2636;
 }
 
 .sub-hero {
@@ -81,4 +112,108 @@ input {
     background-repeat: no-repeat;
     background-position: center;
     background-size: auto 100%;
+}
+
+.campaign-1 {
+    display: flex;
+    align-items: top;
+    width: 100%;
+}
+
+.campaign-1-inner {
+    width: 50%;
+}
+
+.campaign-1-inner-top {
+    height: 50%;
+    width: 100%;
+    background-color: rgb(184, 179, 212);
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    background-image: url("../images/brace.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.price p {
+    margin: 0;
+}
+
+.price span {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.campaign-1-inner-bottom {
+    height: 50%;
+    width: 100%;
+    display: flex;
+}
+
+.campaign-1-inner-bottom-inner {
+    height: 100%;
+    width: 50%;
+}
+
+.inner1 {
+    background-color: rgb(218, 218, 218);
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    background-image: url("../images/sunglasses.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.inner2 {
+    background-color: rgb(245, 245, 245);
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    background-image: url("../images/fedora.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.uggla {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(245, 245, 245);
+}
+
+.edsbyn img {
+    width: 100%;
+}
+
+.special-offers {
+    text-align: center;
+}
+
+.special-offers h1 {
+    font-size: 72px;
+    color: #333b4d;
+}
+
+.special-offers h3 {
+    font-size: 24px;
+    color: #436fdf;
+    font-weight: 200;
 }
