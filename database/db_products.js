@@ -15,11 +15,14 @@ const dbPromise = (async () => {
      }
 })();
 
-
+/**
+ * 
+ * @returns All products from the database
+ */
 const getProducts = async () => {
      try {
           const dbConnection = await dbPromise;
-          const users = await dbConnection.all("SELECT prodid, propid FROM product");
+          const users = await dbConnection.all("SELECT prodid, propid,type FROM product");
           return users;
      }
      catch (error) {
@@ -29,32 +32,36 @@ const getProducts = async () => {
 
 
 
-
+/**
+ * 
+ * @param {Product objects} data 
+ * @returns {Response from database} 
+ */
 const addProduct = async (data) => {
      try {
           const id_propID = uuidv4()
           const id_prodID = uuidv4()
           const dbConnection = await dbPromise;
           if (data.table === "shoes") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type,name, price,description, color, balance)  VALUES (?,?,?,?,?,?,? )`, [id_propID, data.type, data.name, data.price, data.description, data.color, data.balance]);
                const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
                const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
                return response, addToProd
           }
           else if (data.table === "tshirt") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type, name,price,description,color, balance) VALUES (?,?,?,?,?,?,?)`, [id_propID, data.type, data.name, data.price, data.description, data.color, data.balance]);
                const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
                const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
                return response, addToProd
           }
           else if (data.table === "sweater") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type,name,price,description,color,balance) VALUES (?,?,?,?,?,?,?)`, [id_propID, data.type, data.name, data.price, data.description, data.color, data.color]);
                const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
                const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
                return response, addToProd
           }
           else if (data.table === "pants") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type,name,price,description,color,balance) VALUES (?,?,?,?,?,?,?)`, [id_propID, data.type, data.name, data.price, data.description, data.color, data.balance]);
                const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
                const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
                return response, addToProd
@@ -69,6 +76,16 @@ const addProduct = async (data) => {
 }
 
 
+const getCategory = async (data) => {
+     const dbConnection = await dbPromise;
+     //We can add if to check for what category we want to return if we dont want to use wildcard.
+     const response = await dbConnection.all(`SELECT * FROM ${data}`)
+     return response
+
+
+}
+
+
 
 
 
@@ -80,6 +97,7 @@ const addProduct = async (data) => {
 
 module.exports = {
      getProducts: getProducts,
-     addProduct: addProduct
+     addProduct: addProduct,
+     getCategory: getCategory
 
 }
