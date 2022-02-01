@@ -6,7 +6,7 @@
     flex-wrap: wrap;
     padding-top: 100px;
   }
-.btn {
+.section-1-container .btn {
     flex: 1 1 auto;
     margin: 8px;
     padding:8px;
@@ -21,7 +21,7 @@
     border-radius: 4px;
    }
   
- 
+   
   
   /* <- Magic Stuff */
  /* 
@@ -31,7 +31,7 @@
       
   }
  */
-.btn:active{
+ .section-1-container .btn:active{
     background-position: right center; /* change the direction of the change here */
     background-image: linear-gradient(to right, #2c6b7a 0%, #1d817c 51%, #2c6b7a 100%);
   }
@@ -63,7 +63,7 @@
     padding: 20px;
 }
 
-.button {
+.card-body button {
     background-color: #dedfde; 
     border: none;
     color: white;
@@ -78,7 +78,7 @@
     border-radius: 15px;
   }
   
-  .button:hover {
+  .card-body button:hover {
     background-position: right center; 
     background-image: linear-gradient(to right, #2c6b7a 0%, #1d817c 51%, #2c6b7a 100%);
   }
