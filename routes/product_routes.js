@@ -16,5 +16,17 @@ routes.get('/all', async (req, res) => {
 });
 
 
+routes.post('/add', async (req, res) => {
+     try {
+          let mes = await dbService.addProduct(req.body);
+          res.send("bajs");
+
+     }
+     catch (error) {
+          res.sendStatus(400, "Something went wrong");
+     }
+})
+
+
 module.exports = routes;
 
