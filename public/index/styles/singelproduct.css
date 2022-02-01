@@ -55,9 +55,9 @@ flex-basis: 10%;
     background-color: green;
 }
 .buysection{
-    padding-top: 5%;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-top: 3%;
+    padding-left: 15%;
+    padding-right: 15%;
     
 }
 .checked {
@@ -73,9 +73,9 @@ flex-basis: 10%;
     
 }
 .sizes{
-    padding: 8%;
-    padding-top: 2%;
-    padding-bottom: 2%;
+    padding: 7.5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
     
     
     background-color: rebeccapurple;
@@ -85,7 +85,7 @@ flex-basis: 10%;
 }
 .buybutton{
     background-color: purple;
-    padding: 2%;
+    padding: 3%;
     padding-left: 22%;
     padding-right: 22%;
     margin-top: 3%;
