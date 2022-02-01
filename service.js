@@ -13,6 +13,7 @@ const user_routes = require('./routes/user_routes')
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
 
+
 app.use(express.json());
 
 //Default routing for user routes will be /user
