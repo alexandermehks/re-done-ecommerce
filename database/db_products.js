@@ -1,6 +1,8 @@
 const sqllite3 = require('sqlite3');
 const { open, Database } = require('sqlite');
 const res = require('express/lib/response');
+const { v4: uuidv4 } = require('uuid');
+
 
 const dbPromise = (async () => {
      try {
@@ -30,31 +32,32 @@ const getProducts = async () => {
 
 const addProduct = async (data) => {
      try {
-          console.log(data)
+          const id_propID = uuidv4()
+          const id_prodID = uuidv4()
           const dbConnection = await dbPromise;
           if (data.table === "shoes") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (type) VALUES (?)`, [data.type]);
-               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = ${response.lastID}`);
-               const addToProd = await dbConnection.run(`INSERT INTO product (propID, type) VALUES (?,?)`, [response.lastID, getType.type]);
-               return response
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
+               const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
+               return response, addToProd
           }
           else if (data.table === "tshirt") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (type) VALUES (?)`, [data.xd]);
-               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = ${response.lastID}`);
-               const addToProd = await dbConnection.run(`INSERT INTO product (propID, type) VALUES (?,?)`, [response.lastID, getType.type]);
-               return response
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
+               const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
+               return response, addToProd
           }
           else if (data.table === "sweater") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (type) VALUES (?)`, [data.xd]);
-               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = ${response.lastID}`);
-               const addToProd = await dbConnection.run(`INSERT INTO product (propID, type) VALUES (?,?)`, [response.lastID, getType.type]);
-               return response
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
+               const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
+               return response, addToProd
           }
           else if (data.table === "pants") {
-               const response = await dbConnection.run(`INSERT INTO ${data.table} (type) VALUES (?)`, [data.xd]);
-               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = ${response.lastID}`);
-               const addToProd = await dbConnection.run(`INSERT INTO product (propID, type) VALUES (?,?)`, [response.lastID, getType.type]);
-               return response
+               const response = await dbConnection.run(`INSERT INTO ${data.table} (propID,type) VALUES (?,?)`, [id_propID, data.type]);
+               const getType = await dbConnection.get(`SELECT type FROM ${data.table} WHERE propID = (?)`, [id_propID]);
+               const addToProd = await dbConnection.run(`INSERT INTO product (prodID ,propID, type) VALUES (?,?,?)`, [id_prodID, id_propID, getType.type]);
+               return response, addToProd
           }
           else {
                res.sendStatus(400)
