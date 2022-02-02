@@ -32,8 +32,9 @@
   }
  */
  .section-1-container .btn:active{
-    background-position: right center; /* change the direction of the change here */
-    background-image: linear-gradient(to right, #2c6b7a 0%, #1d817c 51%, #2c6b7a 100%);
+    background-position: top center; /* change the direction of the change here */
+    background-image: linear-gradient(to top, #32a7b4 0%, #79c9d3 100%);
+    color: white;
   }
   
 /*
@@ -51,23 +52,40 @@
 .section-2-container {
     background-color: rgb(255, 255, 255);
 }
+
 .card-img{
     height: 240px;
+    
+}
+.card{
+  bottom: 90px;
+border: none;
 }
 
 .card-body{
     color: rgb(0, 0, 0);
+    
+    text-align: center;
 }
 
 .col-sm-4{
-    padding: 20px;
+    padding: 10px;
 }
+.card-title{
+  border-bottom: 2px solid #66bbe3;
+  padding-bottom: 5px;
 
+  color: rgb(78, 82, 80);
+  
+}
+.card-text{
+text-align: left;
+}
 .card-body button {
-    background-color: #dedfde; 
+    background-color: #dfe5e8; 
     border: none;
-    color: white;
-    padding: 7px 30px;
+    color: rgb(36, 32, 32);
+    padding: 6px 35px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -80,5 +98,39 @@
   
   .card-body button:hover {
     background-position: right center; 
-    background-image: linear-gradient(to right, #2c6b7a 0%, #1d817c 51%, #2c6b7a 100%);
+    background-image: linear-gradient(to top, #32a7b4 0%, #79c9d3 100%);
+    color: white;
   }
+/* dropdown starts here */
+
+.section-3-container {
+  background-color: rgb(255, 255, 255);
+}
+.section-2-container .btn{
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  max-width: 200px;
+}
+.dropdown-menu{
+  width:1932px;
+}
+.colors {
+  display: flex;
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+}
+
+.color {
+  height: 36px;
+  width: 36px;
+  margin-left: 0.5em;
+  border-radius: 18px;
+  
+  border: 2px solid #aaa;
+  cursor: pointer;
+}
