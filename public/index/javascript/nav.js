@@ -5,6 +5,9 @@ $(document).ready(function() {
     $(document).mousemove(function(event) {
         currentMousePos.x = event.pageX;
         currentMousePos.y = event.pageY;
+        //Black magic to fix bug where shopping cart and profile displays at same time
+        if ($(".navigation-profile").css("display") != "none" && $(".navigation-cart").css("display") != "none")
+            $(".navigation-cart").hide();
     });
 
 
@@ -46,10 +49,15 @@ $(document).ready(function() {
 
     $("#category-categories").hover(
         function() {
-
-            $(".navigation-categories").slideDown();
             $(".navigation-profile").hide();
             $(".navigation-cart").hide();
+            $(".navigation-search-holder").hide();
+            //Enable scroll on body
+            $('html, body').css({
+                overflow: 'auto',
+                height: 'auto'
+            });
+            $(".navigation-categories").slideDown();
         }
     );
 
@@ -64,8 +72,8 @@ $(document).ready(function() {
     $("#cart-icon").hover(
         function() {
             $(".navigation-categories").hide();
-            $(".navigation-cart").slideDown();
             $(".navigation-profile").hide();
+            $(".navigation-cart").slideDown();
         }
     );
 
@@ -78,6 +86,49 @@ $(document).ready(function() {
     });
 
     $("#search-icon").click(function() {
-        $("#searchbar").fadeIn()
+
+        if ($('.navigation-search-holder:visible').length == 0) {
+            //If search-area is hidden, show it
+            $(".navigation-search-holder").slideDown()
+            $(".navigation-categories").hide();
+            //Disable scroll on body
+            $('html, body').css({
+                overflow: 'hidden',
+                height: '100%'
+            });
+        } else {
+            //If search-area is showing, hide it
+            $(".navigation-search-holder").slideUp()
+                //Enable scroll on body
+            $('html, body').css({
+                overflow: 'auto',
+                height: 'auto'
+            });
+
+        }
+
+
+
     });
+
+    $(".close-button").click(function() {
+        $(".navigation-search-holder").slideUp()
+            //Enable scroll on body
+        $('html, body').css({
+            overflow: 'auto',
+            height: 'auto'
+        });
+    });
+
+    $(".top-search-button").click(function() {
+        let searchValue = $(this).html();
+        $("#search-input").val(searchValue);
+
+    });
+
+    let height = $(window).height() - $('nav').height() - $('#search-input').height() - 7;
+    //Set height of search window
+    //$('.navigation-search-content').height(height);
+
+    console.log(height)
 });
