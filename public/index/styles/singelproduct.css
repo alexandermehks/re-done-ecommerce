@@ -12,10 +12,10 @@
 }
 .picsmall{
     width: 100%;
-    padding: 2rem;
+    padding: 10%;
 }
 .card{
-    background-color: red;
+    
     margin-left: 15%;
     margin-right: 15%;
     
@@ -29,11 +29,12 @@
 .smallpicscontainer{
     display: flex;
     flex-direction: column;
+    border-left: 1px solid black;
 }
 .bigpiccontainer{
     display: flex;
     flex-direction: column;
-    padding : 2rem;
+    
     
     
 }
@@ -43,21 +44,23 @@
     font-weight: bold;
 }
 .item1{
-background-color: blue;
+
 flex-basis: 10%;
 }
 .item2{
-    background-color: purple;
+    
     flex-basis: 40%;
 }
 .item3{
     flex-basis: 50%;
-    background-color: green;
+    border-right: 1px solid black;
+    
 }
 .buysection{
     padding-top: 3%;
     padding-left: 15%;
     padding-right: 15%;
+    
     
 }
 .checked {
@@ -72,16 +75,9 @@ flex-basis: 10%;
     justify-content: space-between;
     
 }
-.sizes{
-    padding: 7.5%;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    
-    
-    background-color: rebeccapurple;
-}
+
 .sizes:hover{
-    background-color: red;
+    background-color: lightgray;
 }
 .buybutton{
     background-color: purple;
@@ -95,3 +91,74 @@ flex-basis: 10%;
 .buybutton:hover{
     background-color: royalblue;
 }
+.colorcontainer{
+    display: flex;
+}
+.colors{
+    background-color: grey;
+    padding: 2rem;
+    margin-right: 1%;
+}
+.colors:hover{
+    background-color: black;
+}
+.sizes {
+    
+    width: 60px;
+    height: 60px;
+    position: relative;
+    padding-top: 4%;
+    font-size: 15px;
+    background-color: white;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.style1{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    padding-top: 4%;
+    font-size: 15px;
+    background-color: white;
+    text-align: center;
+    border: 1px solid black;
+        background: 
+            linear-gradient(to top left,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) calc(50% - 0.8px),
+                rgba(0,0,0,1) 50%,
+                rgba(0,0,0,0) calc(50% + 0.8px),
+                rgba(0,0,0,0) 100%),
+            linear-gradient(to top right,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) calc(50% - 0.8px),
+                rgba(0,0,0,1) 50%,
+                rgba(0,0,0,0) calc(50% + 0.8px),
+                rgba(0,0,0,0) 100%);
+   }
+   .sizehelper{
+       display: flex;
+       justify-content: space-around;
+       margin-bottom: 2%;
+   }
+   .sizehelpcontainer{
+       display: none;
+       border: 1px solid black;
+       margin-bottom: 3%;
+
+   }
+   .infocontainer{
+       display: flex;
+       justify-content: space-around;
+   }
+   .infoborder{
+       border-bottom: 1px solid black;
+       width: 35%;
+   }
+   .textborder{
+       width: 50%;
+       padding: 2%;
+       border-left: 1px solid;
+       border-right: 1px solid;
+   }
