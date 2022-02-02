@@ -2,6 +2,7 @@ const routes = require('express').Router();
 const dbService = require('../database/db_user')
 const { request } = require('http');
 const { response } = require('express');
+const res = require('express/lib/response');
 
 
 /**
@@ -16,6 +17,18 @@ routes.get('/users', async (req, res) => {
           res.sendStatus(400, "Something went wrong");
      }
 });
+
+
+routes.post('/register', async (req, res) => {
+     console.log(req.body);
+     try {
+          console.log(req.body);
+
+     }
+     catch (error) {
+          res.sendStatus(400, "Something went wrong");
+     }
+})
 
 
 module.exports = routes;
