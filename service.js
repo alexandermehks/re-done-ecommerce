@@ -13,6 +13,7 @@ const prod_routes = require('./routes/product_routes')
 //Setting statick folder and removing the .html in the end of the file. 
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public/login'), { extensions: ['html'] }));
 
 
 app.use(express.json());
