@@ -12,14 +12,14 @@
      "license": "ISC",
      "dependencies": {
           "all": "0.0.0",
-          "axios": "^0.25.0",
           "bcrypt": "^5.0.1",
+          "dotenv": "^15.0.0",
           "express": "^4.17.2",
           "express-session": "^1.17.2",
+          "node-env-file": "^0.1.8",
           "sqlite": "^4.0.23",
           "sqlite3": "^5.0.2",
-          "uuid": "^8.3.2",
-          "vue-axios": "^3.4.0"
+          "uuid": "^8.3.2"
      },
      "devDependencies": {
           "nodemon": "^2.0.15"

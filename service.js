@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express');
 const path = require('path')
-
+const bodyParser = require('body-parser');
+var session = require('express-session');
 //Filesystem that ables to read a file
 const fs = require('fs');
 
@@ -13,10 +15,18 @@ const prod_routes = require('./routes/product_routes')
 //Setting statick folder and removing the .html in the end of the file. 
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public/register'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/login'), { extensions: ['html'] }));
 
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({
+     secret: process.env.SECRET,
+     resave: true,
+     saveUninitialized: true,
+     cookie: { secure: true }
+}))
 
 //Default routing for user routes will be /user
 app.use('/user', user_routes);

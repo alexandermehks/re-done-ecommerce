@@ -1,5 +1,8 @@
 const sqllite3 = require('sqlite3');
 const { open, Database } = require('sqlite');
+const bcrypt = require('bcrypt');
+const res = require('express/lib/response');
+const { v4: uuidv4 } = require('uuid');
 
 
 
@@ -16,6 +19,10 @@ const dbPromise = (async () => {
 
 
 
+/**
+ * 
+ * @returns {Users from the database}
+ */
 const getUsers = async () => {
      try {
           const dbConnection = await dbPromise;
@@ -27,7 +34,53 @@ const getUsers = async () => {
      }
 };
 
+const getUser = async (email) => {
+     try {
+          const dbConnection = await dbPromise;
+          const user = await dbConnection.get(`SELECT userid, role, name, email, password FROM user WHERE email = (?)`, [email])
+          return user
+     }
+     catch (error) {
+          res.sendStatus(400, "User not found");
+     }
+}
+
+const addUser = async (email, password, name) => {
+     const id = uuidv4()
+     try {
+          const dbConnection = await dbPromise;
+          if (name) {
+               const user = await dbConnection.run(`INSERT INTO user (userID, email, password,name) VALUES (?,?,?,?)`, [id, email, password, name])
+          }
+          else {
+               const user = await dbConnection.run(`INSERT INTO user (userID, email, password,name) VALUES (?,?,?,? )`, [id, email, password, "anonymous"])
+
+          }
+     }
+     catch (error) {
+          res.sendStatus(400, "something went wront")
+     }
+}
+
+
+const comparePassword = async (email, password) => {
+     try {
+          const dbConnection = await dbPromise;
+          const user = await dbConnection.get(`SELECT email,password FROM user WHERE email=(?)`, [email]);
+          const compare = await bcrypt.compare(password, user.password)
+          return compare
+
+     }
+     catch (error) {
+          res.sendStatus(400, "Something went wrong")
+     }
+
+}
+
 
 module.exports = {
      getUsers: getUsers,
+     addUser: addUser,
+     comparePassword: comparePassword,
+     getUser: getUser
 }
