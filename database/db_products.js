@@ -36,6 +36,50 @@ const dbPromise = (async() => {
     }
 };*/
 
+
+const getColors = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const colors = await dbConnection.all("SELECT colorID, hexColor FROM Colors");
+
+        const colorObj = {}
+        for (const i in colors) {
+            const c = colors[i];
+            colorObj[c.colorID] = c.hexColor;
+        }
+        return colorObj;
+    } catch (error) {
+        console.log(error)
+
+    }
+};
+
+
+
+
+
+/**
+ * 
+ * @returns All products from the database, combined with their category, as well as faked picture urls
+ */
+const getOnlyProducts = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        const allColors = await getColors();
+        for (i in products) {
+            products[i]["allColors"] = allColors
+        }
+
+        return products;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+};
+
+
+
 /**
  * 
  * @returns All products from the database, combined with their category, as well as faked picture urls
@@ -45,7 +89,6 @@ const getProducts = async() => {
         const dbConnection = await dbPromise;
         const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
         let res = await generateListOfProductTypes(products);
-        console.log(res)
         return res;
     } catch (error) {
         console.log(error)
@@ -58,7 +101,6 @@ const getProductsByProdID = async(prodID) => {
         const dbConnection = await dbPromise;
         const products = await dbConnection.all(`SELECT prodId, name, type, price, description, specification FROM product WHERE prodID = (?)`, [prodID]);
         let res = await generateListOfProductTypes(products);
-        console.log(res)
         return res;
     } catch (error) {
         console.log(error)
@@ -69,15 +111,15 @@ const getProductsByProdID = async(prodID) => {
 const generateListOfProductTypes = async(products) => {
 
     let res = [];
+
+    const allColors = await getColors();
+
     await asyncForEach(products, async(product) => {
         const type = product.type;
         const prodID = product.prodID;
         prod2 = await getCategoryWithProdId(type, prodID)
-        console.log(prod2)
         if (prod2.length > 0) {
-
             await asyncForEach(prod2, async(products2) => {
-
                 let newprod = {...product, ...products2 };
                 //Add fake picture urls
                 url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
@@ -86,6 +128,7 @@ const generateListOfProductTypes = async(products) => {
                     "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
                 ]
                 newprod["url"] = url;
+                newprod["allColors"] = allColors
                 res.push(newprod);
             });
         }
@@ -227,6 +270,7 @@ const getCategoryWithProdId = async(type, prodID) => {
 
 module.exports = {
     getProducts: getProducts,
+    getOnlyProducts: getOnlyProducts,
     getProductsByProdID: getProductsByProdID,
     addProduct: addProduct,
     addProductProperty: addProductProperty,

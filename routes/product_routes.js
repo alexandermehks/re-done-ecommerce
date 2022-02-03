@@ -14,6 +14,15 @@ routes.get('/all', async(req, res) => {
     }
 });
 
+routes.get('/allOnlyProduct', async(req, res) => {
+    try {
+        const users = await dbService.getOnlyProducts();
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
+
 routes.get('/byProdId/:id', async(req, res) => {
     try {
 

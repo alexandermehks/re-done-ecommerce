@@ -1,0 +1,33 @@
+.all-products {
+    background: silver;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    width: 100%;
+    border-bottom: 1px solid rgb(202, 202, 202);
+}
+
+.all-products .left {
+    background-color: rgba(255, 0, 0, 0.363);
+    min-width: 30%;
+    padding: 10px;
+    border: 1px solid black;
+    height: 100%;
+}
+
+.all-products .mid {
+    background-color: rgba(64, 64, 185, 0.315);
+    width: 35%;
+    height: 100%;
+    padding: 10px;
+}
+
+.all-products .right {
+    width: 35%;
+    height: 100%;
+    padding: 10px;
+}
+
+.right p {
+    margin: 0;
+}
