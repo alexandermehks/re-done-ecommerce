@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>asd</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/admin.css">
+</head>
+
+<body>
+    <div class="container" id="app" style="margin:0!important; width: 100%!important;">
+        <div class="all-products" v-bind:value="product.prodID " v-for="product in onlyProducts " v-bind:key="product.prodID">
+            <div class="left">
+
+                <p>Name: {{product.name}}</p>
+                <p>prodID: {{product.prodID}}</p>
+                <p>Price: {{product.price}}</p>
+                <p>Type: {{product.type}}</p>
+                <p>Description: {{product.description}}</p>
+                <p>Specification: {{product.specification}}</p>
+            </div>
+            <div class="mid">
+
+                <form @submit.prevent="getFormValues">
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input class="form-control " type="text " v-bind:value="product.name " disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td><input class="form-control " type="text " v-bind:value="product.price + ' kr' " disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td><input class="form-control " type="text " v-bind:value="product.description " disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Specification:</td>
+                            <td><input class="form-control " type="text " v-bind:value="product.specification " disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td><input class="form-control " type="text " v-bind:value="product.type " id="type" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>prodID:</td>
+                            <td><input class="form-control " type="text " v-bind:value="product.prodID " id="prodID" disabled></td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Color:</td>
+
+                            <td style="display: flex; justify-content: space-evenly; align-items: center;">
+
+                                <div v-bind:value="colorID" v-for="(hexColor, colorID) in product.allColors" style="background-color: red; width: 30px; height: 30px; border-radius: 30px; display: flex; justify-content: center; align-items: center; padding-bottom: 3px;" :style="{'background-color':hexColor}">
+                                    <input type="radio" name="color" v-bind:value="colorID" v-bind:id="colorID" :checked="colorID == 1">
+                                </div>
+
+
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td>Balance: </td>
+                            <td><input class="form-control " type="text" id="balance"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Size: (Shoe size: 30-50, 1-4 = s,m,l,xl)</td>
+                            <td><input class="form-control " type="text" id="size"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Picture url</td>
+                            <td><input class="form-control " type="text" id="url" value="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQvvCm8M6X5_8La3mTgCFJsMFu9LHdWmrDQ_PcdXl6iPEY3LBE9gfR_Y5Ct2bdcQZZloFev0wbZb9Y&usqp=CAc"></td>
+                        </tr>
+                        <tr>
+                            <td><button type="submit " class="btn btn-danger float-right ">Add productProperty</button>
+                            </td>
+
+                        </tr>
+                    </table>
+                </form>
+
+
+            </div>
+            <div class="right">
+                <div style="border: 1px solid rgba(0, 0, 0, 0.164)" v-for="productProperty in getProductPropertiesByProductId(product.prodID)" v-bind:key="productProperty.propID">
+
+                    <p>Name: {{productProperty.name}} ProdID: {{productProperty.prodID}} PropID: {{productProperty.propID}}</p>
+                    <p>ProdID: {{productProperty.prodID}} <span style="display:inline-block; width: 20px; height: 20px; border-radius: 20px; border: 1px, solid, black" :style="{'background-color':productProperty.allColors[productProperty.colorID]}"></span></p>
+                    <p style="color:rgb(55, 109, 153); cursor: pointer;" v-bind:id="productProperty.propID" class="showMoreProperty" v-on:click="clickShowMore('#more_'+productProperty.propID)">Click here to show more:</p>
+                    <div style="display: none;" v-bind:id="'more_'+productProperty.propID">
+                        <p>Color ID: {{productProperty.colorID}} </p>
+                        <p>Type: {{productProperty.type}}</p>
+                        <p>Price: {{productProperty.price}}kr</p>
+                        <p>Amount: {{productProperty.balance}}</p>
+                        <p>Desc: {{productProperty.description}}</p>
+                        <p>Specification: {{productProperty.specification}}</p>
+                        <div style="display: flex; ">
+                            <div v-for="url in productProperty.url ">
+                                <img v-bind:src="url " style="width: 50px; height: 50px; " />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 100px "></div>
+        <hr>
+        <h1>Add productProperty</h1>
+
+
+        <form>
+            Existing product:
+            <select class="form-control " name="products " id="productsid">
+                <option v-bind:value="product.prodID " v-for="product in onlyProducts " v-bind:key="product.prodID">{{product.name}}</option>
+            </select>
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input class="form-control " type="text " v-bind:value="currentProduct.name " disabled></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td><input class="form-control " type="text " v-bind:value="currentProduct.price + ' kr' " disabled></td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td><input class="form-control " type="text " v-bind:value="currentProduct.description " disabled></td>
+                </tr>
+                <tr>
+                    <td>Specification:</td>
+                    <td><input class="form-control " type="text " v-bind:value="currentProduct.specification " disabled></td>
+                </tr>
+                <tr>
+                    <td>Type:</td>
+                    <td><input class="form-control " type="text " v-bind:value="currentProduct.type " disabled></td>
+                </tr>
+                <tr>
+                    <td>prodID:</td>
+                    <td><input class="form-control " type="text " v-bind:value="currentProduct.prodID " disabled></td>
+                </tr>
+
+                <tr>
+                    <td>Color: (1..2)</td>
+                    <td><input class="form-control " type="text" id="color"></td>
+                </tr>
+
+                <tr>
+                    <td>Balance: </td>
+                    <td><input class="form-control " type="text" id="balance"></td>
+                </tr>
+
+                <tr>
+                    <td>Size: (Shoe size: 30-50, 1-4 = s,m,l,xl)</td>
+                    <td><input class="form-control " type="text" id="size"></td>
+                </tr>
+
+                <tr>
+                    <td>Picture url</td>
+                    <td><input class="form-control " type="text" id="url" value="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQvvCm8M6X5_8La3mTgCFJsMFu9LHdWmrDQ_PcdXl6iPEY3LBE9gfR_Y5Ct2bdcQZZloFev0wbZb9Y&usqp=CAc"></td>
+                </tr>
+                <tr>
+                    <td><button type="submit " class="btn btn-danger float-right ">Add productProperty</button>
+                    </td>
+
+                </tr>
+            </table>
+
+        </form>
+
+
+        <div style="height: 100px "></div>
+        <hr/>
+        <button type="submit " class="btn btn-danger float-right " v-on:click="getProducts " />Fetch products from DB</button>
+
+        <div v-for="product in products " v-bind:key="product.propID ">
+            <p>{{product.propID}} {{product.name}} {{product.prodID}}</p>
+            <p>Color: {{product.colorID}}</p>
+            <p>Size: {{product.size}}</p>
+            <p>Color: {{product.colorID}}</p>
+            <p>Type: {{product.type}}</p>
+            <p>Price: {{product.price}}kr</p>
+            <p>Amount: {{product.balance}}</p>
+            <p>Desc: {{product.description}}</p>
+            <p>Specification: {{product.specification}}</p>
+
+
+            <div style="display: flex; ">
+                <div v-for="url in product.url ">
+                    <img v-bind:src="url " style="width: 50px; height: 50px; " />
+                </div>
+            </div>
+
+
+            <hr>
+        </div>
+
+
+    </div>
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
+    <script type="application/javascript " src="javascript/addProduct.js "></script>
+    <script>
+        $("#productsid").change(function() {
+            vm.setChoosenProduct($(this).val())
+        });
+    </script>
+</body>
+
+</html>
