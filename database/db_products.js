@@ -130,7 +130,7 @@ const getCategory = async(data) => {
 
 /**
  * 
- * @param {Category of a product} data 
+ * @param {Category of a product} data
  * @returns {Database objects that matches the category}
  */
 const getCategoryWithId = async(data, propID) => {
