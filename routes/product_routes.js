@@ -14,17 +14,20 @@ routes.get('/all', async(req, res) => {
     }
 });
 
-routes.get('/all-johan', async(req, res) => {
+routes.get('/byProdId/:id', async(req, res) => {
     try {
-        const users = await dbService.getProductsJohan();
 
+        if (!req.params.id)
+            return res.send("please provide an id");
 
-        res.send(users);
+        const users = await dbService.getProductsByProdID(req.params.id);
+        return res.send(users);
+
     } catch (error) {
-        res.sendStatus(400, "Something went wrong");
+        console.log(error)
+        return res.sendStatus(400, "Something went wrong");
     }
 });
-
 
 
 
@@ -43,6 +46,19 @@ routes.post('/add', async(req, res) => {
         res.sendStatus(400, "Something went wrong");
     }
 })
+
+routes.post('/addProperty', async(req, res) => {
+    try {
+        let mes = await dbService.addProductProperty(req.body);
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
 
 
 routes.get('/:category', async(req, res) => {
