@@ -90,7 +90,8 @@ routes.post('/uploadpicture', async (req, res) => {
                               res.send("Upload failed");
                          }
                     });
-                    const addtoDatabase = await dbService.addPicture(req.body.text, p + filename)
+                    const query = `products/${req.body.text}/${filename}`
+                    const addtoDatabase = await dbService.addPicture(req.body.text, query)
                }
                res.send("OK")
           } else {
@@ -107,9 +108,9 @@ routes.post('/uploadpicture', async (req, res) => {
 
 
 
-routes.get('/pictures', async (req, res) => {
+routes.get('/pictures/:id', async (req, res) => {
      try {
-          const answer = await dbService.getPicture();
+          const answer = await dbService.getPicture(req.params.id);
           res.send(answer)
      }
      catch (error) {

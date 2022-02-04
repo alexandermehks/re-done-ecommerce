@@ -272,10 +272,10 @@ const addPicture = async (propID, file) => {
      }
 };
 
-const getPicture = async () => {
+const getPicture = async (propID) => {
      try {
           const dbConnection = await dbPromise;
-          const response = await dbConnection.all(`SELECT * FROM pic WHERE propID = prodi1`);
+          const response = await dbConnection.all(`SELECT * FROM pic WHERE propID = (?)`, [propID]);
           return response
 
      }

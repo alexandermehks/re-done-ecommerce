@@ -17,9 +17,8 @@ const auth_routes = require('./routes/authentication')
 //Setting statick folder and removing the .html in the end of the file. 
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
-app.use(express.static(path.join(__dirname, 'public/register'), { extensions: ['html'] }));
-app.use(express.static(path.join(__dirname, 'public/login'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/picture'), { extensions: ['html'] }));
+app.use(express.static('uploads'));
 
 
 app.use(express.json());
