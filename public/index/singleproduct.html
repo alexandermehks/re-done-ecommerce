@@ -149,6 +149,34 @@
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star"></span>
                                 <h4>4/5</h4>
+                                <button class = "reviewbutton" id = "reviewbutton">Write Review</button>
+                                <div class = "reviewform" id = "reviewform" style="display: none;">
+                                    <form>
+                                        <div class="form-group">
+                                          <label for="exampleFormControlInput1">Email address</label>
+                                          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bassenilsson93@gmail.com">
+                                        </div>
+                                        <p>Rate the product</p>
+                                        <div class="starscontainer">
+                                            
+                                            <div>
+                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star1" onclick = changeStarColor(id)></span>
+                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star2" onclick = changeStarColor(id)></span>
+                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star3" onclick = changeStarColor(id)></span>
+                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star4" onclick = changeStarColor(id)></span>
+                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star5" onclick = changeStarColor(id)></span>
+                                            
+                                        </div>
+                                        <p class = "arr"><i class="arrow right"></i></p>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="exampleFormControlTextarea1">Write Review</label>
+                                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        </div>
+                                        
+                                      </form>
+                                      <button>Publish Review</button>
+                                </div>
                     </div>
                     <div class="reviewcontainer">
                         <div class = "reviewcard">

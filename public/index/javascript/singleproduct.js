@@ -1,7 +1,34 @@
+$(document).ready(function() {
+
+
+  $("#reviewbutton").click(
+    function() {
+        $(".reviewform").slideToggle();
+
+    });
+ 
+
+
+
+});
+
 function emptysizes()
 {
     document.getElementById('S').setAttribute("class", "style1");
 }
+function changeStarColor(id)
+{
+  
+  
+  
+  document.getElementById(id).style.color = "orange";
+  
+ 
+
+
+  
+ 
+  }
 
 
   function changeColor(id)
@@ -45,7 +72,3 @@ function emptysizes()
   
  
   }
-
-
-
-  
