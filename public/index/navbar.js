@@ -1,6 +1,7 @@
 const navbarvm = new Vue({
      el: "#navbarapp",
      data: {
+          loggedin: {},
      },
 
      methods: {
@@ -37,7 +38,7 @@ const navbarvm = new Vue({
                     url: '/auth/loggedInUser',
                     type: 'GET',
                     success: (result) => {
-                         console.log(result)
+                         this.loggedin = result;
 
                     }
                })
@@ -48,7 +49,7 @@ const navbarvm = new Vue({
                     url: '/auth/logout',
                     type: 'GET',
                     success: (result) => {
-                         console.log("logged out")
+                         location.reload();
                     }
                })
           }
@@ -61,6 +62,10 @@ const navbarvm = new Vue({
 
 
 
+
+
+
+
      }
 
 
@@ -68,6 +73,9 @@ const navbarvm = new Vue({
 
 
 });
+
+navbarvm.getLoggedInUser();
+
 
 
 

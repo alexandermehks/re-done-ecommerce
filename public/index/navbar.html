@@ -27,7 +27,10 @@
 
                </div>
           </nav>
-          <div class="navigation-profile" id="navigation-profile" style="display: none;">
+
+
+
+          <div v-if="!loggedin.status" class="navigation-profile" id="navigation-profile" style="display: none;">
                <h2>logga in</h2>
                <form>
                     <input type="text" id="login" name="login" placeholder="login">
@@ -47,6 +50,33 @@
                     <i class="fa fa-google fa-fw"></i> Login with Google+
                </a>
           </div>
+
+
+          <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
+               <h2>Do loging</h2>
+               <h3>{{ loggedin }}</h3>
+
+               <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
+               <button v-on:click="logOut()">LOG OUT</button>
+
+
+          </div>
+
+
+
+          <button v-on:click="getLoggedInUser()">CLICK</button>
+
+
+
+          <p>{{ loggedin.status }}</p>
+
+
+
+
+
+
+
+
           <div class="navigation-cart" id="navigation-cart" style="display: none;">
                <h2>SHOPPING CART</h2>
                HERE YOU DESIGN SHOPPIUNG CART YOU MO
@@ -152,4 +182,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
 <script src="javascript/nav.js "></script>
-<script src="navbar.js"></script>
+<script type="application/javascript" src="navbar.js" defer></script>
