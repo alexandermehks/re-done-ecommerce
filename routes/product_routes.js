@@ -81,6 +81,10 @@ routes.post('/uploadpicture', async (req, res) => {
                          console.log("SUCESS")
                     }
                })
+
+               if (!req.files.length) {
+                    console.log("HÄR")
+               }
                for (let i = 0; i < req.files.file.length; i++) {
                     var file = req.files.file[i]
                     var filename = file.name
@@ -117,6 +121,9 @@ routes.get('/pictures/:id', async (req, res) => {
           res.sendStatus(400, "something went wrong")
      }
 })
+
+
+
 
 
 
