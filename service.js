@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 var session = require('express-session');
 //Filesystem that ables to read a file
 const fs = require('fs');
+const upload = require('express-fileupload')
 
 const app = express();
 const port = 3000;
@@ -16,8 +17,8 @@ const auth_routes = require('./routes/authentication')
 //Setting statick folder and removing the .html in the end of the file. 
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
-app.use(express.static(path.join(__dirname, 'public/register'), { extensions: ['html'] }));
-app.use(express.static(path.join(__dirname, 'public/login'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public/picture'), { extensions: ['html'] }));
+app.use(express.static('uploads'));
 
 
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use(session({
      saveUninitialized: true,
      cookie: { secure: true }
 }))
+app.use(upload())
 
 //Default routing for user routes will be /user
 app.use('/user', user_routes);
