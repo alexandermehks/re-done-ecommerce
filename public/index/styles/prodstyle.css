@@ -50,7 +50,7 @@
   /* product cards starts here section 2 */
 
 .section-2-container {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(221, 207, 207);
 }
 
 .card-img{
@@ -74,7 +74,6 @@ border: none;
 .card-title{
   border-bottom: 2px solid #66bbe3;
   padding-bottom: 5px;
-
   color: rgb(78, 82, 80);
   
 }
@@ -104,33 +103,91 @@ text-align: left;
 /* dropdown starts here */
 
 .section-3-container {
-  background-color: rgb(255, 255, 255);
-}
-.section-2-container .btn{
-  border: none;
-  background-color: inherit;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-block;
-  max-width: 200px;
-}
-.dropdown-menu{
-  width:1932px;
-}
-.colors {
-  display: flex;
-  position: fixed;
-  bottom: 2em;
-  right: 2em;
+  
 }
 
+.filter{
+  padding: 60px;
+}
+
+.filters {
+  display: flex;
+  align-items: top;
+  justify-content: center;
+
+}
+.filter-button a{
+  text-decoration: none;
+  color: black;
+  font-size: 13px;
+  
+}
 .color {
-  height: 36px;
-  width: 36px;
+  height: 26px;
+  width: 26px;
   margin-left: 0.5em;
   border-radius: 18px;
-  
-  border: 2px solid #aaa;
   cursor: pointer;
+  border: none;
+}
+.color.active{
+  border: 2px solid rgb(6, 145, 163);
+}
+
+.btn-4 {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f0eaea;
+  border-radius: 4px;
+  cursor: pointer;
+  border: black;
+
+}
+
+.btn-4.active {
+  background-image: linear-gradient(to top, #32a7b4 0%, #79c9d3 100%);
+  
+}
+
+#slider-range{
+  width: 200px;
+}
+
+.section-4-container {
+  padding-top: 150px;
+}
+
+.section-4-container p{
+  color: rgb(253, 253, 253);
+  font-size: 20px;
+  padding-left: 40%;
+}
+
+.section-4-container .form-group{
+  float: left;
+  padding-left: 40%;
+}
+
+
+.section-4-container .card {
+  background-image: linear-gradient(to top, #32a7b4 0%, #79c9d3 100%);
+}
+
+.section-4-container .btn{
+background-color: black;
+width: 90px;
+
+position: relative;
+;
+
+}
+
+
+
+
+
+.form-control{
+  width: 250px;
+ 
 }

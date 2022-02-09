@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/prodstyle.css">
     <link rel="stylesheet" href="styles/nav.css">
+
+ <!---             jquery price range            -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+
 </head>
 
 <body>
@@ -21,10 +29,10 @@
     <div class="container">
         
             <a class="btn btn-1">Shoes</a>
-            <a class="btn btn-2">Pants</a>
-            <a class="btn btn-3">Jacket</a> 
-            <a class="btn btn-4">T-shirt</a> 
-            <a class="btn btn-5">Jeans</a>
+            <a class="btn btn-1">Pants</a>
+            <a class="btn btn-1">Jacket</a> 
+            <a class="btn btn-1">T-shirt</a> 
+            <a class="btn btn-1">Jeans</a>
           
     </div>
 </div>
@@ -32,53 +40,42 @@
 
 <!--- sektion 2 -->
 <!-- när man trycker på bilden kommer man in i enskild produkt-->
-<div class="section-2-container section-container">
-    <div class="dropdown">
-        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-          <div class="color" style="background-color: #080805" data-hex="#e1e851"></div>
-          <div class="color" style="background-color: #ffffff" data-hex="#ffffff"></div>
-          <div class="color" style="background-color: #efe5ce" data-hex="#efe5ce"></div>
-          <div class="color" style="background-color: #acdc9d" data-hex="#acdc9d"></div>
-          <div class="color" style="background-color: #f5f4a0" data-hex="#f5f4a0"></div>
+
+    
+
+<div class="filter-menu" id="filter-menu">
+    <div class="filter-button">
+        <a href="#" id="filter-dropdown">Filter</a>
+    </div>
+    <div class="filters " style="display: none; ">
+        <div class="filter ">
+            <h3>size</h3>
+            <button class="btn-4">S</button>
+            <button class="btn-4">M</button>
+            <button class="btn-4">L</button>
+            <button class="btn-4">XL</button>
         </div>
-      </div>
-
-
-
-<!--  
-<div class="dropdown">
-    <p>FILTER</p>
-    <div class="btn-3 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span>colors</span>
-    </div>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div class="color" style="background-color: #080805" data-hex="#e1e851"></div>
-        <div class="color" style="background-color: #ffffff" data-hex="#ffffff"></div>
-        <div class="color" style="background-color: #efe5ce" data-hex="#efe5ce"></div>
-        <div class="color" style="background-color: #acdc9d" data-hex="#acdc9d"></div>
-        <div class="color" style="background-color: #f5f4a0" data-hex="#f5f4a0"></div>
-    </div>
-    <div class="btn-3 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span>storlek</span>
-
+        <div class="filter ">
+            <h3>Color</h3>
+            <button class="color" style="background-color: #080805" data-hex="#e1e851"></button>
+            <button class="color" style="background-color: #ffffff" data-hex="#ffffff"></button>
+            <button class="color" style="background-color: #efe5ce" data-hex="#efe5ce"></button>
+            <button class="color" style="background-color: #acdc9d" data-hex="#acdc9d"></button>
+            <button class="color" style="background-color: #f5f4a0" data-hex="#f5f4a0"></button>
+        </div>
+        <div class="filter ">
+            <p>
+                <label for="amount">Price range:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#0f51a8; font-weight:bold;">
+            </p>
+            <div id="slider-range"></div>
+        </div>
     </div>
 </div>
--->
-</div>
- 
-
-
-
 
 <!--- sektion 2 -->
 <div class="section-3-container section-container">
-      
+    
     <div class="container">
         <div class="row row-cols-md-4">
             <div class="col-sm-4">
@@ -87,7 +84,7 @@
                     <div class="card-body">
                         <h5 class="card-title">TEST 123</h5>
                         <p class="card-text">pris</p>
-                        <button type ="button" class="button">Add to cart</button>
+                        <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -98,7 +95,7 @@
                     <div class="card-body">
                         <h5 class="card-title">TEST 123</h5>
                         <p class="card-text">5832kr</p>
-                        <button type ="button" class="button">Add to cart</button>
+                        <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -109,7 +106,7 @@
                     <div class="card-body">
                         <h5 class="card-title">TEST 123</h5>
                         <p class="card-text">pris</p>
-                        <button type ="button" class="button">Add to cart</button>
+                        <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -120,7 +117,7 @@
                     <div class="card-body">
                         <h5 class="card-title">TEST 123</h5>
                         <p class="card-text">pris</p>
-                        <button type ="button" class="button">Add to cart</button>
+                        <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -131,7 +128,7 @@
                     <div class="card-body">
                         <h5 class="card-title">TEST 123</h5>
                         <p class="card-text">pris</p>
-                        <button type ="button" class="button">Add to cart</button>
+                        <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -142,57 +139,54 @@
                     <div class="card-body">
                         <h5 class="card-title">TEST 123</h5>
                         <p class="card-text">pris</p>
-                        <button type ="button" class="button">Add to cart</button>
+                        <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
-        asd<br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br />asd<br /> asd
+<div class="section-4-container section-container">
+    <div class="card w-100">
+        <form>
+            <p>Don't miss the latest, sign up to our newsletter!</p>
+            <div class="form-group">
 
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br /> asd
-        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
-        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
-        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
-        <br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br />asd<br /> asd
-        <br />asd<br />asd<br />asd<br />asd<br />asd<br />
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign up</button>
+        </form>
+        </div>
+</div>
 
-    </div>
-
-    </div>
-    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+</div>
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="javascript/nav.js "></script>
+    <script src="javascript/productpage.js "></script>
+    
 
     <script>
+$(document).ready(function() {
+
 
 $(function(){
       $("#navbar").load("navbar.html"); 
     });
 
+    $(function () {
+        $("#productcard").load("productcard.html");
+    });
+
+
+});
         const vm = new Vue({
         
             el: "#app",
