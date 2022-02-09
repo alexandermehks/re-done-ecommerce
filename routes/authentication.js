@@ -2,6 +2,9 @@ const routes = require('express').Router();
 const dbService = require('../database/db_user')
 const { request } = require('http');
 const { response } = require('express');
+const req = require('express/lib/request');
+
+
 /**
  logIn() {
                let valid = true;
@@ -49,7 +52,6 @@ const { response } = require('express');
                })
           }
  */
-var current_session;
 routes.post('/doLogIn', async (req, res) => {
      try {
           const match = await dbService.comparePassword(req.body.email, req.body.password);
@@ -75,13 +77,20 @@ routes.post('/doLogIn', async (req, res) => {
 routes.get('/loggedInUser', async (req, res) => {
      try {
           let user = {}
-          if (current_session.user) {
-               console.log(current_session.user)
+          user = req.session;
+          if (!current_session.user || !current_session) {
+               user['status'] = false;
+               res.json(user)
+          }
+          else if (current_session.user) {
                user = current_session.user;
+               user['status'] = true;
+               console.log(user)
                res.json(user)
           }
           else {
-               console.log("No logged in user")
+               user['status'] = false;
+               res.json(user)
           }
      }
      catch (error) {
@@ -95,6 +104,9 @@ routes.get('/logout', async (req, res) => {
           current_session = req.session;
           current_session.destroy();
           if (!current_session) {
+               res.send("you are logged out")
+          }
+          else {
                res.send("you are logged out")
           }
 
