@@ -1,17 +1,17 @@
 <div class="navigation" id="navigation">
-    <div id="navbarapp">
-        <nav>
-            <div class="left nav-side">
-                <a href="designproduct" id="category-home">Products</a>
-                <a href="#" id="category-new">Deals</a>
-                <a href="#" id="category-categories">Categories</a>
-                <a href="#" id="category-sale">News</a>
-            </div>
+     <div id="navbarapp">
+          <nav>
+               <div class="left nav-side">
+                    <a href="designproduct" id="category-home">Products</a>
+                    <a href="#" id="category-new">Deals</a>
+                    <a href="#" id="category-categories">Categories</a>
+                    <a href="#" id="category-sale">News</a>
+               </div>
 
-            <div class="logo">
-                <a href="#"><img src="images/logo2.png"></a>
-            </div>
-            <div class="right nav-side">
+               <div class="logo">
+                    <a href="#"><img src="images/logo2.png"></a>
+               </div>
+               <div class="right nav-side">
                 <a href="#">About</a>
                 <a href="#" class="a-icon" id="search-icon">
                     <span class="bi bi-search"></span>
@@ -26,46 +26,42 @@
 
 
             </div>
-        </nav>
+          </nav>
 
 
 
-        <div v-if="!loggedin.status" class="navigation-profile" id="navigation-profile" style="display: none;">
-            <h2>logga in</h2>
-            <form>
-                <input type="text" id="login" name="login" placeholder="login">
-                <input type="password" id="password" name="login" placeholder="password">
-                <input type="submit" value="Log In" v-on:click="logIn()">
-            </form>
-            <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
-            <button v-on:click="logOut()">LOG OUT</button>
+          <div v-if="!loggedin.status" class="navigation-profile" id="navigation-profile" style="display: none;">
+               <h2>logga in</h2>
+               <form>
+                    <input type="text" id="login" name="login" placeholder="login">
+                    <input type="password" id="password" name="login" placeholder="password">
+                    <input type="submit" value="Log In" v-on:click="logIn()">
+               </form>
+               <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
+               <button v-on:click="logOut()">LOG OUT</button>
 
-            <a href="#" class="fb btn">
-                <i class="fa fa-facebook fa-fw"></i> Login with Facebook
-            </a>
-            <a href="#" class="twitter btn">
-                <i class="fa fa-twitter fa-fw"></i> Login with Twitter
-            </a>
-            <a href="#" class="google btn">
-                <i class="fa fa-google fa-fw"></i> Login with Google+
-            </a>
-        </div>
+               <a href="#" class="fb btn">
+                    <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+               </a>
+               <a href="#" class="twitter btn">
+                    <i class="fa fa-twitter fa-fw"></i> Login with Twitter
+               </a>
+               <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-
-        <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
-            <h2>Do loging</h2>
-            <h3>{{ loggedin }}</h3>
-
-            <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
-            <button v-on:click="logOut()">LOG OUT</button>
+          </div>
 
 
-        </div>
+          <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
+               <h2>Do loging</h2>
+               <h3>{{ loggedin }}</h3>
+
+               <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
+               <button v-if="!loggedin.type" v-on:click="logOut()">LOG OUT</button>
+               <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
+                         out</button></a>
 
 
-
-
-
+          </div>
 
 
 
@@ -73,73 +69,72 @@
 
 
 
-        <div class="navigation-cart" id="navigation-cart" style="display: none;">
-            <h2>SHOPPING CART</h2>
-            HERE YOU DESIGN SHOPPIUNG CART YOU MO
-        </div>
-        <div class="navigation-categories " style="display: none; ">
-            <div class="categories ">
-                <h3>Skor</h3>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-            </div>
-            <div class="categories ">
-                <h3>Skor</h3>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-            </div>
-            <div class="categories ">
-                <h3>Skor</h3>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-            </div>
-            <div class="categories ">
-                <h3>Skor</h3>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-            </div>
-            <div class="categories ">
-                <h3>Skor</h3>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-                <p><a href="# ">Underkategori</a></p>
-            </div>
-        </div>
-        <div class="navigation-search-holder" style="display: none;">
-            <div class="over-search"></div>
-            <div class="navigation-search">
-                <input type="text" id="search-input" placeholder="Start typing to search..">
-                <div class="close-button"></div>
 
-            </div>
-            <div class="navigation-search-content">
-                <div class="top-searches">
-                    <span>Top searches:</span>
-                    <a href="#" class="top-search-button">Skor</a>
-                    <a href="#" class="top-search-button">Björn Borg</a>
-                    <a href="#" class="top-search-button">Kungen av edsbyn</a>
-                    <a href="#" class="top-search-button">Byxor</a>
-                </div>
 
-                <div class="search-results">
-                    <h1 style="text-align: center;">Search results:</h1>
 
-                    <div class="loading-results" style="text-align: center; display: none;">
-                        <img src="images/loading.gif"> <br /> Loading results...
+
+
+          <div class="navigation-cart" id="navigation-cart" style="display: none;">
+               <h2>SHOPPING CART</h2>
+               HERE YOU DESIGN SHOPPIUNG CART YOU MO
+          </div>
+          <div class="navigation-categories " style="display: none; ">
+               <div class="categories ">
+                    <h3>Skor</h3>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+               </div>
+               <div class="categories ">
+                    <h3>Skor</h3>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+               </div>
+               <div class="categories ">
+                    <h3>Skor</h3>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+               </div>
+               <div class="categories ">
+                    <h3>Skor</h3>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+               </div>
+               <div class="categories ">
+                    <h3>Skor</h3>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+                    <p><a href="# ">Underkategori</a></p>
+               </div>
+          </div>
+          <div class="navigation-search-holder" style="display: none;">
+               <div class="over-search"></div>
+               <div class="navigation-search">
+                    <input type="text" id="search-input" placeholder="Start typing to search..">
+                    <div class="close-button"></div>
+
+               </div>
+               <div class="navigation-search-content">
+                    <div class="top-searches">
+                         <span>Top searches:</span>
+                         <a href="#" class="top-search-button">Skor</a>
+                         <a href="#" class="top-search-button">Björn Borg</a>
+                         <a href="#" class="top-search-button">Kungen av edsbyn</a>
+                         <a href="#" class="top-search-button">Byxor</a>
+
                     </div>
                     <div class="nothing-found" style="text-align: center; width: 100%; display: none">
                         <div class="width: 100%; display: flex; align-items: center; justify-content: center;">
@@ -175,4 +170,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
 <script src="javascript/nav.js "></script>
+
 <script type="application/javascript" src="navbar.js" defer></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
