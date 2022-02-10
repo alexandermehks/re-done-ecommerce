@@ -31,3 +31,145 @@
 .right p {
     margin: 0;
 }
+
+.handle-products {
+    background-color: rgb(241, 241, 241);
+    padding: 40px;
+}
+
+.table-products {
+    padding: 20px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.table-products table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.t-check {
+    width: 4%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.t-url {
+    width: 4%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.img-product-table {
+    width: 100%;
+}
+
+td {
+    border-left: 1px solid rgba(0, 0, 0, 0.096);
+}
+
+.t-name {
+    width: 15%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.t-price {
+    width: 7%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.t-desc {
+    width: 25%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.t-spec {
+    width: 25%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.t-type {
+    width: 10%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.t-handle {
+    width: 10%;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.t-handle button {}
+
+.over-table {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.over-table .button-holder {
+    margin-right: auto;
+}
+
+.over-table .search-table {
+    margin-left: auto;
+}
+
+.add-product-overlay {
+    position: absolute;
+    top: 100px;
+    left: 5%;
+    width: 90%;
+    height: 80%;
+    z-index: 10;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+    border-radius: 10px;
+    filter: drop-shadow(10px 10px 10px #00000057);
+}
+
+.add-product-overlay .close-button {
+    height: 23px;
+    width: 23px;
+    cursor: pointer;
+    background-image: url(../images/x.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: none;
+    margin-top: 5px;
+}
+
+.overlay-header {
+    display: flex;
+    background: rgb(79, 175, 190);
+    background: linear-gradient(180deg, rgba(79, 175, 190, 1) 0%, rgba(43, 196, 227, 1) 100%);
+    margin: 0x;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+}
+
+.overlay-header .left {
+    margin-right: auto;
+}
+
+.overlay-header .left h2 {
+    margin: 0;
+    margin-right: auto;
+}
+
+.overlay-header .right {
+    margin-left: auto;
+}
+
+.new-product-content {
+    padding: 20px;
+    overflow: auto;
+}
