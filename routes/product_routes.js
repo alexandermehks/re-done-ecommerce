@@ -13,6 +13,7 @@ routes.get('/all', async(req, res) => {
     } catch (error) {
         res.sendStatus(400, "Something went wrong");
     }
+
 });
 
 routes.get('/allOnlyProduct', async(req, res) => {

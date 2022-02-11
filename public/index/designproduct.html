@@ -13,7 +13,7 @@
 
  <!---             jquery price range            -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+   
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="appee">
         <div id="navbar"></div>
 
 <!--- första sektion -->
@@ -75,70 +75,15 @@
 
 <!--- sektion 2 -->
 <div class="section-3-container section-container">
-    
+
     <div class="container">
         <div class="row row-cols-md-4">
-            <div class="col-sm-4">
-                <div class="card" style="width: 200px;">
-                    <img class="card-img" src="./images/girl.png" alt="picture of product">
+            <div class="col-sm-4" v-for="product in products" v-bind:key="product.proID">
+                <div class="card" style="width: 200px;" >
+                    <img class="card-img" v-bind:src="product.picURL" alt="picture of product">
                     <div class="card-body">
-                        <h5 class="card-title">TEST 123</h5>
-                        <p class="card-text">pris</p>
-                        <button type="button" class="button">Add to cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card" style="width: 200px;">
-                    <img class="card-img" src="./images/girl.png" alt="picture of product">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST 123</h5>
-                        <p class="card-text">5832kr</p>
-                        <button type="button" class="button">Add to cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card" style="width: 200px;">
-                    <img class="card-img" src="./images/girl.png" alt="picture of product">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST 123</h5>
-                        <p class="card-text">pris</p>
-                        <button type="button" class="button">Add to cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card" style="width: 200px;">
-                    <img class="card-img" src="./images/girl.png" alt="picture of product">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST 123</h5>
-                        <p class="card-text">pris</p>
-                        <button type="button" class="button">Add to cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card" style="width: 200px;">
-                    <img class="card-img" src="./images/girl.png" alt="picture of product">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST 123</h5>
-                        <p class="card-text">pris</p>
-                        <button type="button" class="button">Add to cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card" style="width: 200px;">
-                    <img class="card-img" src="./images/girl.png" alt="picture of product">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST 123</h5>
-                        <p class="card-text">pris</p>
+                        <h5 class="card-title">{{product.propID}}</h5>
+                        <p class="card-text">{{product.type}}</p>
                         <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
@@ -165,42 +110,15 @@
 </div>
 
 </div>
-  
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="javascript/nav.js "></script>
     <script src="javascript/productpage.js "></script>
+    <script src="javascript/nav.js "></script>
+    
     
 
-    <script>
-$(document).ready(function() {
-
-
-$(function(){
-      $("#navbar").load("navbar.html"); 
-    });
-
-    $(function () {
-        $("#productcard").load("productcard.html");
-    });
-
-
-});
-        const vm = new Vue({
-        
-            el: "#app",
-            data: {
-                title: "aasd",
-            },
-
-            methods: {}
-
-
-        });
-
-
-    </script>
+    
 </body>
 
 </html>

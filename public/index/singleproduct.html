@@ -2,261 +2,252 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kingnation</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/nav.css">
-    <link rel="stylesheet" href="styles/singelproduct.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Kingnation</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link rel="stylesheet" href="styles/style.css">
+     <link rel="stylesheet" href="styles/nav.css">
+     <link rel="stylesheet" href="styles/singelproduct.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
 </head>
 
 <body>
 
 
-    <div id="app">
+     <div id="app">
 
-        <div id="navbar"></div>
-
-
-        <div class="wrapper">
+          <div id="navbar"></div>
 
 
-            <div class="hero1">
-                <div>
-                    
-                    <a href="#">Home</a> / <a href="#">Sweater</a> / <a href="#">Sherpa Hoodie</a>
-                </div>
+          <div class="wrapper">
 
-            </div>
-            <div class="card card">
-                <div class="piccontainer">
-                    <div class="smallpicscontainer item1">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
+
+               <div class="hero1">
+                    <div>
+
+                         <a href="#">Home</a> / <a v-bind:href="''"> {{ product[0].type }} </a> / <a v-bind:href="''">
+                              {{ product[0].name }} </a>
 
                     </div>
-                    <div class="bigpiccontainer item2">
-                        <img class="card-img-top picbig" src="/images/sherpa.jpg" alt="Card image cap">
-                        <p class="textbelowbigpic">1/5</p>
-                    </div>
-                    <div class="item3">
-                        <div class="buysection">
-                            <div class="titlecontainer">
-                                <h3>Sweater Basic</h3>
-                                <h2><b>799 kr</b></h2>
-                            </div>
-                            <div>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"> (588)</span>
-                            </div>
 
-                            <h4>Choose your size</h4>
-                            <div class="sizehelpcontainer" id="sizehelpS">
-                                <div style="text-align: center;" id="sizefit">
-                                    <h4><b></b></h4>
-                                </div>
-                                <div class="sizehelper">
-                                    <div><b>Length</b></div>
-                                    <div><b>Weight</b></div>
-                                    <div><b>Chest</b></div>
-                                </div>
-                                <div class="sizehelper">
-                                    <div id="length"></div>
-                                    <div id="weight"></div>
-                                    <div id="chest"></div>
-                                </div>
-                            </div>
+               </div>
+               <div class="card card">
+                    <div class="piccontainer">
+                         <div class="smallpicscontainer item1">
+                              <div v-for="pic in product[0].url">
+                                   <img class="card-img-top picsmall" v-bind:src="pic" v-on:click="updatePicture(pic)"
+                                        alt="Card image cap">
+                              </div>
 
-                            <div class="sizecontainer">
-                                <div class="sizes style1" id="S" onclick="emptysizes(), changeColor(id)">S</div>
-                                <div class="sizes" id="M" onclick="changeColor(id)">M</div>
-                                <div class="sizes" id="L" onclick="changeColor(id)">L</div>
-                                <div class="sizes" id="XL" onclick="changeColor(id)">XL</div>
-                                <div class="sizes" id="2XL" onclick="changeColor(id)">2XL</div>
+                         </div>
+                         <div class="bigpiccontainer item2">
+                              <img class="card-img-top picbig" id="picbig" v-bind:src="product[0].picURL">
+                              <p class="textbelowbigpic">1/5</p>
+                         </div>
+                         <div class="item3">
+                              <div class="buysection">
+                                   <div class="titlecontainer">
+                                        <h3>{{prodname}}</h3>
+                                        <h2><b>{{product[0].price}} Kr</b></h2>
+                                   </div>
+                                   <div>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"> (588)</span>
+                                   </div>
+
+                                   <h4>Choose your size</h4>
+                                   <div class="sizehelpcontainer" id="sizehelpS">
+                                        <div style="text-align: center;" id="sizefit">
+                                             <h4><b></b></h4>
+                                        </div>
+                                        <div class="sizehelper">
+                                             <div><b>Length</b></div>
+                                             <div><b>Weight</b></div>
+                                             <div><b>Chest</b></div>
+                                        </div>
+                                        <div class="sizehelper">
+                                             <div id="length"></div>
+                                             <div id="weight"></div>
+                                             <div id="chest"></div>
+                                        </div>
+                                   </div>
+
+                                   <div class="sizecontainer">
+                                        <div v-for="size in sizes">
+
+                                             <div class="sizes" v-on:click="changeColor(size)" v-bind:id="size">{{size}}
+                                             </div>
+
+                                        </div>
 
 
-                            </div>
-                            <button class="buybutton">Add To Cart</button>
-                            <div>
+                                   </div>
+                                   <button class="buybutton">Add To Cart</button>
+                                   <div>
 
-                                <h4>Choose in different colors</h4>
-                                <div class="colorcontainer">
-                                    <div class="colors" style="background-color: black;"></div>
-                                    <div class="colors" style="background-color: teal;"></div>
-                                    <div class="colors" style="background-color: red;"></div>
+                                        <h4>Choose in different colors</h4>
+                                        <div class="colorcontainer">
+                                             <div style="margin-right: 4px " v-for="pic in product">
+                                                  <img class="card-img-top picsmall choscol"
+                                                       v-if=" pic.colorID = product[0].colorID" v-bind:id="pic.propID"
+                                                       v-bind:src="pic.picURL"
+                                                       v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.balance)">
+
+                                             </div>
 
 
-                                </div>
-                            </div>
+                                        </div>
+                                   </div>
 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body infocontainer">
-                    <div class="infotitle">
-                        <h3>Description</h3>
-                    </div>
-
-                    <div class="infotitle">
-                        <h3>Specifications</h3>
-                    </div>
-                </div>
-                <div class="card-body infocontainer">
-                    <div class="infoborder"></div>
-
-                    <div class="infoborder"></div>
-                </div>
-                <div class="card-body infocontainer">
-                    <div class="textborder">Sherpa Hoodie är en extremt skön och slitstark allroundhoodie med extra stor
-                        huva och praktisk bröstficka med dragkedja.
-                        <br><br>Tröjan är gjord i ett borstat funktionsmaterial med fårullskänsla som både värmer och
-                        transporterar bort fukt.
-                        <br><br>Sherpa Hoodie funkar utmärkt som riktigt värmande mellanlager eller som ytterjacka
-                        torra, svala dagar.
+                              </div>
+                         </div>
                     </div>
 
-                    <div class="textborder">
-                        <ul>
-                            <li>Material 1: Polyester 100%</li>
-                            <li>Material 2: Polyester 87%, Elastan 13%</li>
-                            <li>Vikt: 520g i storlek M</li>
-                            <li>Skapad för: Allround, Urban/vardag, Vandring, Hundsport</li>
+                    <div class="card-body infocontainer">
+                         <div class="infotitle">
+                              <h3>Description</h3>
+                         </div>
 
-                        </ul>
+                         <div class="infotitle">
+                              <h3>Specifications</h3>
+                         </div>
                     </div>
-                </div>
-                <div class="card-body infocontainer">
-                    <div class="infoborder"></div>
+                    <div class="card-body infocontainer">
+                         <div class="infoborder"></div>
 
-                    <div class="infoborder"></div>
-                </div>
+                         <div class="infoborder"></div>
+                    </div>
+                    <div class="card-body infocontainer">
+                         <div class="textborder">{{product[0].description}}
 
-                <div>
-                    <h1 style = "text-align: center;">Reviews</h1>
-                    <div style = "text-align: center;">
-                        <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <h4>4/5</h4>
-                                <button class = "reviewbutton" id = "reviewbutton">Write Review</button>
-                                <div class = "reviewform" id = "reviewform" style="display: none;">
-                                    <form>
+                         </div>
+
+                         <div class="textborder">
+                              <ul>
+                                   <li>{{product[0].specification}}</li>
+
+
+                              </ul>
+                         </div>
+                    </div>
+                    <div class="card-body infocontainer">
+                         <div class="infoborder"></div>
+
+                         <div class="infoborder"></div>
+                    </div>
+
+                    <div>
+                         <h1 style="text-align: center;">Reviews</h1>
+                         <div style="text-align: center;">
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star"></span>
+                              <h4>4/5</h4>
+                              <button class="reviewbutton" id="reviewbutton">Write Review</button>
+                              <div class="reviewform" id="reviewform" style="display: none;">
+                                   <form>
                                         <div class="form-group">
-                                          <label for="exampleFormControlInput1">Email address</label>
-                                          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bassenilsson93@gmail.com">
+                                             <label for="exampleFormControlInput1">Email address</label>
+                                             <input type="email" class="form-control" id="exampleFormControlInput1"
+                                                  placeholder="Bassenilsson93@gmail.com">
                                         </div>
                                         <p>Rate the product</p>
                                         <div class="starscontainer">
-                                            
-                                            <div>
-                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star1" onclick = changeStarColor(id)></span>
-                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star2" onclick = changeStarColor(id)></span>
-                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star3" onclick = changeStarColor(id)></span>
-                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star4" onclick = changeStarColor(id)></span>
-                                            <span class="fa fa-star stars" style="font-size: 30px;" id = "star5" onclick = changeStarColor(id)></span>
-                                            
-                                        </div>
-                                        <p class = "arr"><i class="arrow right"></i></p>
+
+                                             <div>
+                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star1"
+                                                       onclick=changeStarColor(id)></span>
+                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star2"
+                                                       onclick=changeStarColor(id)></span>
+                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star3"
+                                                       onclick=changeStarColor(id)></span>
+                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star4"
+                                                       onclick=changeStarColor(id)></span>
+                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star5"
+                                                       onclick=changeStarColor(id)></span>
+
+                                             </div>
+                                             <p class="arr"><i class="arrow right"></i></p>
                                         </div>
                                         <div class="form-group">
-                                          <label for="exampleFormControlTextarea1">Write Review</label>
-                                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                             <label for="exampleFormControlTextarea1">Write Review</label>
+                                             <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="3"></textarea>
                                         </div>
-                                        
-                                      </form>
-                                      <button>Publish Review</button>
-                                </div>
+
+                                   </form>
+                                   <button>Publish Review</button>
+                              </div>
+                         </div>
+                         <div class="reviewcontainer">
+                              <div class="reviewcard">
+                                   <div class="review1"><b>Name: </b>Sebastian Nilsson<br><b>Date: </b>2022-02-02</div>
+                                   <div class="review2">Jag tyckte denna produkten var grym! LOOOVE IT såååå jävlaaa bra
+                                        vet inte vart jag ska ta vägen, funkar i alla lägen och alla älskar den så grymt
+                                        mycket !</div>
+                                   <div class="review3">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                   </div>
+
+
+                              </div>
+
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+
+                              <br>
+
+                         </div>
                     </div>
-                    <div class="reviewcontainer">
-                        <div class = "reviewcard">
-                            <div class = "review1"><b>Name: </b>Sebastian Nilsson<br><b>Date: </b>2022-02-02</div>
-                            <div class = "review2">Jag tyckte denna produkten var grym! LOOOVE IT såååå jävlaaa bra vet inte vart jag ska ta vägen, funkar i alla lägen och alla älskar den så grymt mycket !</div>
-                            <div class = "review3">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                            </div>
-
-
-                        </div>
-                        
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-<br>
-
-                    </div>
-                </div>
-            </div>
+               </div>
 
 
 
-        </div>
+          </div>
 
-    </div>
-    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="javascript/nav.js "></script>
-    <script src="javascript/singleproduct.js "></script>
-
-    <script>
-
-        $(function () {
-            $("#navbar").load("navbar.html");
-        });
-
-        const vm = new Vue({
-
-            el: "#app",
-            data: {
-                title: "aasd",
-            },
-
-            methods: {}
-
-
-        });
+     </div>
+     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+     <script src="javascript/nav.js "></script>
+     <script src="javascript/singleproduct.js "></script>
 
 
 
-
-
-    </script>
-
+     <script
+          type="text/javascript">(function () { window['__CF$cv$params'] = { r: '6dbcbc595d1795fd', m: 'u_Yy.NJQKEwkxyHKpVGVnuU4aaRFikBX6p9hLePXCpA-1644573684-0-ARV1cGwbSbP4JabUimtlwn3QEqKCW5TIzWMHuJ9MoU4RV/Abfl6dYm/6LUWVpgBqnBrMGW298gq6wcUNSn8R95+pWoMTASwsShfwvBn6Jt0YwvTxqIdEcNCgv9b6+pzw6nVxbQWKySfYfn3ysa7E9Vr7tHZ4OduYvtlMrwPTrSJhtqutLWDHqPJa8wRROu+bIKfivbTSMpu999W47nFmstU=', s: [0xfd811ef1ed, 0x0b80c17a84], } })();</script>
 </body>
 
 </html>
