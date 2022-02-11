@@ -6,20 +6,20 @@ const { redirect } = require('express/lib/response');
 
 //Async for each
 async function asyncForEach(array, callback) {
-     for (let index = 0; index < array.length; index++) {
-          await callback(array[index], index, array);
-     }
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array);
+    }
 }
 
-const dbPromise = (async () => {
-     try {
-          return open({
-               filename: __dirname + '/databasejohan.db',
-               driver: sqllite3.Database
-          });
-     } catch (error) {
-          throw new error('DB CONNECTION FAILED');
-     }
+const dbPromise = (async() => {
+    try {
+        return open({
+            filename: __dirname + '/database.db',
+            driver: sqllite3.Database
+        });
+    } catch (error) {
+        throw new error('DB CONNECTION FAILED');
+    }
 })();
 
 /**
@@ -37,21 +37,21 @@ const dbPromise = (async () => {
 };*/
 
 
-const getColors = async () => {
-     try {
-          const dbConnection = await dbPromise;
-          const colors = await dbConnection.all("SELECT colorID, hexColor FROM Colors");
+const getColors = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const colors = await dbConnection.all("SELECT colorID, hexColor FROM Colors");
 
-          const colorObj = {}
-          for (const i in colors) {
-               const c = colors[i];
-               colorObj[c.colorID] = c.hexColor;
-          }
-          return colorObj;
-     } catch (error) {
-          console.log(error)
+        const colorObj = {}
+        for (const i in colors) {
+            const c = colors[i];
+            colorObj[c.colorID] = c.hexColor;
+        }
+        return colorObj;
+    } catch (error) {
+        console.log(error)
 
-     }
+    }
 };
 
 
@@ -62,113 +62,112 @@ const getColors = async () => {
  * 
  * @returns All products from the database, combined with their category, as well as faked picture urls
  */
-const getOnlyProducts = async () => {
-     try {
-          const dbConnection = await dbPromise;
-          const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
-          const allColors = await getColors();
-          for (i in products) {
-               products[i]["allColors"] = allColors
-               url = ["https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
+const getOnlyProducts = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        const allColors = await getColors();
+        for (i in products) {
+            products[i]["allColors"] = allColors
+            url = ["https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
+                "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
+                "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
+                "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
+            ]
+            products[i]["url"] = url;
+        }
+
+        return products;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+};
+
+
+
+/**
+ * 
+ * @returns All products from the database, combined with their category, as well as faked picture urls
+ */
+const getProducts = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        let res = await generateListOfProductTypes(products);
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+};
+
+const getProductsByProdID = async(prodID) => {
+    try {
+        const dbConnection = await dbPromise;
+        const products = await dbConnection.all(`SELECT prodId, name, type, price, description, specification FROM product WHERE prodID = (?)`, [prodID]);
+        let res = await generateListOfProductTypes(products);
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
+
+const generateListOfProductTypes = async(products) => {
+
+    let res = [];
+
+    const allColors = await getColors();
+
+    await asyncForEach(products, async(product) => {
+        const type = product.type;
+        const prodID = product.prodID;
+        prod2 = await getCategoryWithProdId(type, prodID)
+        if (prod2.length > 0) {
+            await asyncForEach(prod2, async(products2) => {
+                let newprod = {...product, ...products2 };
+                //Add fake picture urls
+                url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
                     "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
                     "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
                     "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
-               ]
-               products[i]["url"] = url;
-          }
-
-          return products;
-     } catch (error) {
-          console.log(error)
-          res.sendStatus(400, "SOmething went wrong")
-     }
-};
-
-
-
-/**
- * 
- * @returns All products from the database, combined with their category, as well as faked picture urls
- */
-const getProducts = async () => {
-     try {
-          const dbConnection = await dbPromise;
-          const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
-          let res = await generateListOfProductTypes(products);
-          return res;
-     } catch (error) {
-          console.log(error)
-          res.sendStatus(400, "SOmething went wrong")
-     }
-};
-
-const getProductsByProdID = async (prodID) => {
-     try {
-          const dbConnection = await dbPromise;
-          const products = await dbConnection.all(`SELECT prodId, name, type, price, description, specification FROM product WHERE prodID = (?)`, [prodID]);
-          let res = await generateListOfProductTypes(products);
-          return res;
-     } catch (error) {
-          console.log(error)
-          res.sendStatus(400, "SOmething went wrong")
-     }
-}
-
-const generateListOfProductTypes = async (products) => {
-
-     let res = [];
-
-     const allColors = await getColors();
-
-     await asyncForEach(products, async (product) => {
-          const type = product.type;
-          const prodID = product.prodID;
-          prod2 = await getCategoryWithProdId(type, prodID)
-          if (prod2.length > 0) {
-               await asyncForEach(prod2, async (products2) => {
-                    let newprod = { ...product, ...products2 };
-                    //Add fake picture urls
-                    url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
-                         "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
-                         "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
-                         "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
-                    ]
-                    newprod["url"] = url;
-                    newprod["allColors"] = allColors
-                    res.push(newprod);
-               });
-          }
-     })
-     return res;
+                ]
+                newprod["url"] = url;
+                newprod["allColors"] = allColors
+                res.push(newprod);
+            });
+        }
+    })
+    return res;
 
 }
 
 //Skapa "BARA product"
-const addProduct = async (data) => {
-     try {
-          const id_prodID = uuidv4()
-          //const id_prodID = uuidv4()
-          //const id_size = uuidv4()
-          const testEntry = {
-               "prodID": id_prodID,
-               "name": "Adidas Sneaker 3",
-               "type": "shoes",
-               "price": 1500,
-               "description": "Very good shoe",
-               "specification": "Made out of human babies"
-          }
-          data.prodID = id_prodID
-          const dbConnection = await dbPromise;
+const addProduct = async(data) => {
+    try {
+        const id_prodID = uuidv4()
+            //const id_prodID = uuidv4()
+            //const id_size = uuidv4()
+        const testEntry = {
+            "prodID": id_prodID,
+            "name": "Adidas Sneaker 3",
+            "type": "shoes",
+            "price": 1500,
+            "description": "Very good shoe",
+            "specification": "Made out of human babies"
+        }
+        data.prodID = id_prodID
+        const dbConnection = await dbPromise;
 
-          console.log("Inserted into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-          const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification) VALUES (?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-          return response
+        console.log("Inserted into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification) VALUES (?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+        return response
 
-     } catch (error) {
-          res.sendStatus(400, "Something went wrong")
-     }
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
 }
-
 
 //Edit "BARA product"
 const editProduct = async(data) => {
@@ -217,7 +216,6 @@ const addProductProperty = async(data) => {
         console.log("Error: ", error)
         res.sendStatus(400, "Something went wrong")
     }
-
 }
 
 
@@ -269,11 +267,11 @@ const addProductProperty = async(data) => {
  * @param {Category of a product} data 
  * @returns {Database objects that matches the category}
  */
-const getCategory = async (data) => {
-     const dbConnection = await dbPromise;
-     //We can add if to check for what category we want to return if we dont want to use wildcard.
-     const response = await dbConnection.all(`SELECT * FROM ${data}`)
-     return response
+const getCategory = async(data) => {
+    const dbConnection = await dbPromise;
+    //We can add if to check for what category we want to return if we dont want to use wildcard.
+    const response = await dbConnection.all(`SELECT * FROM ${data}`)
+    return response
 }
 
 /**
@@ -281,33 +279,33 @@ const getCategory = async (data) => {
  * @param {Category of a product} data
  * @returns {Database objects that matches the category}
  */
-const getCategoryWithProdId = async (type, prodID) => {
-     const dbConnection = await dbPromise;
-     //We can add if to check for what category we want to return if we dont want to use wildcard.
-     const response = await dbConnection.all(`SELECT * FROM ${type} WHERE prodID = (?)`, [prodID])
-     return response
+const getCategoryWithProdId = async(type, prodID) => {
+    const dbConnection = await dbPromise;
+    //We can add if to check for what category we want to return if we dont want to use wildcard.
+    const response = await dbConnection.all(`SELECT * FROM ${type} WHERE prodID = (?)`, [prodID])
+    return response
 }
 
 
-const addPicture = async (propID, file) => {
-     try {
-          const dbConnection = await dbPromise;
-          const response = await dbConnection.run(`INSERT INTO pic (propID,pictureURL) VALUES (?,?)`, [propID, file])
-          return response
-     } catch (error) {
-          res.sendStatus(400, "cant add picture")
-     }
+const addPicture = async(propID, file) => {
+    try {
+        const dbConnection = await dbPromise;
+        const response = await dbConnection.run(`INSERT INTO pic (propID,pictureURL) VALUES (?,?)`, [propID, file])
+        return response
+    } catch (error) {
+        res.sendStatus(400, "cant add picture")
+    }
 };
 
-const getPicture = async (propID) => {
-     try {
-          const dbConnection = await dbPromise;
-          const response = await dbConnection.all(`SELECT * FROM pic WHERE propID = (?)`, [propID]);
-          return response
+const getPicture = async(propID) => {
+    try {
+        const dbConnection = await dbPromise;
+        const response = await dbConnection.all(`SELECT * FROM pic WHERE propID = (?)`, [propID]);
+        return response
 
-     } catch (error) {
-          res.sendStatus(400, "cant get picture")
-     }
+    } catch (error) {
+        res.sendStatus(400, "cant get picture")
+    }
 }
 
 
@@ -320,7 +318,6 @@ const getPicture = async (propID) => {
 
 
 module.exports = {
-
     getProducts: getProducts,
     getOnlyProducts: getOnlyProducts,
     getProductsByProdID: getProductsByProdID,
@@ -330,6 +327,5 @@ module.exports = {
     getCategory: getCategory,
     addPicture: addPicture,
     getPicture: getPicture
-
 
 }
