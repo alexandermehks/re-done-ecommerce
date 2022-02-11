@@ -5,15 +5,16 @@ const vm = new Vue({
         bajs: 'hehe',
         onlyProducts: [],
         currentProduct: {},
-        handleProduct: {}
+        handleProduct: {},
+        colors: {},
+        productWithPropertiesByIdAndColor: {}
     },
-
-
 
     mounted() {
         $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
         this.updateAll();
+        this.getColors();
     },
 
     methods: {
@@ -48,6 +49,71 @@ const vm = new Vue({
             })
 
         },
+        getOnlyProducts() {
+            $.ajax({
+                url: '/products/allOnlyProduct',
+                type: 'GET',
+                success: (result) => {
+
+                    console.log(result)
+                    this.onlyProducts = result;
+                    if (this.onlyProducts.length > 0) {
+                        this.currentProduct = this.onlyProducts[0];
+                    }
+                }
+            })
+
+        },
+        getAllProductsWithPropertiesByIdAndColor() {
+            //products/getAllProductsWithPropertiesByIdAndColor
+            $.ajax({
+                url: '/products/getAllProductsWithPropertiesByIdAndColor',
+                type: 'GET',
+                success: (result) => {
+
+                    console.log(result)
+                    this.productWithPropertiesByIdAndColor = result;
+                }
+            })
+        },
+        getInnerForLoop(prodID, colorID) {
+            if (prodID != undefined && colorID != undefined) {
+                console.log(prodID, colorID)
+                let val = this.productWithPropertiesByIdAndColor[prodID][colorID]
+                return val;
+            }
+            return {}
+
+
+        },
+        getProductPropertiesByProdAndColorID(prodID, colorID, type) {
+            //products/getProductPropertiesByProdAndColorID
+
+            const data = {
+                "prodID": prodID,
+                "colorID": colorID,
+                "type": type
+            }
+
+            $.ajax({
+                url: '/products/getProductPropertiesByProdAndColorID',
+                method: "POST",
+                data: data,
+                success: function(response) {
+                    console.log("get shit")
+                    console.log(response)
+                        //this.updateAll()
+                        //$("#addProductOverlay").fadeOut();
+                }.bind(this),
+                error: function() {
+                    console.log("error")
+                }.bind(this)
+
+            });
+
+
+
+        },
         getProductPropertiesByProduct() {
             res = {};
             for (const i in this.products) {
@@ -76,6 +142,7 @@ const vm = new Vue({
         },
         updateAll() {
             this.getOnlyProducts()
+            this.getAllProductsWithPropertiesByIdAndColor()
         },
         getFormValues(submitEvent) {
             console.log(submitEvent.target.elements)
@@ -112,7 +179,9 @@ const vm = new Vue({
 
 
         },
+
         getFormValuesEdit(submitEvent) {
+            //products/getProductPropertiesByProdAndColorID
             console.log(submitEvent.target.elements)
             const prodID = submitEvent.target.elements["productProdID"].value;
             const name = submitEvent.target.elements["productNameEdit"].value;
@@ -158,6 +227,15 @@ const vm = new Vue({
 
 
         },
+        getColors() {
+            $.ajax({
+                url: '/products/allColors',
+                type: 'GET',
+                success: (result) => {
+                    this.colors = result;
+                }
+            })
+        }
 
 
 

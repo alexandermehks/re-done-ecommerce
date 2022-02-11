@@ -3,6 +3,7 @@ const dbService = require('../database/db_products')
 const { request } = require('http');
 const { response } = require('express');
 const fs = require('fs');
+const { data } = require('node-env-file');
 
 
 
@@ -40,8 +41,35 @@ routes.get('/byProdId/:id', async (req, res) => {
 });
 
 
+routes.get('/allColors', async(req, res) => {
+    try {
+        const users = await dbService.getColors();
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
+
+routes.get('/getAllProductsWithPropertiesByIdAndColor', async(req, res) => {
+    try {
+        const users = await dbService.getAllProductsWithPropertiesByIdAndColor();
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
 
 
+
+routes.post('/getProductPropertiesByProdAndColorID', async(req, res) => {
+    try {
+        console.log(req.body)
+        const users = await dbService.getProductPropertiesByProdAndColorID(req.body.prodID, req.body.colorID, req.body.type);
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
 
 
 
