@@ -162,6 +162,35 @@
 
                         <button type="submit" class="btn btn-primary">Edit product</button>
                     </form>
+                    <div style="margin-top: 10px;"></div>
+                    <div class="colorsFlex">
+                        <div class="byColors" v-for="(color, id) in colors">
+                            <div style="display: flex;">
+                                <div style="width: 20px; height: 20px; border: 1px solid black; border-radius: 20px; margin-right: 5px;" :style="{'background-color':color}"></div>
+                                ColorId: {{id}}
+                            </div>
+                            <hr>
+                            <div>
+
+                                <div v-for="property in getInnerForLoop(handleProduct.prodID, id)">
+
+
+                                    <strong>Size: </strong> {{property.size}} <br>
+                                    <strong>Balance: </strong> {{property.balance}}
+
+
+
+                                    <hr>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
 
                 </div>
 
