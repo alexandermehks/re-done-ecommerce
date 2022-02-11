@@ -50,7 +50,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="product in onlyProducts" v-bind:key="product.propID">
+                            <tr v-for="product in onlyProducts" v-bind:key="product.prodID">
                                 <th scope="row" class="t-check"><input type="checkbox" name="asd" value="asd"></th>
                                 <td class="t-url"><img class="img-product-table" src="https://www.famousfootwear.com/blob/product-images/20000/50/17/2/50172_pair_large.jpg"></td>
                                 <td class="t-name">{{product.name}}</td>
@@ -58,7 +58,7 @@
                                 <td class="t-desc">{{product.description}}</td>
                                 <td class="t-spec">{{product.specification}}</td>
                                 <td class="t-type">{{product.type}}</td>
-                                <td class="t-handle"><button class="btn btn-primary btn-sm">Handle</button></td>
+                                <td class="t-handle"><button class="btn btn-primary btn-sm" v-on:click="clickHandle(product)">Handle</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -69,7 +69,7 @@
                 </div>
 
             </div>
-            <div class="add-product-overlay" id="addProductOverlay">
+            <div class="add-product-overlay" id="addProductOverlay" style="display:none;">
 
                 <div class="overlay-header">
                     <div class="left">
@@ -115,8 +115,55 @@
 
                 </div>
 
+            </div>
+            <div class="edit-product-overlay" id="editProductOverlay" style="display: none;">
+                <div class="overlay-header">
+                    <div class="left">
+                        <h2>Handle Product</h2>
+                    </div>
+                    <div class="right close-button" id="closeHandleProduct"></div>
+                </div>
+                <div class="over-search"></div>
+                <div class="new-product-content">
+                    <form @submit.prevent="getFormValuesEdit">
+                        <input type="hidden" id="productProdID" v-bind:value="handleProduct.prodID">
+                        <div class="row">
+                            <div class="col">
+                                <label for="productName" class="form-label">Product Name:</label>
+                                <input type="text" class="form-control" id="productNameEdit" placeholder="Product Name" v-bind:value="handleProduct.name">
+                            </div>
+                            <div class="col">
+                                <label for="productPrice" class="form-label">Product Category:</label>
+                                <select class="form-select" aria-label="Product Category" id="productTypeEdit" disabled>
+                                <option selected value="shoes" :selected="handleProduct.type == 'shoes'">Shoes</option>
+                                <option value="sweater" :selected="handleProduct.type == 'sweater'">Sweater</option>
+                                <option value="pants" :selected="handleProduct.type == 'pants'">Pants</option>
+                                <option value="tshirt" :selected="handleProduct.type == 'tshirt'">T-shirt</option>
+                              </select>
+                            </div>
+                            <div class="col">
+                                <label for="productPrice" class="form-label">Product price:</label>
+                                <input type="text" class="form-control" id="productPriceEdit" placeholder="1000 kr" v-bind:value="handleProduct.price">
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;"></div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="productDescription" class="form-label">Product Description</label>
+                                <textarea class="form-control" id="productDescriptionEdit" rows="3" placeholder="This product is very good.." v-bind:value="handleProduct.description"></textarea>
+                            </div>
+                            <div class="col">
+                                <label for="productSpecification" class="form-label">Product Specification</label>
+                                <textarea class="form-control" id="productSpecificationEdit" rows="3" placeholder="Made out of wolf..." v-bind:value="handleProduct.specification"></textarea>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;"></div>
 
 
+                        <button type="submit" class="btn btn-primary">Edit product</button>
+                    </form>
+
+                </div>
 
             </div>
             asd

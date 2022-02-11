@@ -169,33 +169,55 @@ const addProduct = async (data) => {
      }
 }
 
-const addProductProperty = async (data) => {
-     try {
-          const id_propID = uuidv4()
-          //const id_prodID = uuidv4()
-          //const id_size = uuidv4()
-          const testEntry = {
-               "propID": id_propID,
-               "prodID": "61fca205-99f4-4ebf-adcf-064427170553",
-               "type": "shoes",
-               "colorID": 1,
-               "balance": 100,
-               "size": 42,
-               "picUrl": "https://www.famousfootwear.com/blob/product-images/20000/50/17/2/50172_pair_large.jpg"
-          }
-          //data = testEntry
-          data.propID = id_propID
-          const dbConnection = await dbPromise;
 
-          if (['shoes', 'sweater', 'pants', 'tshirt'].includes(data.type)) {
-               console.log("Inserted into db", [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
-               const response = await dbConnection.run(`INSERT INTO ${data.type} (propID, prodID, colorID, balance, size, picURL) VALUES (?,?,?,?,?,?)`, [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
-               return response
-          }
-     } catch (error) {
-          console.log("Error: ", error)
-          res.sendStatus(400, "Something went wrong")
-     }
+//Edit "BARA product"
+const editProduct = async(data) => {
+    try {
+        const dbConnection = await dbPromise;
+
+        console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.prodID])
+        return response
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
+
+
+
+
+
+
+const addProductProperty = async(data) => {
+    try {
+        const id_propID = uuidv4()
+            //const id_prodID = uuidv4()
+            //const id_size = uuidv4()
+        const testEntry = {
+                "propID": id_propID,
+                "prodID": "61fca205-99f4-4ebf-adcf-064427170553",
+                "type": "shoes",
+                "colorID": 1,
+                "balance": 100,
+                "size": 42,
+                "picUrl": "https://www.famousfootwear.com/blob/product-images/20000/50/17/2/50172_pair_large.jpg"
+            }
+            //data = testEntry
+        data.propID = id_propID
+        const dbConnection = await dbPromise;
+
+        if (['shoes', 'sweater', 'pants', 'tshirt'].includes(data.type)) {
+            console.log("Inserted into db", [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
+            const response = await dbConnection.run(`INSERT INTO ${data.type} (propID, prodID, colorID, balance, size, picURL) VALUES (?,?,?,?,?,?)`, [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
+            return response
+        }
+    } catch (error) {
+        console.log("Error: ", error)
+        res.sendStatus(400, "Something went wrong")
+    }
+
 }
 
 
@@ -298,13 +320,16 @@ const getPicture = async (propID) => {
 
 
 module.exports = {
-     getProducts: getProducts,
-     getOnlyProducts: getOnlyProducts,
-     getProductsByProdID: getProductsByProdID,
-     addProduct: addProduct,
-     addProductProperty: addProductProperty,
-     getCategory: getCategory,
-     addPicture: addPicture,
-     getPicture: getPicture
+
+    getProducts: getProducts,
+    getOnlyProducts: getOnlyProducts,
+    getProductsByProdID: getProductsByProdID,
+    addProduct: addProduct,
+    editProduct: editProduct,
+    addProductProperty: addProductProperty,
+    getCategory: getCategory,
+    addPicture: addPicture,
+    getPicture: getPicture
+
 
 }

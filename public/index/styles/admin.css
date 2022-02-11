@@ -173,3 +173,27 @@ td {
     padding: 20px;
     overflow: auto;
 }
+
+.edit-product-overlay {
+    position: absolute;
+    top: 100px;
+    left: 5%;
+    width: 90%;
+    height: 80%;
+    z-index: 10;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+    border-radius: 10px;
+    filter: drop-shadow(10px 10px 10px #00000057);
+}
+
+.edit-product-overlay .close-button {
+    height: 23px;
+    width: 23px;
+    cursor: pointer;
+    background-image: url(../images/x.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: none;
+    margin-top: 5px;
+}
