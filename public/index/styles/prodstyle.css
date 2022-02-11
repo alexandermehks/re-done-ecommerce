@@ -167,6 +167,7 @@ text-align: left;
 .section-4-container .form-group{
   float: left;
   padding-left: 40%;
+  
 }
 
 
@@ -177,6 +178,7 @@ text-align: left;
 .section-4-container .btn{
 background-color: black;
 width: 90px;
+margin-left: 20px;
 
 position: relative;
 ;
