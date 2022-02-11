@@ -10,6 +10,7 @@ routes.get('/all', async (req, res) => {
      try {
           const users = await dbService.getProducts();
           res.send(users);
+          console.log(users);
      } catch (error) {
           res.sendStatus(400, "Something went wrong");
      }
