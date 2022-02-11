@@ -149,6 +149,7 @@ routes.post('/uploadpicture', async (req, res) => {
      } catch (error) {
           res.sendStatus(400, "Something went wrong");
      }
+});
 
 
 
