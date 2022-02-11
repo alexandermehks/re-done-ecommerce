@@ -86,6 +86,7 @@ const getOnlyProducts = async() => {
 
 
 
+
 /**
  * 
  * @returns All products from the database, combined with their category, as well as faked picture urls
@@ -111,6 +112,57 @@ const getProductsByProdID = async(prodID) => {
     } catch (error) {
         console.log(error)
         res.sendStatus(400, "SOmething went wrong")
+    }
+}
+
+const getAllProductsWithPropertiesByIdAndColor = async(prodID, colorID, type) => {
+    try {
+        const dbConnection = await dbPromise;
+
+        const allProducts = await getOnlyProducts();
+        const allColors = await getColors();
+        let res = {};
+        await asyncForEach(allProducts, async(prod) => {
+
+            const prodID = prod.prodID;
+            //let innerres = await getProductPropertiesByProdAndColorID(prod.);
+            let outerres = {}
+            for (colorID in allColors) {
+                let tesinnerRes = await getProductPropertiesByProdAndColorID(prodID, colorID, prod.type)
+                    //console.log("FAKK", tesinnerRes)
+                outerres[colorID] = tesinnerRes;
+            }
+
+            res[prodID] = outerres;
+
+            /*url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
+                "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
+                "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
+                "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
+            ]*/
+            //newprod["url"] = url;
+            //newprod["allColors"] = allColors
+
+        });
+
+
+
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
+const getProductPropertiesByProdAndColorID = async(prodID, colorID, type) => {
+    try {
+        const dbConnection = await dbPromise;
+        const productProperties = await dbConnection.all(`SELECT * FROM ${type} WHERE prodID = ? AND colorID = ?`, [prodID, colorID]);
+        let res = productProperties;
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
     }
 }
 
@@ -326,6 +378,9 @@ module.exports = {
     addProductProperty: addProductProperty,
     getCategory: getCategory,
     addPicture: addPicture,
-    getPicture: getPicture
+    getPicture: getPicture,
+    getColors: getColors,
+    getProductPropertiesByProdAndColorID: getProductPropertiesByProdAndColorID,
+    getAllProductsWithPropertiesByIdAndColor: getAllProductsWithPropertiesByIdAndColor
 
 }

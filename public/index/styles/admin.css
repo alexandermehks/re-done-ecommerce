@@ -197,3 +197,13 @@ td {
     background-repeat: none;
     margin-top: 5px;
 }
+
+.colorsFlex {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.byColors {
+    border: 1px solid black;
+    width: 100%;
+}
