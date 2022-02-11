@@ -53,14 +53,13 @@ const vm = new Vue({
                          this.product = data
                          this.prodname = data[0].name
                          this.order.prodID = data[0].prodID
-
                          for (var i = 0; i < data.length; i++) {
 
-                              if (data[i].balance === data[0].balance) {
-                                   if (jQuery.inArray(data[i].size, this.sizes) != -1) {
-
+                              if (this.product[i].colorID === this.product[0].colorID) {
+                                   if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+                                       
                                    } else {
-                                        this.sizes.push(data[i].size)
+                                        this.sizes.push(this.product[i].size)
                                    }
 
                               }
@@ -108,7 +107,6 @@ const vm = new Vue({
           updatePictureColor: function (url) {
                $("#picbig").attr('src', url);
                for (var i = 0; i < this.product.length; i++) {
-                    console.log(this.product[i].size)
                     $('#' + this.product[i].size).css({
                          'background-color': 'white'
                     });
@@ -130,14 +128,15 @@ const vm = new Vue({
 
           },
           updateCorrectSizes: function (colorID) {
-               this.sizes = []
+               this.sizes.length = 0
 
-
+               console.log(this.sizes)
                for (var i = 0; i < this.product.length; i++) {
-                    if (this.product[i].balance === colorID) {
-                         if (jQuery.inArray(this.product[i].size, this.sizes)) {
-                              this.sizes.push(this.product[i].size)
+                    if (this.product[i].colorID === colorID) {
+                         if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+                              
                          } else {
+                              
                               this.sizes.push(this.product[i].size)
                          }
 
