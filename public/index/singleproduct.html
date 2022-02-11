@@ -27,28 +27,28 @@
             <div class="hero1">
                 <div>
                     
-                    <a href="#">Home</a> / <a href="#">Sweater</a> / <a href="#">Sherpa Hoodie</a>
+                    <a href="#">Home</a> / <a v-bind:href="''"> {{ product[0].type }} </a> / <a v-bind:href="''"> {{ product[0].name }} </a>
+                    
                 </div>
 
             </div>
             <div class="card card">
                 <div class="piccontainer">
                     <div class="smallpicscontainer item1">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
-                        <img class="card-img-top picsmall" src="/images/sherpa.jpg" alt="Card image cap">
+                        <div v-for="pic in product[0].url">
+                        <img class="card-img-top picsmall" v-bind:src="pic" v-on:click="updatePicture(pic)"  alt="Card image cap">
+                        </div>
 
                     </div>
                     <div class="bigpiccontainer item2">
-                        <img class="card-img-top picbig" src="/images/sherpa.jpg" alt="Card image cap">
+                        <img class="card-img-top picbig" id = "picbig" v-bind:src="product[0].picURL">
                         <p class="textbelowbigpic">1/5</p>
                     </div>
                     <div class="item3">
                         <div class="buysection">
                             <div class="titlecontainer">
-                                <h3>Sweater Basic</h3>
-                                <h2><b>799 kr</b></h2>
+                                <h3>{{prodname}}</h3>
+                                <h2><b>{{product[0].price}} Kr</b></h2>
                             </div>
                             <div>
                                 <span class="fa fa-star checked"></span>
@@ -76,11 +76,11 @@
                             </div>
 
                             <div class="sizecontainer">
-                                <div class="sizes style1" id="S" onclick="emptysizes(), changeColor(id)">S</div>
-                                <div class="sizes" id="M" onclick="changeColor(id)">M</div>
-                                <div class="sizes" id="L" onclick="changeColor(id)">L</div>
-                                <div class="sizes" id="XL" onclick="changeColor(id)">XL</div>
-                                <div class="sizes" id="2XL" onclick="changeColor(id)">2XL</div>
+                                <div  v-for="size in sizes">
+                                    
+                                <div class="sizes" v-on:click="changeColor(size)" v-bind:id="size">{{size}} </div>
+                            
+                            </div>
 
 
                             </div>
@@ -89,9 +89,10 @@
 
                                 <h4>Choose in different colors</h4>
                                 <div class="colorcontainer">
-                                    <div class="colors" style="background-color: black;"></div>
-                                    <div class="colors" style="background-color: teal;"></div>
-                                    <div class="colors" style="background-color: red;"></div>
+                                    <div style="margin-right: 4px " v-for="pic in product" >
+                                        <img class="card-img-top picsmall choscol" v-if =" pic.colorID = product[0].colorID" v-bind:id="pic.propID" v-bind:src="pic.picURL" v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.balance)">
+
+                                </div>
 
 
                                 </div>
@@ -116,20 +117,14 @@
                     <div class="infoborder"></div>
                 </div>
                 <div class="card-body infocontainer">
-                    <div class="textborder">Sherpa Hoodie är en extremt skön och slitstark allroundhoodie med extra stor
-                        huva och praktisk bröstficka med dragkedja.
-                        <br><br>Tröjan är gjord i ett borstat funktionsmaterial med fårullskänsla som både värmer och
-                        transporterar bort fukt.
-                        <br><br>Sherpa Hoodie funkar utmärkt som riktigt värmande mellanlager eller som ytterjacka
-                        torra, svala dagar.
+                    <div class="textborder">{{product[0].description}}
+                        
                     </div>
 
                     <div class="textborder">
                         <ul>
-                            <li>Material 1: Polyester 100%</li>
-                            <li>Material 2: Polyester 87%, Elastan 13%</li>
-                            <li>Vikt: 520g i storlek M</li>
-                            <li>Skapad för: Allround, Urban/vardag, Vandring, Hundsport</li>
+                            <li>{{product[0].specification}}</li>
+                            
 
                         </ul>
                     </div>
@@ -233,29 +228,7 @@
     <script src="javascript/nav.js "></script>
     <script src="javascript/singleproduct.js "></script>
 
-    <script>
-
-        $(function () {
-            $("#navbar").load("navbar.html");
-        });
-
-        const vm = new Vue({
-
-            el: "#app",
-            data: {
-                title: "aasd",
-            },
-
-            methods: {}
-
-
-        });
-
-
-
-
-
-    </script>
+   
 
 </body>
 

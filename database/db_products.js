@@ -14,7 +14,7 @@ async function asyncForEach(array, callback) {
 const dbPromise = (async () => {
      try {
           return open({
-               filename: __dirname + '/database.db',
+               filename: __dirname + '/databasejohan.db',
                driver: sqllite3.Database
           });
      } catch (error) {
@@ -101,6 +101,7 @@ const getProductsByProdID = async (prodID) => {
           const dbConnection = await dbPromise;
           const products = await dbConnection.all(`SELECT prodId, name, type, price, description, specification FROM product WHERE prodID = (?)`, [prodID]);
           let res = await generateListOfProductTypes(products);
+         
           return res;
      } catch (error) {
           console.log(error)
@@ -113,7 +114,6 @@ const generateListOfProductTypes = async (products) => {
      let res = [];
 
      const allColors = await getColors();
-
      await asyncForEach(products, async (product) => {
           const type = product.type;
           const prodID = product.prodID;
@@ -257,6 +257,7 @@ const getCategoryWithProdId = async (type, prodID) => {
      const dbConnection = await dbPromise;
      //We can add if to check for what category we want to return if we dont want to use wildcard.
      const response = await dbConnection.all(`SELECT * FROM ${type} WHERE prodID = (?)`, [prodID])
+     
      return response
 }
 

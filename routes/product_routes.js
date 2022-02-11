@@ -26,11 +26,11 @@ routes.get('/allOnlyProduct', async (req, res) => {
 
 routes.get('/byProdId/:id', async (req, res) => {
      try {
-
           if (!req.params.id)
                return res.send("please provide an id");
 
           const users = await dbService.getProductsByProdID(req.params.id);
+          
           return res.send(users);
 
      } catch (error) {

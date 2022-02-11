@@ -77,7 +77,8 @@ flex-basis: 10%;
   }
 .sizecontainer{
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
+    
     
 }
 
@@ -101,7 +102,6 @@ flex-basis: 10%;
     display: flex;
 }
 .colors{
-    background-color: grey;
     padding: 2rem;
     margin-right: 1%;
 }
@@ -119,6 +119,7 @@ flex-basis: 10%;
     text-align: center;
     border: 1px solid black;
     border-radius: 3px;
+    margin-right: 3px;
 }
 
 .style1{
