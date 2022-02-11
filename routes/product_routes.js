@@ -41,34 +41,34 @@ routes.get('/byProdId/:id', async (req, res) => {
 });
 
 
-routes.get('/allColors', async(req, res) => {
-    try {
-        const users = await dbService.getColors();
-        res.send(users);
-    } catch (error) {
-        res.sendStatus(400, "Something went wrong");
-    }
+routes.get('/allColors', async (req, res) => {
+     try {
+          const users = await dbService.getColors();
+          res.send(users);
+     } catch (error) {
+          res.sendStatus(400, "Something went wrong");
+     }
 });
 
-routes.get('/getAllProductsWithPropertiesByIdAndColor', async(req, res) => {
-    try {
-        const users = await dbService.getAllProductsWithPropertiesByIdAndColor();
-        res.send(users);
-    } catch (error) {
-        res.sendStatus(400, "Something went wrong");
-    }
+routes.get('/getAllProductsWithPropertiesByIdAndColor', async (req, res) => {
+     try {
+          const users = await dbService.getAllProductsWithPropertiesByIdAndColor();
+          res.send(users);
+     } catch (error) {
+          res.sendStatus(400, "Something went wrong");
+     }
 });
 
 
 
-routes.post('/getProductPropertiesByProdAndColorID', async(req, res) => {
-    try {
-        console.log(req.body)
-        const users = await dbService.getProductPropertiesByProdAndColorID(req.body.prodID, req.body.colorID, req.body.type);
-        res.send(users);
-    } catch (error) {
-        res.sendStatus(400, "Something went wrong");
-    }
+routes.post('/getProductPropertiesByProdAndColorID', async (req, res) => {
+     try {
+          console.log(req.body)
+          const users = await dbService.getProductPropertiesByProdAndColorID(req.body.prodID, req.body.colorID, req.body.type);
+          res.send(users);
+     } catch (error) {
+          res.sendStatus(400, "Something went wrong");
+     }
 });
 
 
@@ -77,7 +77,9 @@ routes.post('/add', async (req, res) => {
      try {
           let mes = await dbService.addProduct(req.body);
           if (mes) {
-               res.send("Success")
+               const id = mes
+               console.log(mes)
+               res.send(id)
           }
 
      } catch (error) {
@@ -116,6 +118,7 @@ routes.post('/addProperty', async (req, res) => {
 
 routes.post('/uploadpicture', async (req, res) => {
      try {
+          console.log(req.body)
           if (req.files) {
                fs.mkdir(`./uploads/products/${req.body.id}`, (err) => {
                     if (err) {
@@ -153,18 +156,18 @@ routes.post('/uploadpicture', async (req, res) => {
 
 
 
-     routes.get('/pictures/:id', async (req, res) => {
-          try {
-               const answer = await dbService.getPicture(req.params.id);
-               res.send(answer)
-          } catch (error) {
-               res.sendStatus(400, "something went wrong")
-          }
-     })
+routes.get('/pictures/:id', async (req, res) => {
+     try {
+          const answer = await dbService.getPicture(req.params.id);
+          res.send(answer)
+     } catch (error) {
+          res.sendStatus(400, "something went wrong")
+     }
+})
 
 
 
 
 
 
-     module.exports = routes;
+module.exports = routes;
