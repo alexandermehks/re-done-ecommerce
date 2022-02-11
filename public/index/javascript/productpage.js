@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
-
-
+ 
 $("#filter-dropdown").click(
     function() {
         $(".filters").slideToggle();
@@ -38,4 +37,40 @@ $( ".selector" ).slider({
 
 console.log();
 
+
+$(function(){
+  $("#navbar").load("navbar.html"); 
+});
+
+$(function () {
+    $("#productcard").load("productcard.html");
+});
+
+
 }); 
+
+const vm = new Vue({   
+  el: "#appee",
+  data: {
+    products: [],
+    product:[],
+  },
+  methods: {
+
+
+  },
+
+  mounted() {
+    //method to get all products
+      var self = this;
+      $.getJSON("products/all/", function (jsondata) {
+      //  console.log(JSON.stringify(jsondata));
+        self.products = jsondata;
+        console.log("haha");
+      
+      });
+    }
+
+    
+
+});
