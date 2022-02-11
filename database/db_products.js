@@ -169,6 +169,26 @@ const addProduct = async(data) => {
     }
 }
 
+//Edit "BARA product"
+const editProduct = async(data) => {
+    try {
+        const dbConnection = await dbPromise;
+
+        console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.prodID])
+        return response
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
+
+
+
+
+
+
 const addProductProperty = async(data) => {
     try {
         const id_propID = uuidv4()
@@ -302,6 +322,7 @@ module.exports = {
     getOnlyProducts: getOnlyProducts,
     getProductsByProdID: getProductsByProdID,
     addProduct: addProduct,
+    editProduct: editProduct,
     addProductProperty: addProductProperty,
     getCategory: getCategory,
     addPicture: addPicture,

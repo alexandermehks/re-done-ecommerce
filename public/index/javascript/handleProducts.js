@@ -4,7 +4,8 @@ const vm = new Vue({
         products: [],
         bajs: 'hehe',
         onlyProducts: [],
-        currentProduct: {}
+        currentProduct: {},
+        handleProduct: {}
     },
 
 
@@ -77,7 +78,6 @@ const vm = new Vue({
             this.getOnlyProducts()
         },
         getFormValues(submitEvent) {
-            console.log("BAJS")
             console.log(submitEvent.target.elements)
             const name = submitEvent.target.elements["productName"].value;
             const type = submitEvent.target.elements["productType"].value;
@@ -111,7 +111,53 @@ const vm = new Vue({
             });
 
 
-        }
+        },
+        getFormValuesEdit(submitEvent) {
+            console.log(submitEvent.target.elements)
+            const prodID = submitEvent.target.elements["productProdID"].value;
+            const name = submitEvent.target.elements["productNameEdit"].value;
+            const type = submitEvent.target.elements["productTypeEdit"].value;
+            const price = submitEvent.target.elements["productPriceEdit"].value;
+            const desc = submitEvent.target.elements["productDescriptionEdit"].value;
+            const spec = submitEvent.target.elements["productSpecificationEdit"].value;
+
+            console.log(name, type, price, desc, spec)
+            const data = {
+                "prodID": prodID,
+                "name": name,
+                "type": type,
+                "price": price,
+                "description": desc,
+                "specification": spec
+            }
+
+            console.log("Edit", data)
+            $.ajax({
+                url: '/products/edit',
+                method: "PUT",
+                data: data,
+                success: function(response) {
+                    console.log("Product was edited")
+                    console.log(response)
+                    this.updateAll()
+                    $("#editProductOverlay").fadeOut();
+                }.bind(this),
+                error: function() {
+                    console.log("error")
+                }.bind(this)
+
+            });
+
+        },
+        clickHandle(product) {
+            this.handleProduct = product;
+            $("#editProductOverlay").fadeIn();
+
+
+
+
+
+        },
 
 
 
@@ -130,6 +176,12 @@ $(document).ready(function() {
 
     $("#closeAddProduct").click(function() {
         $("#addProductOverlay").fadeOut();
+    });
+
+
+    $("#closeHandleProduct").click(function() {
+        console.log("table")
+        $("#editProductOverlay").fadeOut();
     });
 
 
