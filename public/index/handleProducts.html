@@ -163,6 +163,55 @@
                         <button type="submit" class="btn btn-primary">Edit product</button>
                     </form>
                     <div style="margin-top: 10px;"></div>
+                    <button class="btn btn-primary btn-danger removeProductButton">Remove product</button>
+                    <div style="margin-top: 10px;"></div>
+                    <div>
+                        <h4>Add Property</h4>
+                        <div>
+                            <form @submit.prevent="getFormValuesProperty">
+                                <div class="row">
+                                    <div class="col">
+                                        <label class="form-label">Property Colors:</label>
+                                        <table>
+                                            <tr>
+                                                <input type="hidden" id="propertyProdID" v-bind:value="handleProduct.prodID">
+                                                <input type="hidden" id="propertyType" v-bind:value="handleProduct.type">
+
+                                                <td style="display: flex; justify-content: space-evenly; align-items: center;">
+
+                                                    <div v-bind:value="colorID" v-for="(hexColor, colorID) in colors" style="margin-left: 2px; background-color: red; width: 30px; height: 30px; border-radius: 30px; display: flex; justify-content: center; align-items: center; padding-bottom: 2px; border: 1px solid black;"
+                                                        :style="{'background-color':hexColor}">
+                                                        <input type="radio" name="color" v-bind:value="colorID" v-bind:id="colorID" :checked="colorID == 1">
+                                                    </div>
+
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col">
+                                        <label for="propertySize" class="form-label">Property Size:</label>
+
+                                        <select class="form-select" aria-label="Product Category" id="propertySize" v-if="handleProduct.type == 'shoes'">
+                                            <option v-for="shoeSize in shoeSizes" v-bind:key="shoeSize" :selected="shoeSize == 42" v-bind:value="shoeSize">{{shoeSize}}</option>
+                                        </select>
+                                        <select class="form-select" aria-label="Product Category" id="propertySize" v-if="handleProduct.type != 'shoes'">
+                                            <option v-for="(sizeStr, size) in productSizes" v-bind:key="size" :selected="size == 2" v-bind:value="size">{{sizeStr}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="propertyBalance" class="form-label">Property Balance</label>
+                                        <input type="text" class="form-control" id="propertyBalance" placeholder="100">
+                                    </div>
+                                    <div class="col">
+                                        <label for="productPrice" class="form-label" style="color:white;">s</label><br>
+                                        <button type="submit" class="btn btn-primary">Add Property</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;"></div>
                     <div class="colorsFlex">
                         <div class="byColors" v-for="(color, id) in colors">
                             <div style="display: flex;">
@@ -176,8 +225,8 @@
 
 
                                     <strong>Size: </strong> {{property.size}} <br>
-                                    <strong>Balance: </strong> {{property.balance}}
-
+                                    <strong>Balance: </strong> {{property.balance}} <br>
+                                    <button type="button" class="btn btn-primary btn-sm btn-danger" v-on:click="removeProperty(property)">Remove Property</button>
 
 
                                     <hr>
@@ -194,6 +243,21 @@
 
                 </div>
 
+            </div>
+            <div class="confirm-remove-product" id="confirm-remove-product" style="display: none;">
+                <div style="text-align: center;">
+                    <h3>DO YOU REALLY WANNA REMOVE PRODUCT?</h3>
+                    <p>id: {{handleProduct.prodID}}</p>
+                    <button type="button" class="btn btn-primary btn-danger" id="confirmRemoveProduct" style="width:30%">REMOVE</button> <button type="button" class="btn btn-primary" id="dismissRemoveProduct" style="width:30%">Dismiss</button>
+                </div>
+            </div>
+
+            <div class="confirm-remove-product" id="confirm-remove-property" style="display: none;">
+                <div style="text-align: center;">
+                    <h3>DO YOU REALLY WANNA REMOVE PROPERTY?</h3>
+                    <p>id: {{currentProperty.propID}}</p>
+                    <button type="button" class="btn btn-primary btn-danger" id="confirmRemoveProperty" style="width:30%">REMOVE</button> <button type="button" class="btn btn-primary" id="dismissRemoveProperty" style="width:30%">Dismiss</button>
+                </div>
             </div>
             asd
             <div id=" footer "></div>

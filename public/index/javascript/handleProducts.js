@@ -5,9 +5,19 @@ const vm = new Vue({
         bajs: 'hehe',
         onlyProducts: [],
         currentProduct: {},
+        currentProperty: {},
         handleProduct: {},
         colors: {},
-        productWithPropertiesByIdAndColor: {}
+        productWithPropertiesByIdAndColor: {},
+        productSizes: {
+            1: "S",
+            2: "M",
+            3: "L",
+            4: "XL",
+            5: "XXL",
+        },
+        shoeSizes: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+
     },
 
     mounted() {
@@ -55,7 +65,7 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
 
-                    console.log(result)
+                    //console.log(result)
                     this.onlyProducts = result;
                     if (this.onlyProducts.length > 0) {
                         this.currentProduct = this.onlyProducts[0];
@@ -71,14 +81,14 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
 
-                    console.log(result)
+                    //console.log(result)
                     this.productWithPropertiesByIdAndColor = result;
                 }
             })
         },
         getInnerForLoop(prodID, colorID) {
             if (prodID != undefined && colorID != undefined) {
-                console.log(prodID, colorID)
+                //console.log(prodID, colorID)
                 let val = this.productWithPropertiesByIdAndColor[prodID][colorID]
                 return val;
             }
@@ -103,7 +113,7 @@ const vm = new Vue({
                     console.log("get shit")
                     console.log(response)
                         //this.updateAll()
-                        //$("#addProductOverlay").fadeOut();
+                    $("#addProductOverlay").fadeOut();
                 }.bind(this),
                 error: function() {
                     console.log("error")
@@ -129,6 +139,43 @@ const vm = new Vue({
             this.productsObj = res;
 
 
+        },
+        deleteProductById(prodID) {
+            let data = { "prodID": prodID }
+            $.ajax({
+                url: '/products/deleteProduct',
+                method: "DELETE",
+                data: data,
+                success: function(response) {
+                    this.handleProduct = {}
+                    this.updateAll()
+                    $("#editProductOverlay").fadeOut();
+                    $("#confirm-remove-product").fadeOut();
+                }.bind(this),
+                error: function() {
+                    console.log("error")
+                }.bind(this)
+
+            });
+        },
+        deleteProperty(property) {
+            console.log(property)
+            let data = { "propID": property.propID, "type": property.type }
+            console.log(data)
+            $.ajax({
+                url: '/products/deleteProperty',
+                method: "DELETE",
+                data: data,
+                success: function(response) {
+                    this.currentProperty = {}
+                    this.updateAll()
+                    $("#confirm-remove-property").fadeOut();
+                }.bind(this),
+                error: function() {
+                    console.log("error")
+                }.bind(this)
+
+            });
         },
         getProductPropertiesByProductId(id) {
 
@@ -209,13 +256,51 @@ const vm = new Vue({
                     console.log("Product was edited")
                     console.log(response)
                     this.updateAll()
-                    $("#editProductOverlay").fadeOut();
+
+                    //Update handle product as well without db call
+                    this.handleProduct.name = name;
+                    this.handleProduct.price = price;
+                    this.handleProduct.description = desc;
+                    this.handleProduct.specification = spec;
+                    //$("#editProductOverlay").fadeOut();
                 }.bind(this),
                 error: function() {
                     console.log("error")
                 }.bind(this)
 
             });
+
+        },
+        getFormValuesProperty(submitEvent) {
+            //products/getProductPropertiesByProdAndColorID
+            let prodID = submitEvent.target.elements.propertyProdID;
+            let type = submitEvent.target.elements.propertyType;
+            let color = submitEvent.target.elements.color;
+            let propertyBalance = submitEvent.target.elements.propertyBalance;
+            let propertySize = submitEvent.target.elements.propertySize;
+            let url = "https://www.komplett.se/img/p/200/1182209.jpg"
+
+            const data = {
+                "prodID": prodID.value,
+                "type": type.value,
+                "colorID": color.value,
+                "balance": propertyBalance.value,
+                "size": propertySize.value,
+                "picURL": url
+            }
+            $.ajax({
+                url: '/products/addProperty',
+                method: "POST",
+                data: data,
+                success: function(response) {
+                    this.updateAll();
+                }.bind(this),
+                error: function() {
+                    console.log("error")
+                }.bind(this)
+
+            });
+
 
         },
         clickHandle(product) {
@@ -235,6 +320,10 @@ const vm = new Vue({
                     this.colors = result;
                 }
             })
+        },
+        removeProperty(property) {
+            this.currentProperty = property;
+            $("#confirm-remove-property").fadeIn();
         }
 
 
@@ -261,6 +350,46 @@ $(document).ready(function() {
         console.log("table")
         $("#editProductOverlay").fadeOut();
     });
+
+    $("#dismissRemoveProduct").click(function() {
+        $("#confirm-remove-product").fadeOut();
+    });
+
+    $("#confirmRemoveProduct").click(function() {
+        handleProduct = vm.handleProduct;
+        if (handleProduct.prodID) {
+            console.log("Ready to remove product", handleProduct.prodID)
+                //Post request remove product
+            vm.deleteProductById(handleProduct.prodID)
+
+
+
+        } else {
+            console.log("No product is choosen")
+        }
+    });
+
+    $("#dismissRemoveProperty").click(function() {
+        $("#confirm-remove-property").fadeOut();
+    });
+
+    $("#confirmRemoveProperty").click(function() {
+        console.log("Ready to remove property")
+            //currentPropertyId
+        if (vm.currentProperty.propID) {
+            vm.deleteProperty(vm.currentProperty)
+        } else {
+            console.log("No property choosen")
+        }
+
+
+    });
+
+    $(".removeProductButton").click(function() {
+        $("#confirm-remove-product").fadeIn();
+    });
+
+
 
 
 
