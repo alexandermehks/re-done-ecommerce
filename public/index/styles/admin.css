@@ -64,7 +64,7 @@
     width: 100%;
 }
 
-td {
+.table-products td {
     border-left: 1px solid rgba(0, 0, 0, 0.096);
 }
 
@@ -132,6 +132,7 @@ td {
     border: 1px solid black;
     border-radius: 10px;
     filter: drop-shadow(10px 10px 10px #00000057);
+    overflow: auto;
 }
 
 .add-product-overlay .close-button {
@@ -171,6 +172,7 @@ td {
 
 .new-product-content {
     padding: 20px;
+    height: 85%;
     overflow: auto;
 }
 
@@ -185,6 +187,22 @@ td {
     border: 1px solid black;
     border-radius: 10px;
     filter: drop-shadow(10px 10px 10px #00000057);
+}
+
+.confirm-remove-product {
+    position: absolute;
+    z-index: 1000;
+    width: 70%;
+    min-height: 40%;
+    top: 140px;
+    left: 15%;
+    background-color: whitesmoke;
+    padding: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.336);
+    filter: drop-shadow(10px 10px 10px #00000057);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-product-overlay .close-button {
@@ -204,6 +222,8 @@ td {
 }
 
 .byColors {
-    border: 1px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
     width: 100%;
+    padding: 5px;
 }
