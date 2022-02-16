@@ -1,33 +1,27 @@
 const vm = new Vue({
-     el: "#app",
-     data: {
-     },
+    el: "#app",
+    data: {},
 
-     methods: {
-
-
-
-     },
-
-
-     mounted() {
-          $(function () {
-               $("#navbar").load("navbar.html");
-               $("#footer").load("footer.html");
-          });
+    methods: {
 
 
 
-     }
+    },
+
+
+    mounted() {
+        $(function() {
+            $("#navbar").load("navbar.html");
+            $("#footer").load("footer.html");
+            //F
+        });
+
+
+
+    }
 
 
 
 
 
 });
-
-
-
-
-
-
