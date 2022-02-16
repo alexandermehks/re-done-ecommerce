@@ -2,262 +2,265 @@
 <html lang="en">
 
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Kingnation</title>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-     <link rel="stylesheet" href="styles/style.css">
-     <link rel="stylesheet" href="styles/nav.css">
-     <link rel="stylesheet" href="styles/singelproduct.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingnation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/singelproduct.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
-     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
 </head>
 
 <body>
 
 
-     <div id="app">
+    <div id="app">
 
-          <div id="navbar"></div>
-
-
-          <div class="wrapper">
+        <div id="navbar"></div>
 
 
-               <div class="hero1">
-                    <div>
+        <div class="wrapper">
 
-                         <a href="#">Home</a> / <a v-bind:href="''"> {{ product[0].type }} </a> / <a v-bind:href="''">
+
+            <div class="hero1">
+                <div>
+
+                    <a href="#">Home</a> / <a v-bind:href="''"> {{ product[0].type }} </a> / <a v-bind:href="''">
                               {{ product[0].name }} </a>
 
+                </div>
+
+            </div>
+            <div class="card card">
+                <div class="piccontainer">
+                    <div class="smallpicscontainer item1">
+                        <div v-for="pic in product[0].url">
+                            <img class="card-img-top picsmall_left" v-bind:src="pic" v-on:click="updatePicture(pic)" alt="Card image cap">
+                        </div>
+
+                    </div>
+                    <div class="bigpiccontainer item2">
+                        <img class="card-img-top picbig" id="picbig" v-bind:src="product[0].picURL">
+
+                    </div>
+                    <div class="item3">
+                        <div class="buysection">
+                            <div class="titlecontainer">
+                                <h3>{{prodname}}</h3>
+                                <h2><b>{{product[0].price}} Kr</b></h2>
+                            </div>
+                            <div>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"> ({{reviews.length}})</span>
+                            </div>
+
+                            <h4>Choose your size</h4>
+                            <div class="sizehelpcontainer" id="sizehelpS">
+                                <div style="text-align: center;" id="sizefit">
+                                    <h4><b></b></h4>
+                                </div>
+                                <div class="sizehelper">
+                                    <div><b>Length</b></div>
+                                    <div><b>Weight</b></div>
+                                    <div><b>Chest</b></div>
+                                </div>
+                                <div class="sizehelper">
+                                    <div id="length"></div>
+                                    <div id="weight"></div>
+                                    <div id="chest"></div>
+                                </div>
+                            </div>
+
+                            <div class="sizecontainer">
+                                <div v-for="size in sizes">
+
+                                    <div class="sizes" v-on:click="changeColor(size)" v-bind:id="size">{{size}}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <button class="buybutton">Add To Cart</button>
+                            <div>
+
+                                <h4>Choose in different colors</h4>
+                                <div class="colorcontainer">
+                                    <div style="margin-right: 4px " v-for="pic in product">
+                                        <img class="card-img-top picsmall choscol" v-bind:id="pic.propID" v-bind:src="pic.picURL" v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.colorID)">
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body infocontainer">
+                    <div class="infotitle">
+                        <h3>Description</h3>
                     </div>
 
-               </div>
-               <div class="card card">
-                    <div class="piccontainer">
-                         <div class="smallpicscontainer item1">
-                              <div v-for="pic in product[0].url">
-                                   <img class="card-img-top picsmall_left" v-bind:src="pic"
-                                        v-on:click="updatePicture(pic)" alt="Card image cap">
-                              </div>
+                    <div class="infotitle">
+                        <h3>Specifications</h3>
+                    </div>
+                </div>
+                <div class="card-body infocontainer">
+                    <div class="infoborder"></div>
 
-                         </div>
-                         <div class="bigpiccontainer item2">
-                              <img class="card-img-top picbig" id="picbig" v-bind:src="product[0].picURL">
+                    <div class="infoborder"></div>
+                </div>
+                <div class="card-body infocontainer">
+                    <div class="textborder">{{product[0].description}}
 
-                         </div>
-                         <div class="item3">
-                              <div class="buysection">
-                                   <div class="titlecontainer">
-                                        <h3>{{prodname}}</h3>
-                                        <h2><b>{{product[0].price}} Kr</b></h2>
-                                   </div>
-                                   <div>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"> ({{reviews.length}})</span>
-                                   </div>
-
-                                   <h4>Choose your size</h4>
-                                   <div class="sizehelpcontainer" id="sizehelpS">
-                                        <div style="text-align: center;" id="sizefit">
-                                             <h4><b></b></h4>
-                                        </div>
-                                        <div class="sizehelper">
-                                             <div><b>Length</b></div>
-                                             <div><b>Weight</b></div>
-                                             <div><b>Chest</b></div>
-                                        </div>
-                                        <div class="sizehelper">
-                                             <div id="length"></div>
-                                             <div id="weight"></div>
-                                             <div id="chest"></div>
-                                        </div>
-                                   </div>
-
-                                   <div class="sizecontainer">
-                                        <div v-for="size in sizes">
-
-                                             <div class="sizes" v-on:click="changeColor(size)" v-bind:id="size">{{size}}
-                                             </div>
-
-                                        </div>
-
-
-                                   </div>
-                                   <button class="buybutton">Add To Cart</button>
-                                   <div>
-
-                                        <h4>Choose in different colors</h4>
-                                        <div class="colorcontainer">
-                                             <div style="margin-right: 4px " v-for="pic in product">
-                                                  <img class="card-img-top picsmall choscol" v-bind:id="pic.propID"
-                                                       v-bind:src="pic.picURL"
-                                                       v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.colorID)">
-
-                                             </div>
-
-
-                                        </div>
-                                   </div>
-
-                              </div>
-                         </div>
                     </div>
 
-                    <div class="card-body infocontainer">
-                         <div class="infotitle">
-                              <h3>Description</h3>
-                         </div>
+                    <div class="textborder">
+                        <ul>
+                            <li>{{product[0].specification}}</li>
 
-                         <div class="infotitle">
-                              <h3>Specifications</h3>
-                         </div>
+
+                        </ul>
                     </div>
-                    <div class="card-body infocontainer">
-                         <div class="infoborder"></div>
+                </div>
+                <div class="card-body infocontainer">
+                    <div class="infoborder"></div>
 
-                         <div class="infoborder"></div>
-                    </div>
-                    <div class="card-body infocontainer">
-                         <div class="textborder">{{product[0].description}}
+                    <div class="infoborder"></div>
+                </div>
 
-                         </div>
+                <div>
+                    <h1 style="text-align: center;">Reviews</h1>
+                    <div style="text-align: center;">
+                        <div class="reviewstars">
+                            <div v-for="stars in 5 ">
+                                <span class="fa fa-star checked" v-if="stars <= rating"></span>
+                                <span class="fa fa-star" v-if="stars > rating"></span>
 
-                         <div class="textborder">
-                              <ul>
-                                   <li>{{product[0].specification}}</li>
+                            </div>
+                        </div>
 
-
-                              </ul>
-                         </div>
-                    </div>
-                    <div class="card-body infocontainer">
-                         <div class="infoborder"></div>
-
-                         <div class="infoborder"></div>
-                    </div>
-
-                    <div>
-                         <h1 style="text-align: center;">Reviews</h1>
-                         <div style="text-align: center;">
-                              <div class="reviewstars">
-                                   <div v-for="stars in 5 ">
-                                        <span class="fa fa-star checked" v-if="stars <= rating"></span>
-                                        <span class="fa fa-star" v-if="stars > rating"></span>
-
-                                   </div>
-                              </div>
-
-                              <h4>{{rating}}/5</h4>
-                              <button class="reviewbutton" id="reviewbutton" v-on:click="openReviewContainer()">Write
+                        <h4>{{rating}}/5</h4>
+                        <button class="reviewbutton" id="reviewbutton" v-on:click="openReviewContainer()">Write
                                    Review</button>
-                              <div class="reviewform" id="reviewform" style="display: none;">
-                                   <form>
-                                        <div class="form-group">
-                                             <label for="exampleFormControlInput1">Email address</label>
-                                             <input type="email" class="form-control" id="exampleFormControlInput1"
-                                                  placeholder="Bassenilsson93@gmail.com">
-                                        </div>
-                                        <p>Rate the product</p>
-                                        <div class="starscontainer">
+                        <div class="reviewform" id="reviewform" style="display: none;">
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Email address</label>
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bassenilsson93@gmail.com">
+                                </div>
+                                <p>Rate the product</p>
+                                <div class="starscontainer">
 
-                                             <div>
-                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star1"
-                                                       onclick=changeStarColor(id)></span>
-                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star2"
-                                                       onclick=changeStarColor(id)></span>
-                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star3"
-                                                       onclick=changeStarColor(id)></span>
-                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star4"
-                                                       onclick=changeStarColor(id)></span>
-                                                  <span class="fa fa-star stars" style="font-size: 30px;" id="star5"
-                                                       onclick=changeStarColor(id)></span>
+                                    <div>
+                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star1" onclick=changeStarColor(id)></span>
+                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star2" onclick=changeStarColor(id)></span>
+                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star3" onclick=changeStarColor(id)></span>
+                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star4" onclick=changeStarColor(id)></span>
+                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star5" onclick=changeStarColor(id)></span>
 
-                                             </div>
-                                             <p class="arr"><i class="arrow right"></i></p>
-                                        </div>
-                                        <div class="form-group">
-                                             <label for="exampleFormControlTextarea1">Write Review</label>
-                                             <textarea class="form-control" id="comment" rows="3"
-                                                  placeholder="Tell everyone what you think"></textarea>
-                                        </div>
+                                    </div>
+                                    <p class="arr"><i class="arrow right"></i></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Write Review</label>
+                                    <textarea class="form-control" id="comment" rows="3" placeholder="Tell everyone what you think"></textarea>
+                                </div>
 
-                                   </form>
-                                   <button v-on:click="postReview(), openReviewContainer()">Publish Review</button>
-                              </div>
-                         </div>
-                         <div class="reviewcontainer">
-                              <div v-for="review in reviews">
-                                   <div class="reviewcard ">
-                                        <div class="review1"><b>Name: </b>{{review.userID}}<br><b>Date: </b>2022-02-02
-                                        </div>
-                                        <div class="review2">{{review.comment}}</div>
-                                        <div class="review3">
-                                             <div v-for="stars in 5 ">
-                                                  <span class="fa fa-star checked"
-                                                       v-if="stars <= review.ratingnumber"></span>
-                                                  <span class="fa fa-star" v-if="stars > review.ratingnumber"></span>
-
-                                             </div>
-                                             <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
-
-                                        </div>
-
-
-                                   </div>
-                              </div>
-
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-                              <br>
-
-                              <br>
-
-                         </div>
+                            </form>
+                            <button v-on:click="postReview(), openReviewContainer()">Publish Review</button>
+                        </div>
                     </div>
-               </div>
+                    <div class="reviewcontainer">
+                        <div v-for="review in reviews">
+                            <div class="reviewcard ">
+                                <div class="review1"><b>Name: </b>{{review.userID}}<br><b>Date: </b>2022-02-02
+                                </div>
+                                <div class="review2">{{review.comment}}</div>
+                                <div class="review3">
+                                    <div v-for="stars in 5 ">
+                                        <span class="fa fa-star checked" v-if="stars <= review.ratingnumber"></span>
+                                        <span class="fa fa-star" v-if="stars > review.ratingnumber"></span>
+
+                                    </div>
+                                    <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
+                        <br>
+
+                    </div>
+                </div>
+            </div>
 
 
 
-          </div>
+        </div>
 
-     </div>
-     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-     <script src="javascript/nav.js "></script>
-     <script src="javascript/singleproduct.js "></script>
+    </div>
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="javascript/nav.js "></script>
+    <script src="javascript/singleproduct.js "></script>
 
 
 
-     <script
-          type="text/javascript">(function () { window['__CF$cv$params'] = { r: '6dbcbc595d1795fd', m: 'u_Yy.NJQKEwkxyHKpVGVnuU4aaRFikBX6p9hLePXCpA-1644573684-0-ARV1cGwbSbP4JabUimtlwn3QEqKCW5TIzWMHuJ9MoU4RV/Abfl6dYm/6LUWVpgBqnBrMGW298gq6wcUNSn8R95+pWoMTASwsShfwvBn6Jt0YwvTxqIdEcNCgv9b6+pzw6nVxbQWKySfYfn3ysa7E9Vr7tHZ4OduYvtlMrwPTrSJhtqutLWDHqPJa8wRROu+bIKfivbTSMpu999W47nFmstU=', s: [0xfd811ef1ed, 0x0b80c17a84], } })();</script>
-     <script
-          type="text/javascript">(function () { window['__CF$cv$params'] = { r: '6de9304e688c95ea', m: 'cphHXMZTAKVxeoj9koYlHkNyIt0f2Z.q7lexoZPyBAU-1645039807-0-Af2mTUIZQFJ8+Bb4jesNZ/naNm+5YcoeDXGruHJGDX7FMZCR/4iVkytryCHQcaNkyFJRsytd0lF7X4jaFZh68sVbaAk1fiW5oelPJS0PQwKactsAvw5b7G9SIXXOTysl5HtNk4Olar4i6/oVtOJz5U4F6C0H2uni8cLhiaKjuSaxEAXPod1/pk9lKAVvGMEdUxSDGSp1V8Ueh40NJkh8G94=', s: [0x7f242f3f1e, 0xb9925e6927], } })();</script>
+    <script type="text/javascript">
+        (function() {
+            window['__CF$cv$params'] = {
+                r: '6dbcbc595d1795fd',
+                m: 'u_Yy.NJQKEwkxyHKpVGVnuU4aaRFikBX6p9hLePXCpA-1644573684-0-ARV1cGwbSbP4JabUimtlwn3QEqKCW5TIzWMHuJ9MoU4RV/Abfl6dYm/6LUWVpgBqnBrMGW298gq6wcUNSn8R95+pWoMTASwsShfwvBn6Jt0YwvTxqIdEcNCgv9b6+pzw6nVxbQWKySfYfn3ysa7E9Vr7tHZ4OduYvtlMrwPTrSJhtqutLWDHqPJa8wRROu+bIKfivbTSMpu999W47nFmstU=',
+                s: [0xfd811ef1ed, 0x0b80c17a84],
+            }
+        })();
+    </script>
+    <script type="text/javascript">
+        (function() {
+            window['__CF$cv$params'] = {
+                r: '6de9304e688c95ea',
+                m: 'cphHXMZTAKVxeoj9koYlHkNyIt0f2Z.q7lexoZPyBAU-1645039807-0-Af2mTUIZQFJ8+Bb4jesNZ/naNm+5YcoeDXGruHJGDX7FMZCR/4iVkytryCHQcaNkyFJRsytd0lF7X4jaFZh68sVbaAk1fiW5oelPJS0PQwKactsAvw5b7G9SIXXOTysl5HtNk4Olar4i6/oVtOJz5U4F6C0H2uni8cLhiaKjuSaxEAXPod1/pk9lKAVvGMEdUxSDGSp1V8Ueh40NJkh8G94=',
+                s: [0x7f242f3f1e, 0xb9925e6927],
+            }
+        })();
+    </script>
 </body>
 
 </html>

@@ -6,6 +6,7 @@ const vm = new Vue({
         onlyProducts: [],
         currentProduct: {},
         currentProperty: {},
+        currentPicture: {},
         handleProduct: {},
         colors: {},
         productWithPropertiesByIdAndColor: {},
@@ -37,7 +38,7 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
 
-                    console.log(result)
+
                     this.products = result;
                     this.getProductPropertiesByProduct();
                 }
@@ -296,6 +297,9 @@ const vm = new Vue({
         },
         getFormValuesProperty(submitEvent) {
             //products/getProductPropertiesByProdAndColorID
+
+            console.log(submitEvent)
+
             let prodID = submitEvent.target.elements.propertyProdID;
             let type = submitEvent.target.elements.propertyType;
             let color = submitEvent.target.elements.color;
@@ -303,18 +307,36 @@ const vm = new Vue({
             let propertySize = submitEvent.target.elements.propertySize;
             let url = "https://www.komplett.se/img/p/200/1182209.jpg"
 
+
+            let image = document.getElementById("fileProperty").files;
+            let formData = new FormData();
+            for (let i = 0; i < image.length; i++) {
+                formData.append("file", image[i])
+            }
+
             const data = {
                 "prodID": prodID.value,
                 "type": type.value,
                 "colorID": color.value,
                 "balance": propertyBalance.value,
                 "size": propertySize.value,
-                "picURL": url
+                "picURL": url,
             }
+
+            //MAGIC
+            const json = JSON.stringify(data);
+            const blob = new Blob([json], {
+                type: 'application/json'
+            });
+            formData.append('data', JSON.stringify(data))
+
             $.ajax({
                 url: '/products/addProperty',
                 method: "POST",
-                data: data,
+                contentType: false,
+                processData: false,
+                cache: false,
+                data: formData,
                 success: function(response) {
                     this.updateAll();
                 }.bind(this),
@@ -347,6 +369,41 @@ const vm = new Vue({
         removeProperty(property) {
             this.currentProperty = property;
             $("#confirm-remove-property").fadeIn();
+        },
+        removeImage(picture) {
+            this.currentPicture = picture;
+            console.log("U WANNA REMOVE", picture)
+            $("#confirm-remove-picture").fadeIn();
+        },
+        fadeOutPictureConfirmRemove() {
+            $("#confirm-remove-picture").fadeOut();
+        },
+        confirmRemovePicture(picture) {
+
+            $.ajax({
+                url: '/products/deletePicture',
+                method: "DELETE",
+                data: picture,
+                success: function(response) {
+                    this.currentPicture = {}
+                    this.updateAll()
+
+                    //Loop through handle product and remove img as well
+                    for (i in this.handleProduct.pictures) {
+                        if (this.handleProduct.pictures[i].picID == picture.picID) {
+                            this.handleProduct.pictures.splice(i, 1)
+                            break;
+                        }
+                    }
+
+
+                    $("#confirm-remove-picture").fadeOut();
+                }.bind(this),
+                error: function() {
+                    console.log("error")
+                }.bind(this)
+
+            });
         }
 
 
