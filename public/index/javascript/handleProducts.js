@@ -188,6 +188,7 @@ const vm = new Vue({
             }
         },
         updateAll() {
+            this.getProducts()
             this.getOnlyProducts()
             this.getAllProductsWithPropertiesByIdAndColor()
         },
@@ -198,6 +199,13 @@ const vm = new Vue({
             const price = submitEvent.target.elements["productPrice"].value;
             const desc = submitEvent.target.elements["productDescription"].value;
             const spec = submitEvent.target.elements["productSpecification"].value;
+
+            //Add images
+            let image = document.getElementById("file").files;
+            let images = new FormData();
+            for (let i = 0; i < image.length; i++) {
+                images.append("file", image[i])
+            }
 
             console.log(name, type, price, desc, spec)
             const data = {
@@ -215,8 +223,23 @@ const vm = new Vue({
                 success: function(response) {
                     console.log("Product was added :D")
                     console.log(response)
-                    this.updateAll()
-                    $("#addProductOverlay").fadeOut();
+                    console.log("Add images")
+                    images.append('id', response)
+                    $.ajax({
+                        url: '/products/uploadpicture',
+                        data: images,
+                        method: "POST",
+                        processData: false,
+                        contentType: false,
+                        success: (result) => {
+                            console.log(result)
+                            this.updateAll()
+                            $("#addProductOverlay").fadeOut();
+                        }
+                    })
+
+
+
                 }.bind(this),
                 error: function() {
                     console.log("error")

@@ -69,12 +69,25 @@ const getOnlyProducts = async() => {
         const allColors = await getColors();
         for (i in products) {
             products[i]["allColors"] = allColors
-            url = ["https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
-                "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
-                "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
-                "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
-            ]
+
+            //Add pictures to product-object
+            url = []
+            const pictures = await getPicture(products[i].prodID);
+
+            for (j in pictures) {
+                url.push(pictures[j].pictureURL)
+            }
+
+            if (url.length == 0)
+                url = ["images/product-placeholder.jpg"]
             products[i]["url"] = url;
+            products[i]["pictures"] = pictures
+
+
+            //Add placeholder img if no pictures
+            if (pictures.length == 0)
+                products[i]["pictures"] = [{ "picID": -1, "prodID": products[i].prodID, "pictureURL": "images/product-placeholder.jpg" }]
+
         }
 
         return products;
@@ -184,13 +197,30 @@ const generateListOfProductTypes = async(products) => {
             await asyncForEach(prod2, async(products2) => {
                 let newprod = {...product, ...products2 };
                 //Add fake picture urls
+
+
+                url = []
+                const pictures = await getPicture(newprod.prodID);
+                for (j in pictures) {
+                    url.push(pictures[j].pictureURL)
+                }
+
+
+
+
+                if (url.length == 0)
+                    url = ["images/product-placeholder.jpg"]
+                newprod["url"] = url;
+                newprod["pictures"] = pictures
+
+                /*
                 url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
                     "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
                     "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
                     "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
                 ]
                 newprod["url"] = url;
-                newprod["allColors"] = allColors
+                newprod["allColors"] = allColors*/
                 res.push(newprod);
             });
         }
@@ -378,7 +408,7 @@ const getCategoryWithProdId = async(type, prodID) => {
 const addPicture = async(propID, file) => {
     try {
         const dbConnection = await dbPromise;
-        const response = await dbConnection.run(`INSERT INTO pic (propID,pictureURL) VALUES (?,?)`, [propID, file])
+        const response = await dbConnection.run(`INSERT INTO pic (propID, pictureURL) VALUES (?,?)`, [propID, file])
         return response
     } catch (error) {
         res.sendStatus(400, "cant add picture")
