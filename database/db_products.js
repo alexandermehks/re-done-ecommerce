@@ -493,7 +493,10 @@ module.exports = {
      getProductPropertiesByProdAndColorID: getProductPropertiesByProdAndColorID,
      getAllProductsWithPropertiesByIdAndColor: getAllProductsWithPropertiesByIdAndColor,
      removeProduct: removeProduct,
-     removeProperty: removeProperty
+     removeProperty: removeProperty,
+     addReview: addReview,
+     getUserNameByReviews: getUserNameByReviews,
+     getReviewsByProdID: getReviewsByProdID
 
 
 }
