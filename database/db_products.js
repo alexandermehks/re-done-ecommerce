@@ -271,7 +271,6 @@ const editProduct = async(data) => {
     }
 }
 
-//Remove Product
 const removeProduct = async(data) => {
     try {
         const dbConnection = await dbPromise;
@@ -294,11 +293,6 @@ const removeProduct = async(data) => {
         res.sendStatus(400, "Something went wrong")
     }
 }
-
-
-
-
-
 
 
 const addProductProperty = async(req) => {
@@ -407,33 +401,7 @@ const removeProperty = async(data) => {
     }
 }
 
-//Remove Picture
-const removePicture = async(data) => {
-    try {
-        const dbConnection = await dbPromise;
-        const response = await dbConnection.run(`DELETE FROM pic WHERE picID = ?`, [data.picID])
 
-        //Should remove picture from folder as well
-        console.log("Remove from folder", data)
-
-        const path = "./public/index/" + data.pictureURL;
-        console.log(path)
-        fs.unlink(path, (err) => {
-            if (err) {
-                console.error(err)
-                return
-            }
-            console.log("File was removed from system", path)
-        })
-
-        return response
-
-
-    } catch (error) {
-        console.log(error)
-        res.sendStatus(400, "Something went wrong")
-    }
-}
 
 /**
  * 
@@ -522,8 +490,50 @@ const getPicture = async(propID) => {
     } catch (error) {
         res.sendStatus(400, "cant get picture")
     }
-}
+};
 
+
+
+const getReviewsByProdID = async(prodID) => {
+    try {
+        const dbConnection = await dbPromise;
+        const res = await dbConnection.all("SELECT reviewID, prodID, userID, ratingnumber, comment FROM reviews WHERE prodID = (?)", [prodID]);
+        for (let i = 0; i < res.length; i++) {
+
+            let name = await getUserNameByReviews(res[i].userID);
+            res[i].userID = name[0]['name']
+        }
+
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
+const getUserNameByReviews = async(userID) => {
+    try {
+
+        const dbConnection = await dbPromise;
+        const res = await dbConnection.all("SELECT name FROM user WHERE userID = (?)", [userID]);
+
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
+const addReview = async(review) => {
+    console.log(review)
+    try {
+        const dbConnection = await dbPromise;
+        if (review) {
+            const res = await dbConnection.run("INSERT INTO reviews(prodID, userID, ratingnumber, comment) VALUES(?,?,?,?)", [review.prodID, review.userID, review.ratingnumber, review.comment])
+        }
+        return res;
+    } catch (error) {
+        res.sendStatus(400, "something went wrontt")
+    }
+}
 
 
 

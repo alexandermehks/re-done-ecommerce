@@ -202,6 +202,34 @@ routes.get('/pictures/:id', async(req, res) => {
     } catch (error) {
         res.sendStatus(400, "something went wrong")
     }
+});
+
+
+routes.get('/reviewsByProdId/:id', async(req, res) => {
+    try {
+
+        if (!req.params.id)
+            return res.send("please provide an id");
+
+        const users = await dbService.getReviewsByProdID(req.params.id);
+        return res.send(users);
+
+    } catch (error) {
+        console.log(error)
+        return res.sendStatus(400, "Something went wrong");
+    }
+});
+routes.post('/addReview', async(req, res) => {
+    try {
+
+        let mes = await dbService.addReview(req.body);
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
 })
 
 routes.delete('/deletePicture', async(req, res) => {
