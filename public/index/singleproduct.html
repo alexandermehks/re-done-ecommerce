@@ -12,6 +12,7 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
      <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
 </head>
 
 <body>
@@ -38,14 +39,14 @@
                     <div class="piccontainer">
                          <div class="smallpicscontainer item1">
                               <div v-for="pic in product[0].url">
-                                   <img class="card-img-top picsmall" v-bind:src="pic" v-on:click="updatePicture(pic)"
-                                        alt="Card image cap">
+                                   <img class="card-img-top picsmall_left" v-bind:src="pic"
+                                        v-on:click="updatePicture(pic)" alt="Card image cap">
                               </div>
 
                          </div>
                          <div class="bigpiccontainer item2">
                               <img class="card-img-top picbig" id="picbig" v-bind:src="product[0].picURL">
-                              <p class="textbelowbigpic">1/5</p>
+
                          </div>
                          <div class="item3">
                               <div class="buysection">
@@ -58,7 +59,7 @@
                                         <span class="fa fa-star checked"></span>
                                         <span class="fa fa-star checked"></span>
                                         <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"> (588)</span>
+                                        <span class="fa fa-star"> ({{reviews.length}})</span>
                                    </div>
 
                                    <h4>Choose your size</h4>
@@ -94,8 +95,7 @@
                                         <h4>Choose in different colors</h4>
                                         <div class="colorcontainer">
                                              <div style="margin-right: 4px " v-for="pic in product">
-                                                  <img class="card-img-top picsmall choscol"
-                                                       v-if=" pic.colorID = product[0].colorID" v-bind:id="pic.propID"
+                                                  <img class="card-img-top picsmall choscol" v-bind:id="pic.propID"
                                                        v-bind:src="pic.picURL"
                                                        v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.colorID)">
 
@@ -145,13 +145,17 @@
                     <div>
                          <h1 style="text-align: center;">Reviews</h1>
                          <div style="text-align: center;">
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star"></span>
-                              <h4>4/5</h4>
-                              <button class="reviewbutton" id="reviewbutton">Write Review</button>
+                              <div class="reviewstars">
+                                   <div v-for="stars in 5 ">
+                                        <span class="fa fa-star checked" v-if="stars <= rating"></span>
+                                        <span class="fa fa-star" v-if="stars > rating"></span>
+
+                                   </div>
+                              </div>
+
+                              <h4>{{rating}}/5</h4>
+                              <button class="reviewbutton" id="reviewbutton" v-on:click="openReviewContainer()">Write
+                                   Review</button>
                               <div class="reviewform" id="reviewform" style="display: none;">
                                    <form>
                                         <div class="form-group">
@@ -179,29 +183,33 @@
                                         </div>
                                         <div class="form-group">
                                              <label for="exampleFormControlTextarea1">Write Review</label>
-                                             <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                  rows="3"></textarea>
+                                             <textarea class="form-control" id="comment" rows="3"
+                                                  placeholder="Tell everyone what you think"></textarea>
                                         </div>
 
                                    </form>
-                                   <button>Publish Review</button>
+                                   <button v-on:click="postReview(), openReviewContainer()">Publish Review</button>
                               </div>
                          </div>
                          <div class="reviewcontainer">
-                              <div class="reviewcard">
-                                   <div class="review1"><b>Name: </b>Sebastian Nilsson<br><b>Date: </b>2022-02-02</div>
-                                   <div class="review2">Jag tyckte denna produkten var grym! LOOOVE IT såååå jävlaaa bra
-                                        vet inte vart jag ska ta vägen, funkar i alla lägen och alla älskar den så grymt
-                                        mycket !</div>
-                                   <div class="review3">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
+                              <div v-for="review in reviews">
+                                   <div class="reviewcard ">
+                                        <div class="review1"><b>Name: </b>{{review.userID}}<br><b>Date: </b>2022-02-02
+                                        </div>
+                                        <div class="review2">{{review.comment}}</div>
+                                        <div class="review3">
+                                             <div v-for="stars in 5 ">
+                                                  <span class="fa fa-star checked"
+                                                       v-if="stars <= review.ratingnumber"></span>
+                                                  <span class="fa fa-star" v-if="stars > review.ratingnumber"></span>
+
+                                             </div>
+                                             <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
+
+                                        </div>
+
+
                                    </div>
-
-
                               </div>
 
                               <br>
@@ -248,6 +256,8 @@
 
      <script
           type="text/javascript">(function () { window['__CF$cv$params'] = { r: '6dbcbc595d1795fd', m: 'u_Yy.NJQKEwkxyHKpVGVnuU4aaRFikBX6p9hLePXCpA-1644573684-0-ARV1cGwbSbP4JabUimtlwn3QEqKCW5TIzWMHuJ9MoU4RV/Abfl6dYm/6LUWVpgBqnBrMGW298gq6wcUNSn8R95+pWoMTASwsShfwvBn6Jt0YwvTxqIdEcNCgv9b6+pzw6nVxbQWKySfYfn3ysa7E9Vr7tHZ4OduYvtlMrwPTrSJhtqutLWDHqPJa8wRROu+bIKfivbTSMpu999W47nFmstU=', s: [0xfd811ef1ed, 0x0b80c17a84], } })();</script>
+     <script
+          type="text/javascript">(function () { window['__CF$cv$params'] = { r: '6de9304e688c95ea', m: 'cphHXMZTAKVxeoj9koYlHkNyIt0f2Z.q7lexoZPyBAU-1645039807-0-Af2mTUIZQFJ8+Bb4jesNZ/naNm+5YcoeDXGruHJGDX7FMZCR/4iVkytryCHQcaNkyFJRsytd0lF7X4jaFZh68sVbaAk1fiW5oelPJS0PQwKactsAvw5b7G9SIXXOTysl5HtNk4Olar4i6/oVtOJz5U4F6C0H2uni8cLhiaKjuSaxEAXPod1/pk9lKAVvGMEdUxSDGSp1V8Ueh40NJkh8G94=', s: [0x7f242f3f1e, 0xb9925e6927], } })();</script>
 </body>
 
 </html>
