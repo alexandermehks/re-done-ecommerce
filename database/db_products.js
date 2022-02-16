@@ -307,6 +307,7 @@ const getPicture = async(propID) => {
         res.sendStatus(400, "cant get picture")
     }
 }
+
 const getReviewsByProdID = async(prodID) => {
     try {
         
