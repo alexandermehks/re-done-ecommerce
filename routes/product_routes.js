@@ -148,16 +148,20 @@ routes.delete('/deleteProperty', async(req, res) => {
 
 
 routes.post('/uploadpicture', async(req, res) => {
+
+    const folder_path = './public/index/images/uploads/products/' + req.body.id;
+    const folder_path_ = 'images/uploads/products/' + req.body.id;
+
     try {
-        console.log(req.body)
         if (req.files) {
-            fs.mkdir(`./uploads/products/${req.body.id}`, (err) => {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log("SUCESS")
+
+            try {
+                if (!fs.existsSync(folder_path)) {
+                    fs.mkdirSync(folder_path, { recursive: true });
                 }
-            })
+            } catch (err) {
+                console.error(err);
+            }
 
             if (!req.files.length) {
                 console.log("HÄR")
@@ -165,13 +169,14 @@ routes.post('/uploadpicture', async(req, res) => {
             for (let i = 0; i < req.files.file.length; i++) {
                 var file = req.files.file[i]
                 var filename = file.name
-                const p = `./uploads/products/${req.body.id}/`
-                file.mv(p + filename, function(err) {
+                const p = folder_path
+                file.mv(p + "/" + filename, function(err) {
                     if (err) {
                         res.send("Upload failed");
                     }
                 });
-                const query = `products/${req.body.id}/${filename}`
+                const query = folder_path_ + "/" + filename;
+
                 const addtoDatabase = await dbService.addPicture(req.body.id, query)
             }
             res.send("OK")
