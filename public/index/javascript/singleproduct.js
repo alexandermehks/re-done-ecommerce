@@ -30,7 +30,11 @@ const vm = new Vue({
 
         }],
     },
-
+    mounted() {
+        $("#navbar").load("footer.html");
+        $("#footer").load("footer.html");
+        console.log("HELLO?")
+    },
     methods: {
         loadProduct(id) {
             //Load  questions
@@ -209,5 +213,5 @@ const vm = new Vue({
 
 
 });
-vm.loadProduct("id1")
-vm.loadReviews("id1")
+vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")
+vm.loadReviews("01126187-4005-4972-97cf-7fd8f9cfa754")

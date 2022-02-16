@@ -382,6 +382,34 @@ const addProductProperty = async(req) => {
     }
 }
 
+//Remove Picture
+const removePicture = async(data) => {
+    try {
+        const dbConnection = await dbPromise;
+        const response = await dbConnection.run(`DELETE FROM pic WHERE picID = ?`, [data.picID])
+
+        //Should remove picture from folder as well
+        console.log("Remove from folder", data)
+
+        const path = "./public/index/" + data.pictureURL;
+        console.log(path)
+        fs.unlink(path, (err) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+            console.log("File was removed from system", path)
+        })
+
+        return response
+
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
 
 //Remove Product
 const removeProperty = async(data) => {
@@ -559,7 +587,9 @@ module.exports = {
     getProductPropertiesByProdAndColorID: getProductPropertiesByProdAndColorID,
     getAllProductsWithPropertiesByIdAndColor: getAllProductsWithPropertiesByIdAndColor,
     removeProduct: removeProduct,
-    removeProperty: removeProperty
+    removeProperty: removeProperty,
+    getReviewsByProdID: getReviewsByProdID,
+    addReview: addReview
 
 
 }
