@@ -347,7 +347,7 @@ const addReview = async (review) => {
          return res;
     }
     catch (error) {
-         res.sendStatus(400, "something went wront")
+         res.sendStatus(400, "something went wrontt")
     }
 }
 
