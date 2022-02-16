@@ -307,7 +307,48 @@ const getPicture = async(propID) => {
         res.sendStatus(400, "cant get picture")
     }
 }
-
+const getReviewsByProdID = async(prodID) => {
+    try {
+        
+        const dbConnection = await dbPromise;
+        const res = await dbConnection.all(`SELECT reviewID, prodID, userID, ratingnumber, comment FROM reviews WHERE prodID = (?)`, [prodID]);
+        for (let i = 0; i < res.length; i++) {
+        
+            let name = await getUserNameByReviews(res[i].userID);
+            res[i].userID = name[0]['name']
+          }
+        
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
+const getUserNameByReviews = async(userID) => {
+    try {
+        
+        const dbConnection = await dbPromise;
+        const res = await dbConnection.all(`SELECT name FROM user WHERE userID = (?)`, [userID]);
+        
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
+const addReview = async (review) => {
+    console.log(review)
+    try {
+         const dbConnection = await dbPromise;
+         if (review) {
+              const res = await dbConnection.run(`INSERT INTO reviews (prodID, userID, ratingnumber,comment) VALUES (?,?,?,?)`, [review.prodID, review.userID, review.ratingnumber, review.comment])
+            }
+         return res;
+    }
+    catch (error) {
+         res.sendStatus(400, "something went wront")
+    }
+}
 
 
 
@@ -326,6 +367,8 @@ module.exports = {
     addProductProperty: addProductProperty,
     getCategory: getCategory,
     addPicture: addPicture,
-    getPicture: getPicture
+    getPicture: getPicture,
+    getReviewsByProdID: getReviewsByProdID,
+    addReview: addReview
 
 }
