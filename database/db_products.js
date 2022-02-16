@@ -3,6 +3,7 @@ const { open, Database } = require('sqlite');
 const res = require('express/lib/response');
 const { v4: uuidv4 } = require('uuid');
 const { redirect } = require('express/lib/response');
+const fs = require('fs');
 
 //Async for each
 async function asyncForEach(array, callback) {
@@ -274,12 +275,20 @@ const editProduct = async(data) => {
 const removeProduct = async(data) => {
     try {
         const dbConnection = await dbPromise;
-        console.log(data.prodID)
-            //console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+
+        //console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
         const response = await dbConnection.run(`DELETE FROM product WHERE prodID = ?`, [data.prodID])
-        return response
+
+        //Should remove folder with product-pictures
+        const folder = './public/index/images/uploads/products/' + data.prodID;
+        fs.rmSync(folder, { recursive: true, force: true });
+
+        //Remove pictures from pic-db
+        const response2 = await dbConnection.run(`DELETE FROM pic WHERE propID = ?`, [data.prodID])
 
 
+
+        return response, response2
     } catch (error) {
         console.log(error)
         res.sendStatus(400, "Something went wrong")
@@ -292,11 +301,68 @@ const removeProduct = async(data) => {
 
 
 
-const addProductProperty = async(data) => {
+const addProductProperty = async(req) => {
     try {
         const id_propID = uuidv4()
             //const id_prodID = uuidv4()
             //const id_size = uuidv4()
+        console.log(req.body.data);
+        let data = JSON.parse(req.body.data)
+        let files = req.files
+        console.log(files)
+
+
+        //FIRST TRY TO ADD FILE:
+        const folder_path = './public/index/images/uploads/properties/' + id_propID;
+        const folder_path_ = 'images/uploads/properties/' + id_propID;
+
+        try {
+            if (req.files) {
+
+                //Create folder if not exists
+                try {
+                    if (!fs.existsSync(folder_path)) {
+                        fs.mkdirSync(folder_path, { recursive: true });
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+                let url = "images/product-placeholder.jpg"
+
+                var file = req.files.file
+                var filename = file.name
+                const p = folder_path
+                file.mv(p + "/" + filename, function(err) {
+                    if (err) {
+                        res.send("Upload failed");
+                    }
+                });
+                const query = folder_path_ + "/" + filename;
+                url = query
+
+                data.picURL = url;
+                // Add to database
+                data.propID = id_propID
+                const dbConnection = await dbPromise;
+
+                if (['shoes', 'sweater', 'pants', 'tshirt'].includes(data.type)) {
+                    console.log("Inserted into db", [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
+                    const response = await dbConnection.run(`INSERT INTO ${data.type} (propID, prodID, colorID, balance, size, picURL) VALUES (?,?,?,?,?,?)`, [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
+                    return response
+                }
+
+                res.send("OK")
+            } else {
+                res.send("ERROR")
+            }
+
+
+        } catch (error) {
+            res.sendStatus(400, "Something went wrong");
+        }
+
+
+        /*
         const testEntry = {
                 "propID": id_propID,
                 "prodID": "61fca205-99f4-4ebf-adcf-064427170553",
@@ -311,10 +377,11 @@ const addProductProperty = async(data) => {
         const dbConnection = await dbPromise;
 
         if (['shoes', 'sweater', 'pants', 'tshirt'].includes(data.type)) {
+
             console.log("Inserted into db", [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
             const response = await dbConnection.run(`INSERT INTO ${data.type} (propID, prodID, colorID, balance, size, picURL) VALUES (?,?,?,?,?,?)`, [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
             return response
-        }
+        }*/
     } catch (error) {
         console.log("Error: ", error)
         res.sendStatus(400, "Something went wrong")
@@ -328,6 +395,37 @@ const removeProperty = async(data) => {
         const dbConnection = await dbPromise;
         //console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
         const response = await dbConnection.run(`DELETE FROM ${data.type} WHERE propID = ?`, [data.propID])
+
+        //Should remove map with picture
+        const folder = './public/index/images/uploads/properties/' + data.propID;
+        fs.rmSync(folder, { recursive: true, force: true });
+
+        return response
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
+//Remove Picture
+const removePicture = async(data) => {
+    try {
+        const dbConnection = await dbPromise;
+        const response = await dbConnection.run(`DELETE FROM pic WHERE picID = ?`, [data.picID])
+
+        //Should remove picture from folder as well
+        console.log("Remove from folder", data)
+
+        const path = "./public/index/" + data.pictureURL;
+        console.log(path)
+        fs.unlink(path, (err) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+            console.log("File was removed from system", path)
+        })
+
         return response
 
 
@@ -446,6 +544,7 @@ module.exports = {
     getCategory: getCategory,
     addPicture: addPicture,
     getPicture: getPicture,
+    removePicture: removePicture,
     getColors: getColors,
     getProductPropertiesByProdAndColorID: getProductPropertiesByProdAndColorID,
     getAllProductsWithPropertiesByIdAndColor: getAllProductsWithPropertiesByIdAndColor,

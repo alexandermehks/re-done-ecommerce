@@ -118,14 +118,17 @@ routes.delete('/deleteProduct', async(req, res) => {
 })
 
 
+
 routes.post('/addProperty', async(req, res) => {
     try {
-        let mes = await dbService.addProductProperty(req.body);
+        //console.log("bajs2", req)
+        let mes = await dbService.addProductProperty(req);
         if (mes) {
             res.send("Success")
         }
 
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "Something went wrong");
     }
 })
@@ -198,6 +201,21 @@ routes.get('/pictures/:id', async(req, res) => {
         res.send(answer)
     } catch (error) {
         res.sendStatus(400, "something went wrong")
+    }
+})
+
+routes.delete('/deletePicture', async(req, res) => {
+    try {
+
+        let mes = await dbService.removePicture(req.body);
+
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong");
     }
 })
 
