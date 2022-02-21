@@ -71,6 +71,16 @@ const vm = new Vue({
                     if (this.onlyProducts.length > 0) {
                         this.currentProduct = this.onlyProducts[0];
                     }
+
+                    for (let i in this.onlyProducts) {
+                        let product = this.onlyProducts[i];
+                        if (product.prodID == this.handleProduct.prodID) {
+                            this.handleProduct = product;
+                            break;
+                        }
+                    }
+
+
                 }
             })
 
@@ -192,6 +202,12 @@ const vm = new Vue({
             this.getProducts()
             this.getOnlyProducts()
             this.getAllProductsWithPropertiesByIdAndColor()
+
+
+
+
+
+
         },
         getFormValues(submitEvent) {
             console.log(submitEvent.target.elements)
@@ -250,7 +266,31 @@ const vm = new Vue({
 
 
         },
+        getFormValuesAddNewPictures(submitEvent) {
+            //Add images
+            let image = document.getElementById("fileAddNew").files;
+            let images = new FormData();
+            for (let i = 0; i < image.length; i++) {
+                images.append("file", image[i])
+            }
+            images.append('id', this.handleProduct.prodID)
 
+            $.ajax({
+                url: '/products/uploadpicture',
+                data: images,
+                method: "POST",
+                processData: false,
+                contentType: false,
+                success: (result) => {
+                    console.log(result)
+                    this.updateAll()
+                        //Update Handle product?
+                        //$("#addProductOverlay").fadeOut();
+                }
+            })
+
+
+        },
         getFormValuesEdit(submitEvent) {
             //products/getProductPropertiesByProdAndColorID
             console.log(submitEvent.target.elements)
@@ -372,7 +412,6 @@ const vm = new Vue({
         },
         removeImage(picture) {
             this.currentPicture = picture;
-            console.log("U WANNA REMOVE", picture)
             $("#confirm-remove-picture").fadeIn();
         },
         fadeOutPictureConfirmRemove() {
