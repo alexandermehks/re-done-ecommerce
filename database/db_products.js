@@ -383,6 +383,7 @@ const addProductProperty = async(req) => {
 }
 
 //Remove Picture
+//TODO: IF ID -1. DON'T REMOVE PLS
 const removePicture = async(data) => {
     try {
         const dbConnection = await dbPromise;
