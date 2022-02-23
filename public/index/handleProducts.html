@@ -101,13 +101,98 @@
                         </div>
                         <div style="margin-top: 10px;"></div>
                         <div class="mb-3">
-                            <label for="productDescription" class="form-label">Product Description</label>
-                            <textarea class="form-control" id="productDescription" rows="3" placeholder="This product is very good.." required></textarea>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="productDescription" class="form-label">Product Description</label>
+                                    <div class="bb-holder">
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                            <div class="btn-group mr-2" role="group" aria-label="First group" style="padding-right: 10px;">
+                                                <button v-on:click="bbClick('bold', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-type-bold"></span></button>
+                                                <button v-on:click="bbClick('italic', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-type-italic"></span></button>
+                                                <button v-on:click="bbClick('underline', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-type-underline"></span></button>
+                                            </div>
+                                            <div class="btn-group mr-2" role="group" aria-label="Second group" style="padding-right: 10px;">
+                                                <button v-on:click="bbClick('left', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-text-left"></span></button>
+                                                <button v-on:click="bbClick('center', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-text-center"></span></button>
+                                                <button v-on:click="bbClick('right', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-text-right"></span></button>
+                                            </div>
+                                            <div class="btn-group" role="group" aria-label="Third group">
+                                                <button v-on:click="bbClick('list', 'productDescription')" type="button" class="btn btn-secondary"><span class="bi bi-list-ul"></span></button>
+                                                <div class="btn-group" role="group">
+                                                    <button id="btnGroupDrop3" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              Size
+                                            </button>
+                                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
+                                                        <a v-on:click="bbClick('size', 'productDescription', 11)" class="dropdown-item" href="#">11</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 12)" class="dropdown-item" href="#">12</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 14)" class="dropdown-item" href="#">14</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 18)" class="dropdown-item" href="#">18</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 24)" class="dropdown-item" href="#">24</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 30)" class="dropdown-item" href="#">30</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 36)" class="dropdown-item" href="#">36</a>
+                                                        <a v-on:click="bbClick('size', 'productDescription', 48)" class="dropdown-item" href="#">48</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control" id="productDescription" rows="3" placeholder="This product is very good.." required></textarea>
+                                </div>
+                                <div class="col">
+                                    <div style="background-color: antiquewhite; height: 100%;">
+                                        <p style="margin-bottom: 0.5rem">Preview</p>
+                                        <div v-html="getBBHTML(new_prod_desc_rendered)"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div style="margin-top: 10px;"></div>
                         <div class="mb-3">
-                            <label for="productSpecification" class="form-label">Product Specification</label>
-                            <textarea class="form-control" id="productSpecification" rows="3" placeholder="Made out of wolf..." required></textarea>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="productSpecification" class="form-label">Product Specification</label>
+                                    <div class="bb-holder">
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                            <div class="btn-group mr-2" role="group" aria-label="First group" style="padding-right: 10px;">
+                                                <button v-on:click="bbClick('bold', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-type-bold"></span></button>
+                                                <button v-on:click="bbClick('italic', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-type-italic"></span></button>
+                                                <button v-on:click="bbClick('underline', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-type-underline"></span></button>
+                                            </div>
+                                            <div class="btn-group mr-2" role="group" aria-label="Second group" style="padding-right: 10px;">
+                                                <button v-on:click="bbClick('left', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-text-left"></span></button>
+                                                <button v-on:click="bbClick('center', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-text-center"></span></button>
+                                                <button v-on:click="bbClick('right', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-text-right"></span></button>
+                                            </div>
+                                            <div class="btn-group" role="group" aria-label="Third group">
+                                                <button v-on:click="bbClick('list', 'productSpecification')" type="button" class="btn btn-secondary"><span class="bi bi-list-ul"></span></button>
+                                                <div class="btn-group" role="group">
+                                                    <button id="btnGroupDrop4" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Size
+                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 11)" class="dropdown-item" href="#">11</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 12)" class="dropdown-item" href="#">12</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 14)" class="dropdown-item" href="#">14</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 18)" class="dropdown-item" href="#">18</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 24)" class="dropdown-item" href="#">24</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 30)" class="dropdown-item" href="#">30</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 36)" class="dropdown-item" href="#">36</a>
+                                                        <a v-on:click="bbClick('size', 'productSpecification', 48)" class="dropdown-item" href="#">48</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control" id="productSpecification" rows="3" placeholder="Made out of wolf..." required></textarea>
+                                </div>
+                                <div class="col">
+                                    <div style="background-color: antiquewhite; height: 100%;">
+                                        <p style="margin-bottom: 0.5rem">Preview:</p>
+
+                                        <div v-html="getBBHTML(new_prod_spec_rendered)"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <label for="file" class="form-label">Add Multiple images to product</label>
                         <input id="file" type="file" name="files" class="form-control" style="max-width: 30%" multiple required />
@@ -154,32 +239,73 @@
                         <div class="row">
                             <div class="col">
                                 <label for="productDescription" class="form-label">Product Description</label>
-                                <div style="background: red; border:1px solid black; padding: 3px;">
-                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group mr-2" role="group" aria-label="First group" style="padding-right: 10px;">
-                                      <button v-on:click="bbClick('bold', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-bold"></span></button>
-                                      <button v-on:click="bbClick('italic', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-italic"></span></button>
-                                      <button v-on:click="bbClick('underline', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-underline"></span></button>
-                                      <button v-on:click="bbClick('newline', 'productDescriptionEdit')"type="button" class="btn btn-secondary"><span class="bi bi-line"></span></button>
+                                <div class="bb-holder">
+                                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group mr-2" role="group" aria-label="First group" style="padding-right: 10px;">
+                                            <button v-on:click="bbClick('bold', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-bold"></span></button>
+                                            <button v-on:click="bbClick('italic', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-italic"></span></button>
+                                            <button v-on:click="bbClick('underline', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-underline"></span></button>
+                                        </div>
+                                        <div class="btn-group mr-2" role="group" aria-label="Second group" style="padding-right: 10px;">
+                                            <button v-on:click="bbClick('left', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-text-left"></span></button>
+                                            <button v-on:click="bbClick('center', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-text-center"></span></button>
+                                            <button v-on:click="bbClick('right', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-text-right"></span></button>
+                                        </div>
+                                        <div class="btn-group" role="group" aria-label="Third group">
+                                            <button v-on:click="bbClick('list', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-list-ul"></span></button>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                  Size
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 11)" class="dropdown-item" href="#">11</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 12)" class="dropdown-item" href="#">12</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 14)" class="dropdown-item" href="#">14</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 18)" class="dropdown-item" href="#">18</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 24)" class="dropdown-item" href="#">24</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 30)" class="dropdown-item" href="#">30</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 36)" class="dropdown-item" href="#">36</a>
+                                                    <a v-on:click="bbClick('size', 'productDescriptionEdit', 48)" class="dropdown-item" href="#">48</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="btn-group mr-2" role="group" aria-label="Second group" style="padding-right: 10px;">
-                                      <button type="button" class="btn btn-secondary"><span class="bi bi-text-left"></span></button>
-                                      <button type="button" class="btn btn-secondary"><span class="bi bi-text-center"></span></button>
-                                      <button type="button" class="btn btn-secondary"><span class="bi bi-text-right"></span></button>
-                                    </div>
-                                    <div class="btn-group" role="group" aria-label="Third group">
-                                      <button type="button" class="btn btn-secondary"><span class="bi bi-list-ul"></span></button>
-                                    </div>
-                                  </div>
                                 </div>
                                 <textarea class="form-control" id="productDescriptionEdit" rows="3" placeholder="This product is very good.." v-bind:value="handleProduct.description" required></textarea>
                             </div>
                             <div class="col">
-                                <label for="productSpecification" class="form-label">Product Specification</label><br>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-secondary">Left</button>
-                                    <button type="button" class="btn btn-secondary">Middle</button>
-                                    <button type="button" class="btn btn-secondary">Right</button>
+                                <label for="productSpecification" class="form-label">Product Specification</label>
+                                <div class="bb-holder">
+                                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group mr-2" role="group" aria-label="First group" style="padding-right: 10px;">
+                                            <button v-on:click="bbClick('bold', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-bold"></span></button>
+                                            <button v-on:click="bbClick('italic', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-italic"></span></button>
+                                            <button v-on:click="bbClick('underline', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-underline"></span></button>
+                                        </div>
+                                        <div class="btn-group mr-2" role="group" aria-label="Second group" style="padding-right: 10px;">
+                                            <button v-on:click="bbClick('left', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-text-left"></span></button>
+                                            <button v-on:click="bbClick('center', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-text-center"></span></button>
+                                            <button v-on:click="bbClick('right', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-text-right"></span></button>
+                                        </div>
+                                        <div class="btn-group" role="group" aria-label="Third group">
+                                            <button v-on:click="bbClick('list', 'productSpecificationEdit')" type="button" class="btn btn-secondary"><span class="bi bi-list-ul"></span></button>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                  Size
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 11)" class="dropdown-item" href="#">11</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 12)" class="dropdown-item" href="#">12</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 14)" class="dropdown-item" href="#">14</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 18)" class="dropdown-item" href="#">18</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 24)" class="dropdown-item" href="#">24</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 30)" class="dropdown-item" href="#">30</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 36)" class="dropdown-item" href="#">36</a>
+                                                    <a v-on:click="bbClick('size', 'productSpecificationEdit', 48)" class="dropdown-item" href="#">48</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <textarea class="form-control" id="productSpecificationEdit" rows="3" placeholder="Made out of wolf..." v-bind:value="handleProduct.specification" required></textarea>
                             </div>
@@ -341,9 +467,22 @@
                 <h1>Pictures test</h1>
                 <div v-for="prod in onlyProducts">
                     <p><b>{{prod.name}}</b></p>
-                    <div v-html="getBBHTML(prod.description)">
+
+                    <div class="row">
+                        <div class="col" style="border: 1px solid black">
+                            <h3>Description:</h3>
+                            <div v-html="getBBHTML(prod.description)"></div>
+
+                        </div>
+                        <div class="col" style="border: 1px solid black">
+                            <h3>Specification:</h3>
+                            <div v-html="getBBHTML(prod.specification)"></div>
+
+
+                        </div>
 
                     </div>
+
                     <div style="width: 100%; display: flex">
                         <div v-for="picture in prod.pictures">
                             <img v-bind:src="picture.pictureURL" style="width: 120px">
@@ -356,7 +495,6 @@
             </div>
             <div>
             </div>
-            <div v-html="getBBHTML(bb)"></div>
             <div id=" footer "></div>
         </div>
 
@@ -369,7 +507,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
 
     <script src="bb/bbcode-config.js"></script>
-	<script src="bb/bbcode-parser.js"></script>
+    <script src="bb/bbcode-parser.js"></script>
 
     <script type="module" src="javascript/handleProducts.js "></script>
 
