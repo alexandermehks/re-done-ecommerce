@@ -28,14 +28,15 @@
 <div class="section-1-container section-container">
     <div class="container">
         
-            <a class="btn btn-1">Shoes</a>
-            <a class="btn btn-1">Pants</a>
-            <a class="btn btn-1">Jacket</a> 
-            <a class="btn btn-1">T-shirt</a> 
-            <a class="btn btn-1">Jeans</a>
+            <button class="btn btn-1" v-on:click="updateProd($event)" value="tshirt" >Shoes</button>
+            <button class="btn btn-1" v-on:click="getCategory($event)" value="pants" >Pants</button>
+            <button class="btn btn-1" v-on:click="getCategory($event)" value="sweater" >Sweater</button> 
+            <button class="btn btn-1" v-on:click="getCategory($event)" value="tshirt" >T-shirt</button> 
+            <button class="btn btn-1" v-on:click="getCategory($event)" value="jeans" >Jeans</button>
           
     </div>
 </div>
+
 <!-- koppla knappar till cardsen, aktiv knapp-->
 
 <!--- sektion 2 -->
@@ -74,16 +75,17 @@
 </div>
 
 <!--- sektion 2 -->
-<div class="section-3-container section-container">
+<div class="section-3-container section-container productUpd">
 
-    <div class="container">
+    <div class="container upd">
+    
         <div class="row row-cols-md-4">
-            <div class="col-sm-4" v-for="product in products" v-bind:key="product.proID">
+            <div class="col-sm-4" v-for="product in currentShow" v-bind:key="product.propID">
                 <div class="card" style="width: 200px;" >
                     <img class="card-img" v-bind:src="product.picURL" alt="picture of product">
                     <div class="card-body">
-                        <h5 class="card-title">{{product.propID}}</h5>
-                        <p class="card-text">{{product.type}}</p>
+                        <h5 class="card-title">{{product.prodID}}</h5>
+                        <p class="card-text">{{product.colorID}}</p>
                         <button type="button" class="button">Add to cart</button>
                     </div>
                 </div>
