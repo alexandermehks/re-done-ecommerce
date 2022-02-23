@@ -239,3 +239,24 @@
 .draggable-box.over {
     border: 3px dotted #666!important;
 }
+
+.bb-holder {
+    padding: 5px;
+    border-left: 1px solid #ced4da;
+    border-right: 1px solid #ced4da;
+    border-top: 1px solid #ced4da;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    background-color: #ededed;
+}
+
+#productDescriptionEdit {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.bb-ul ul {}
+
+.bb-ul li {
+    background-color: red;
+}

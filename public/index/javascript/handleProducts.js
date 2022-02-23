@@ -18,7 +18,9 @@ const vm = new Vue({
             5: "XXL",
         },
         shoeSizes: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
-        bb: "[b]HEJ[/b] vanlig [i]Fuck off börje[/i]"
+        bb: "[b]HEJ[/b] vanlig [i]Fuck off börje[/i]",
+        new_prod_desc_rendered: "",
+        new_prod_spec_rendered: ""
 
 
     },
@@ -34,8 +36,10 @@ const vm = new Vue({
         do_test() {
             console.log("test")
         },
-        getBBHTML(bbcode){
-            return BBCodeParser.process(bbcode);
+        getBBHTML(bbcode) {
+            //Replace all new lines with [br] tag
+            const res = bbcode.replace(/(\r\n|\r|\n)/g, '[br][/br]');
+            return BBCodeParser.process(res);
         },
         getProducts() {
             $.ajax({
@@ -398,8 +402,15 @@ const vm = new Vue({
             this.handleProduct = product;
 
             $("#editProductOverlay").fadeIn(function() {
-                console.log("We are faded in")
-                this.updateDomPictures();
+                $('textarea').each(function() {
+                    let rows = $(this).val().split(/\r\n|\r|\n/).length;
+                    if (rows <= 3)
+                        rows = 3
+                    if (rows >= 7)
+                        rows = 7;
+                    $(this).attr("rows", rows);
+                });
+
             }.bind(this));
 
 
@@ -456,6 +467,81 @@ const vm = new Vue({
         },
         updateDomPictures() {
             //updateDomPic()
+
+        },
+        bbClick(action, textareaid, param) {
+
+
+            var textarea = document.getElementById(textareaid);
+            var selection = (textarea.value).substring(textarea.selectionStart, textarea.selectionEnd);
+            var startSubString = (textarea.value).substring(0, textarea.selectionStart);
+            var endSubString = (textarea.value).substring(textarea.selectionEnd, textarea.length);
+
+            let start_tag = ""
+            let end_tag = ""
+
+            if (action == "bold") {
+                start_tag = "[b]"
+                end_tag = "[/b]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "italic") {
+                start_tag = "[i]"
+                end_tag = "[/i]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "underline") {
+                start_tag = "[u]"
+                end_tag = "[/u]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "newline") {
+                let start_tag = "\n[br][/br]\n"
+                let newstring = startSubString + selection + start_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "center") {
+                start_tag = "[center]"
+                end_tag = "[/center]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "left") {
+                start_tag = "[left]"
+                end_tag = "[/left]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "right") {
+                start_tag = "[right]"
+                end_tag = "[/right]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "list") {
+                start_tag = "[list]\n[li]"
+                end_tag = "[/li]\n[/list]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if (action == "size") {
+                start_tag = "[size=" + param + "]"
+                end_tag = "[/size]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            }
+
+
+            if (textareaid == "productDescription")
+                this.new_prod_desc_rendered = textarea.value
+            if (textareaid == "productSpecification")
+                this.new_prod_spec_rendered = textarea.value
+
+
+
+
+
+
+
+
+
+
+
 
         }
 
@@ -522,7 +608,24 @@ $(document).ready(function() {
     });
 
 
+    $('textarea').bind('input propertychange', function() {
+        let rows = $(this).val().split(/\r\n|\r|\n/).length;
+        if (rows <= 3)
+            rows = 3
+        if (rows >= 7)
+            rows = 7;
+        $(this).attr("rows", rows);
+    });
 
+    productDescription
+
+    $('#productDescription').bind('input propertychange', function() {
+        vm.new_prod_desc_rendered = $(this).val()
+    });
+
+    $('#productSpecification').bind('input propertychange', function() {
+        vm.new_prod_spec_rendered = $(this).val()
+    });
 
 
 });
