@@ -17,7 +17,8 @@ const vm = new Vue({
             4: "XL",
             5: "XXL",
         },
-        shoeSizes: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+        shoeSizes: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+        bb: "[b]HEJ[/b] vanlig [i]Fuck off börje[/i]"
 
 
     },
@@ -32,6 +33,9 @@ const vm = new Vue({
     methods: {
         do_test() {
             console.log("test")
+        },
+        getBBHTML(bbcode){
+            return BBCodeParser.process(bbcode);
         },
         getProducts() {
             $.ajax({

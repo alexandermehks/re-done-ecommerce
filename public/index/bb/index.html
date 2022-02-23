@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link rel="stylesheet" type="text/css" href="styles.css" >
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
+	<script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -20,16 +22,30 @@
 			<div id="theButtons"></div>
 			<textarea id="mainInput"></textarea>
 			
+			
 			<button id="parseButton">Process</button>
 		</div>
 
 		<h2>Output</h2>
 		<div id="mainOutput"></div>
+		<div>
+			<textarea id="example"></textarea>
+			<script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/formats/bbcode.min.js"></script>
+			<script>
+			// Replace the textarea #example with SCEditor
+			var textarea = document.getElementById('example');
+			sceditor.create(textarea, {
+				format: 'bbcode',
+				style: 'https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/content/default.min.css'
+			});
+			</script>
+		</div>
 
 	</div>
 	
 	<script src="bbcode-config.js"></script>
 	<script src="bbcode-parser.js"></script>
 	<script src="demo-setup.js"></script>
+	
 </body>
 </html>

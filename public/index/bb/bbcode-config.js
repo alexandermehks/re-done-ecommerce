@@ -72,14 +72,33 @@ var parserTags = {
 			return '';
 		}
 	},
+	'br': {
+		openTag: function(params,content) {
+			return '<br>';
+		},
+		closeTag: function(params,content) {
+			return '';
+		},
+		content: function(params,content) {
+			return '';
+		}
+	},
 	'list': {
 		openTag: function(params,content) {
-			return '<ul>';
+			return '<ul class="bb-ul">';
 		},
 		closeTag: function(params,content) {
 			return '</ul>';
 		},
 		restrictChildrenTo: ["*", "li"]
+	},
+	'li': {
+		openTag: function(params,content) {
+			return '<li>';
+		},
+		closeTag: function(params,content) {
+			return '</li>';
+		}
 	},
 	'noparse': {
 		openTag: function(params,content) {
