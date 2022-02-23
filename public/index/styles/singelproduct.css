@@ -239,7 +239,10 @@ flex-basis: 10%;
     justify-content: center;
     
 }
-.arrow {
+.starsizer{
+    font-size: 50px;
+}
+.arrow_right {
     border: solid black;
     border-width: 0 3px 3px 0;
     display: inline-block;
@@ -248,6 +251,16 @@ flex-basis: 10%;
     height: 15px;
     
     
+  }
+  .arrow_left{
+    
+        border: solid black;
+        border-width: 3px 0 0 3px;
+        display: inline-block;
+        padding: 7px;
+        width: 15px;
+        height: 10px;
+        
   }
   .right:hover{
     border: solid gray;
@@ -259,6 +272,10 @@ flex-basis: 10%;
   }
   
   .right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+  .left {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
   }
