@@ -82,6 +82,7 @@ body {
     color: white;
     background: $color-primary;
     transition: 0.3s;
+    color: black;
     
     &:hover {
         background: darken($color-primary, 5%);
