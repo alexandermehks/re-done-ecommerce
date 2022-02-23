@@ -18,6 +18,7 @@ const auth_routes = require('./routes/authentication')
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/admin'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, 'public/picture'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public/register'), { extensions: ['html'] }));
 app.use(express.static('uploads'));
 
 

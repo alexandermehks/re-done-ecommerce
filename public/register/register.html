@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="register.css">
+<style>
+</style>
+<script src=""></script>
+<body>
+
+<!-- Sign up form from: https://codepen.io/dope/pen/ZQWBeL -->
+<div class="user">
+    <div id="registerapp">
+        <header class="user__header">
+            <img src="../images/logo2.png" alt="" />
+            <h1 class="user__title">Register RE:DONE</h1>
+        </header>
+
+
+        
+        <form class="form">
+            <div class="form__group">
+                <input type="text" id="username" placeholder="Username" class="form__input" />
+            </div>
+            
+            <div class="form__group">
+                <input type="email" id="email" placeholder="Email" class="form__input" />
+            </div>
+            
+            <div class="form__group">
+                <input type="password" id="password" placeholder="Password" class="form__input" />
+            </div>
+
+            <div class="form__group"> 
+                <input type="confirm_password"  id="confirm_password" placeholder="Confirm Password" class="form__input" />
+
+            </div>
+
+
+            <div class="form__group">
+                <input type="file" class="hidden" />
+                <div>
+                    <label for="file">Profile Picture</label>
+                </div>
+
+            </div>
+
+            <button class="btn" v-on:click="register()" type="button">Register</button>
+        </form>
+     </div>
+</div>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
+<script src="register.js "></script>
+
+
+</body>
+</html> 
