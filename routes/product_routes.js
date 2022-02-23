@@ -149,6 +149,9 @@ routes.delete('/deleteProperty', async(req, res) => {
 })
 
 
+routes.post
+
+
 
 routes.post('/uploadpicture', async(req, res) => {
 
