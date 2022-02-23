@@ -16,7 +16,7 @@
           "@bbob/preset-html5": "^2.8.0",
           "@bbob/preset-vue": "^2.8.0",
           "@bbob/vue2": "^2.8.0",
-          "all": "^0.0.0",
+          "all": "0.0.0",
           "bcrypt": "^5.0.1",
           "dotenv": "^15.0.0",
           "express": "^4.17.2",

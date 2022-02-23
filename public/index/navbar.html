@@ -13,6 +13,7 @@
                </div>
                <div class="right nav-side">
                     <a href="#">About</a>
+                    <a href="register"> <input type="submit" value="Sign up"> </a>
                     <a href="#" class="a-icon" id="search-icon">
                          <span class="bi bi-search"></span>
                          <input type="text" id="searchbar" style="display:none" value="TEST SEARCH">
@@ -52,7 +53,10 @@
 
           <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
                <h2>Do loging</h2>
-               <h3>{{ loggedin }}</h3>
+               <h3>{{ loggedin }}</h3>  
+               <div>
+                    <p> Name: {{ loggedin.name}} </p>
+               </div>
 
                <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
                <button v-if="!loggedin.type" v-on:click="logOut()">LOG OUT</button>
