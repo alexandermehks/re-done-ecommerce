@@ -45,7 +45,6 @@ const registervm = new Vue({
                                        data: user,
                                        success: (result) => {
                                         window.location.assign("success")
-                                        alert("User created successfully")
 
                                        }
 
