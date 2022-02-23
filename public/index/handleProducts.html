@@ -157,10 +157,10 @@
                                 <div style="background: red; border:1px solid black; padding: 3px;">
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2" role="group" aria-label="First group" style="padding-right: 10px;">
-                                      <button type="button" class="btn btn-secondary"><span class="bi  bi-type-bold"></span></button>
-                                      <button type="button" class="btn btn-secondary"><span class="bi  bi-type-italic"></span></button>
-                                      <button type="button" class="btn btn-secondary"><span class="bi  bi-type-underline"></span></button>
-                                      <button type="button" class="btn btn-secondary"><span class="bi  bi-line"></span></button>
+                                      <button v-on:click="bbClick('bold', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-bold"></span></button>
+                                      <button v-on:click="bbClick('italic', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-italic"></span></button>
+                                      <button v-on:click="bbClick('underline', 'productDescriptionEdit')" type="button" class="btn btn-secondary"><span class="bi bi-type-underline"></span></button>
+                                      <button v-on:click="bbClick('newline', 'productDescriptionEdit')"type="button" class="btn btn-secondary"><span class="bi bi-line"></span></button>
                                     </div>
                                     <div class="btn-group mr-2" role="group" aria-label="Second group" style="padding-right: 10px;">
                                       <button type="button" class="btn btn-secondary"><span class="bi bi-text-left"></span></button>

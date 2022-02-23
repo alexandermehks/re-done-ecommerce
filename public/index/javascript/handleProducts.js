@@ -457,6 +457,51 @@ const vm = new Vue({
         updateDomPictures() {
             //updateDomPic()
 
+        },
+        bbClick(action, textarea){
+            console.log(action, textarea)
+
+
+            var textarea = document.getElementById(textarea);  
+            var selection = (textarea.value).substring(textarea.selectionStart,textarea.selectionEnd);
+            var startSubString = (textarea.value).substring(0,textarea.selectionStart);
+            var endSubString = (textarea.value).substring(textarea.selectionEnd,textarea.length);
+
+            let start_tag = ""
+            let end_tag = ""
+
+            if(action == "bold") {
+                start_tag = "[b]"
+                end_tag = "[/b]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if(action == "italic") {
+                start_tag = "[i]"
+                end_tag = "[/i]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if(action == "underline") {
+                start_tag = "[u]"
+                end_tag = "[/u]"
+                let newstring = startSubString + start_tag + selection + end_tag + endSubString
+                textarea.value = newstring;
+            } else if(action == "newline"){
+                let start_tag = "\n[br][/br]\n"
+                let newstring = startSubString + selection + start_tag + endSubString
+                textarea.value = newstring;
+            }
+
+            
+  
+            
+
+
+
+
+
+
+
+
         }
 
 

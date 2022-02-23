@@ -147,6 +147,30 @@ var parserTags = {
 			return '</span>';
 		}
 	},
+	'center': {
+		openTag: function(params,content) {
+			return '<p style="text-align:center; width:100%;">';
+		},
+		closeTag: function(params,content) {
+			return '</p>';
+		}
+	},
+	'right': {
+		openTag: function(params,content) {
+			return '<p style="text-align:right; width:100%;">';
+		},
+		closeTag: function(params,content) {
+			return '</p>';
+		}
+	},
+	'left': {
+		openTag: function(params,content) {
+			return '<p style="text-align:left; width:100%;">';
+		},
+		closeTag: function(params,content) {
+			return '</p>';
+		}
+	},
 	'url': {
 		openTag: function(params,content) {
 
