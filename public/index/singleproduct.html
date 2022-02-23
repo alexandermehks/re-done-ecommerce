@@ -53,13 +53,15 @@
                                 <h3>{{prodname}}</h3>
                                 <h2><b>{{product[0].price}} Kr</b></h2>
                             </div>
-                            <div>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"> ({{reviews.length}})</span>
+                            <div class="reviewstars" style="justify-content: left;">
+                                <div v-for="stars in 5 ">
+                                    <span class="fa fa-star checked" v-if="stars <= rating"></span>
+                                    <span class="fa fa-star" v-if="stars > rating"></span>
+    
+                                </div>
+                                <span>({{reviews.length}})</span>
                             </div>
+                            
 
                             <h4>Choose your size</h4>
                             <div class="sizehelpcontainer" id="sizehelpS">
@@ -93,7 +95,7 @@
 
                                 <h4>Choose in different colors</h4>
                                 <div class="colorcontainer">
-                                    <div style="margin-right: 4px " v-for="pic in product">
+                                    <div style="margin-right: 4px " v-for="pic in colors">
                                         <img class="card-img-top picsmall choscol" v-bind:id="pic.propID" v-bind:src="pic.picURL" v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.colorID)">
 
                                     </div>
@@ -160,17 +162,14 @@
                                     <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bassenilsson93@gmail.com">
                                 </div>
                                 <p>Rate the product</p>
-                                <div class="starscontainer">
-
-                                    <div>
-                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star1" onclick=changeStarColor(id)></span>
-                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star2" onclick=changeStarColor(id)></span>
-                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star3" onclick=changeStarColor(id)></span>
-                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star4" onclick=changeStarColor(id)></span>
-                                        <span class="fa fa-star stars" style="font-size: 30px;" id="star5" onclick=changeStarColor(id)></span>
-
+                                <div class="starscontainer writereviewstars">
+                                    <p class="arr" v-on:click="reviewStarsDown()"><i class="arrow_left left"></i></p>
+                                    <div v-for="stars in 5 ">
+                                        <span class="fa fa-star checked fa-2x starsizer" v-if="stars <= reviewrating"></span>
+                                        <span class="fa fa-star starsizer fa-2x" v-if="stars > reviewrating"></span>
+        
                                     </div>
-                                    <p class="arr"><i class="arrow right"></i></p>
+                                    <p class="arr" v-on:click="reviewStarsUp()"><i class="arrow_right right"></i></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Write Review</label>
@@ -189,8 +188,8 @@
                                 <div class="review2">{{review.comment}}</div>
                                 <div class="review3">
                                     <div v-for="stars in 5 ">
-                                        <span class="fa fa-star checked" v-if="stars <= review.ratingnumber"></span>
-                                        <span class="fa fa-star" v-if="stars > review.ratingnumber"></span>
+                                        <span class="fa fa-star checked" v-if="stars <= rating"></span>
+                                        <span class="fa fa-star" v-if="stars > rating"></span>
 
                                     </div>
                                     <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
