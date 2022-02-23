@@ -19,6 +19,7 @@ const vm = new Vue({
         },
         shoeSizes: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
 
+
     },
 
     mounted() {
@@ -136,18 +137,18 @@ const vm = new Vue({
 
         },
         getProductPropertiesByProduct() {
-            res = {};
+            let ress = {};
             for (const i in this.products) {
                 const product = this.products[i];
-                if (product.prodID in res) {
-                    res[product.prodID].push(product)
+                if (product.prodID in ress) {
+                    ress[product.prodID].push(product)
                 } else {
-                    res[product.prodID] = [product]
+                    ress[product.prodID] = [product]
                 }
 
 
             }
-            this.productsObj = res;
+            this.productsObj = ress;
 
 
         },
@@ -205,7 +206,7 @@ const vm = new Vue({
 
 
 
-
+            this.updateDomPictures();
 
 
         },
@@ -326,6 +327,7 @@ const vm = new Vue({
                     this.handleProduct.price = price;
                     this.handleProduct.description = desc;
                     this.handleProduct.specification = spec;
+                    this.updateDomPictures();
                     //$("#editProductOverlay").fadeOut();
                 }.bind(this),
                 error: function() {
@@ -390,7 +392,11 @@ const vm = new Vue({
         },
         clickHandle(product) {
             this.handleProduct = product;
-            $("#editProductOverlay").fadeIn();
+
+            $("#editProductOverlay").fadeIn(function() {
+                console.log("We are faded in")
+                this.updateDomPictures();
+            }.bind(this));
 
 
 
@@ -443,6 +449,10 @@ const vm = new Vue({
                 }.bind(this)
 
             });
+        },
+        updateDomPictures() {
+            //updateDomPic()
+
         }
 
 
@@ -451,7 +461,6 @@ const vm = new Vue({
 
     }
 })
-
 
 $(document).ready(function() {
 

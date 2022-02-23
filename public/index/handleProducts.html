@@ -180,12 +180,12 @@
                             </form>
                         </div>
                         <div class="col" style="overflow: auto; background-color: rgb(232 230 226);; padding: 10px;">
-                            <div style="width: 100%; display: flex">
+                            <div style="width: 100%; display: flex" class="drag-container">
 
-                                <div v-for="picture in handleProduct.pictures" style="background-color: white;border: 1px solid rgb(190, 190, 190); margin-left: 5px; border-radius: 7px; padding: 6px;">
+                                <div class="draggable-box" draggable="true" v-for="picture in handleProduct.pictures" style="background-color: white;border: 1px solid rgb(190, 190, 190); margin-left: 5px; border-radius: 7px; padding: 6px;">
                                     <i class="bi bi-x-lg" style="color: red; font-size: 18px; cursor: pointer;" v-on:click="removeImage(picture)"></i> Id: {{picture.picID}}
                                     <br>
-                                    <img v-bind:src="picture.pictureURL" style="max-width: 170px">
+                                    <img v-bind:src="picture.pictureURL" class="no-drag" style="max-width: 170px">
                                 </div>
                             </div>
 
@@ -328,6 +328,8 @@
 
 
             </div>
+            <div>
+            </div>
             <div id=" footer "></div>
         </div>
 
@@ -338,7 +340,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
-    <script src="javascript/handleProducts.js "></script>
+
+    <script type="module" src="javascript/handleProducts.js "></script>
+
 
     <script src="javascript/nav.js "></script>
 
