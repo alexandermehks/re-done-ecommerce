@@ -25,9 +25,11 @@ const vm = new Vue({
         prodname: "",
         sizes: [],
         colors: [],
+        colors1: {},
         order: [{
             "prodID": "None",
-            "propID": "None",
+            "propID": 0,
+            "quantity": "None"
 
 
         }],
@@ -64,11 +66,13 @@ const vm = new Vue({
 
                         } else {
                             this.sizes.push(this.product[i].size)
+                            let val = this.product[i].propID
+                            this.colors1[val] = this.product[i].size
                         }
 
                     }
                 }
-                //this.sizes.sort();
+                this.order.propID = 0
 
 
             },
@@ -159,10 +163,11 @@ changeColor: function(id) {
     $('#' + id).css({
         'background-color': 'lightgrey'
     });
+    
 
 },
 updateCorrectSizes: function(colorID) {
-
+    this.colors1 = {}
     this.sizes = []
     for (var i = 0; i < this.product.length; i++) {
 
@@ -172,10 +177,14 @@ updateCorrectSizes: function(colorID) {
             } else {
 
                 this.sizes.push(this.product[i].size)
+                let val = this.product[i].propID
+                this.colors1[val] = this.product[i].size
             }
 
         }
     }
+    this.order.propID = 0;
+    console.log(this.colors1)
 
     //this.sizes.sort();
     $("#sizecontainer").load(window.location.href + " #sizecontainer");
@@ -201,13 +210,14 @@ reviewStarsDown: function() {
 postReview() {
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+    console.log(date)
 
 
     const data = {
         "userID": "0170d36a-78c3-4765-b515-56a6d700bcad",
         "prodID": this.product[0].prodID,
-        "ratingnumber": 2,
-        "comment": $('#comment').val(),
+        "ratingnumber": this.reviewrating,
+        "comment": date,
         "date": date
     }
     console.log(data)
@@ -228,8 +238,26 @@ postReview() {
 
 
 },
-
+addToCart: function(propID) {
+    
+    this.order.prodID = this.product[0].prodID
+    if(this.order.propID === 0){
+        alert("Please choose a size")
     }
+    console.log(this.order.propID)
+    
+    },
+
+    updateOrder: function(propID) {
+        this.order.propID = propID
+        
+        console.log(this.order)
+        },
+
+
+}
+
+    
 
 
 
