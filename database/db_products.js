@@ -590,6 +590,18 @@ const addReview = async(review) => {
     }
 }
 
+const searchBar = async(search) => {
+    console.log(search)
+    try{
+        const dbConnection = await dbPromise;
+        const res = await dbConnection.run
+
+    } catch (error){
+        res.sendStatus(400, "something went wrong")
+    }
+
+}
+
 
 
 
@@ -617,7 +629,8 @@ module.exports = {
     removeProperty: removeProperty,
     getReviewsByProdID: getReviewsByProdID,
     addReview: addReview,
-    getAllCategories: getAllCategories
+    getAllCategories: getAllCategories,
+    searchBar: searchBar
 
 
 }
