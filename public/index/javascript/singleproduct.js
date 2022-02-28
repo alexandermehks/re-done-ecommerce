@@ -10,7 +10,7 @@ function changeStarColor(id) {
 
 
 
-$(function () {
+$(function() {
     $("#navbar").load("navbar.html");
 });
 
@@ -21,7 +21,7 @@ const vm = new Vue({
         product: [],
         reviews: [],
         rating: 0,
-        reviewrating : 0,
+        reviewrating: 0,
         prodname: "",
         sizes: [],
         colors: [],
@@ -40,6 +40,11 @@ const vm = new Vue({
         console.log("HELLO?")
     },
     methods: {
+        getBBHTML(bbcode) {
+            //Replace all new lines with [br] tag
+            const res = bbcode.replace(/(\r\n|\r|\n)/g, '[br][/br]');
+            return BBCodeParser.process(res);
+        },
         loadProduct(id) {
             //Load  questions
             $.ajax({
@@ -51,31 +56,39 @@ const vm = new Vue({
                     this.order.prodID = data[0].prodID
                     var checker = []
                     for (var i = 0; i < data.length; i++) {
-                        
-                    
-                    if (jQuery.inArray(this.product[i].colorID, checker) == -1) {
-
-                        this.colors.push(this.product[i])
-                        checker.push(this.product[i].colorID)
-                        console.log(checker)
-                    }
 
 
-                    if (this.product[i].colorID === this.product[0].colorID) {
-                        if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+                        if (jQuery.inArray(this.product[i].colorID, checker) == -1) {
+
 
                         } else {
                             this.sizes.push(this.product[i].size)
                             let val = this.product[i].propID
                             this.colors1[val] = this.product[i].size
+
+                            this.colors.push(this.product[i])
+                            checker.push(this.product[i].colorID)
+                            console.log(checker)
+
                         }
 
+
+                        if (this.product[i].colorID === this.product[0].colorID) {
+                            if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+
+                            } else {
+                                this.sizes.push(this.product[i].size)
+                            }
+
+                        }
                     }
+
                 }
                 this.order.propID = 0
 
 
-            },
+
+                },
                 error: (data) => {
                     console.log("AAA")
                     return null
@@ -84,80 +97,74 @@ const vm = new Vue({
 
             //update questions
         },
-loadReviews(id) {
-    //Load  questions
+        loadReviews(id) {
+            //Load  questions
 
-    $.ajax({
-        url: 'products/reviewsByProdId/' + id,
-        type: 'GET',
-        success: (result) => {
-            this.reviews = result
-            var totalrating = 0
-            for (var i = 0; i < this.reviews.length; i++) {
-                totalrating += this.reviews[i].ratingnumber
-            }
-            this.rating = (totalrating / this.reviews.length).toFixed(2)
-            console.log(this.rating)
+            $.ajax({
+                url: 'products/reviewsByProdId/' + id,
+                type: 'GET',
+                success: (result) => {
+                    this.reviews = result
+                    var totalrating = 0
+                    for (var i = 0; i < this.reviews.length; i++) {
+                        totalrating += this.reviews[i].ratingnumber
+                    }
+                    this.rating = (totalrating / this.reviews.length).toFixed(2)
+                    console.log(this.rating)
+                },
+                error: (data) => {
+                    console.log(data)
+                    return null
+                }
+            });
+
+            //update questions
         },
-        error: (data) => {
-            console.log(data)
-            return null
-        }
-    });
-
-    //update questions
-},
-openReviewContainer: function() {
-    $("#reviewform").slideToggle();
-},
+        openReviewContainer: function() {
+            $("#reviewform").slideToggle();
+        },
 
 
 
-updatePicturePick: function(id) {
-    for (var i = 0; i < this.product.length; i++) {
-        console.log("aWD")
-        $('#' + this.product[i].propID).css({
-            'border': '0px solid black'
-        });
-    }
+        updatePicturePick: function(id) {
+            for (var i = 0; i < this.product.length; i++) {
+                console.log("aWD")
+                $('#' + this.product[i].propID).css({
+                    'border': '0px solid black'
+                });
+            }
 
-    $('#' + id).css({
-        'border': '1px solid black'
-    });
+            $('#' + id).css({
+                'border': '1px solid black'
+            });
 
-},
-updateSizePick: function(id, products) {
-    for (var i = 0; i < this.product.length; i++) {
-        $('#' + this.product[i].propID + "1").css({
-            'background-color': 'white'
-        });
-    }
-    $('#' + id + "1").css({
-        'background-color': 'lightgrey'
-    });
-
-
-},
-updatePicture: function(url) {
-    $("#picbig").attr('src', url);
+        },
+        updateSizePick: function(id, products) {
+            for (var i = 0; i < this.product.length; i++) {
+                $('#' + this.product[i].propID + "1").css({
+                    'background-color': 'white'
+                });
+            }
+            $('#' + id + "1").css({
+                'background-color': 'lightgrey'
+            });
 
 
-},
-updatePictureColor: function(url) {
-    $("#picbig").attr('src', url);
-    for (var i = 0; i < this.product.length; i++) {
-        $('#' + this.product[i].size).css({
-            'background-color': 'white'
-        });
+        },
+        updatePicture: function(url) {
+            $("#picbig").attr('src', url);
 
-    }
 
-},
-changeColor: function(id) {
-    for (var i = 0; i < this.product.length; i++) {
-        $('#' + this.product[i].size).css({
-            'background-color': 'white'
-        });
+        },
+        updatePictureColor: function(url) {
+            $("#picbig").attr('src', url);
+            for (var i = 0; i < this.product.length; i++) {
+                $('#' + this.product[i].size).css({
+                    'background-color': 'white'
+                });
+
+            }
+
 
     }
     $('#' + id).css({
@@ -171,10 +178,28 @@ updateCorrectSizes: function(colorID) {
     this.sizes = []
     for (var i = 0; i < this.product.length; i++) {
 
-        if (this.product[i].colorID === colorID) {
-            if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+        },
+        changeColor: function(id) {
+            for (var i = 0; i < this.product.length; i++) {
+                $('#' + this.product[i].size).css({
+                    'background-color': 'white'
+                });
 
-            } else {
+            }
+            $('#' + id).css({
+                'background-color': 'lightgrey'
+            });
+
+        },
+        updateCorrectSizes: function(colorID) {
+
+
+            this.sizes = []
+            for (var i = 0; i < this.product.length; i++) {
+
+                if (this.product[i].colorID === colorID) {
+                    if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+
 
                 this.sizes.push(this.product[i].size)
                 let val = this.product[i].propID
@@ -186,31 +211,46 @@ updateCorrectSizes: function(colorID) {
     this.order.propID = 0;
     console.log(this.colors1)
 
-    //this.sizes.sort();
-    $("#sizecontainer").load(window.location.href + " #sizecontainer");
+                    } else {
 
-},
-reviewStarsUp: function() {
-    if(this.reviewrating <5){
-        this.reviewrating += 1
-        $("#writereviewstars").load(window.location.href + " #writereviewstars");
-    }
+                        this.sizes.push(this.product[i].size)
+                    }
 
 
-},
-reviewStarsDown: function() {
-    if(this.reviewrating >= 0){
-        this.reviewrating -= 1
-        $("#writereviewstars").load(window.location.href + " #writereviewstars");
-    }
+                }
+            }
+
+            //this.sizes.sort();
+            $("#sizecontainer").load(window.location.href + " #sizecontainer");
+
+        },
+        reviewStarsUp: function() {
+            if (this.reviewrating < 5) {
+                this.reviewrating += 1
+                $("#writereviewstars").load(window.location.href + " #writereviewstars");
+            }
 
 
-},
+        },
+        reviewStarsDown: function() {
+            if (this.reviewrating >= 0) {
+                this.reviewrating -= 1
+                $("#writereviewstars").load(window.location.href + " #writereviewstars");
+            }
+
+
 
 postReview() {
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
     console.log(date)
+
+        },
+
+
+        postReview() {
+            const current = new Date();
+            const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
 
 
     const data = {
@@ -229,12 +269,30 @@ postReview() {
             console.log("Review was added")
             location.reload();
 
-        },
-        error: function () {
-            console.log("error")
-        }
 
-    });
+            const data = {
+                "userID": "0170d36a-78c3-4765-b515-56a6d700bcad",
+                "prodID": this.product[0].prodID,
+                "ratingnumber": 2,
+                "comment": $('#comment').val(),
+                "date": date
+            }
+            console.log(data)
+            $.ajax({
+                url: 'products/addReview',
+                method: "POST",
+                data: data,
+                success: () => {
+                    console.log("Review was added")
+                    location.reload();
+
+                },
+                error: function() {
+                    console.log("error")
+                }
+
+            });
+
 
 
 },
@@ -243,6 +301,10 @@ addToCart: function(propID) {
     this.order.prodID = this.product[0].prodID
     if(this.order.propID === 0){
         alert("Please choose a size")
+
+        },
+
+
     }
     console.log(this.order.propID)
     

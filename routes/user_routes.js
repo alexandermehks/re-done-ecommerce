@@ -52,7 +52,8 @@ routes.post('/register', async (req, res) => {
      try {
           const salt = await bcrypt.genSalt();
           const hashedPassword = await bcrypt.hash(req.body.password, salt)
-          const addUser = await dbService.addUser(req.body.email, hashedPassword, req.body.name)
+          const addUser = await dbService.addUser(req.body.email, hashedPassword, req.body.username)
+          res.send("OK")
 
      }
      catch (error) {

@@ -19,6 +19,9 @@ const dbPromise = (async () => {
 
 
 
+
+
+
 /**
  * 
  * @returns {Users from the database}
@@ -67,8 +70,16 @@ const comparePassword = async (email, password) => {
      try {
           const dbConnection = await dbPromise;
           const user = await dbConnection.get(`SELECT email,password FROM user WHERE email=(?)`, [email]);
-          const compare = await bcrypt.compare(password, user.password)
-          return compare
+          if (user){
+               console.log("USER FINNS")
+               const compare = await bcrypt.compare(password, user.password)
+               return compare     
+          }
+          else{
+              console.log("USER FINNS EJ")
+              return false 
+          }
+          
 
      }
      catch (error) {

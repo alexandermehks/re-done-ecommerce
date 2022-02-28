@@ -75,12 +75,13 @@ const getOnlyProducts = async() => {
             url = []
             const pictures = await getPicture(products[i].prodID);
 
-            for (j in pictures) {
-                url.push(pictures[j].pictureURL)
-            }
+
+            await asyncForEach(pictures, async(pic) => {
+                url.push(pic.pictureURL)
+            });
 
             if (url.length == 0)
-                url = ["images/product-placeholder.jpg"]
+                url = ["images/producty-placeholder.jpg"]
             products[i]["url"] = url;
             products[i]["pictures"] = pictures
 
@@ -98,7 +99,31 @@ const getOnlyProducts = async() => {
     }
 };
 
+//Get all categories
+const getAllCategories = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const categories = await dbConnection.all("SELECT * FROM category");
+        let res = {}
+        await asyncForEach(categories, async(category) => {
+            if (category.isParentCategory == 1) {
+                category["sub"] = []
+                res[category.catID] = category;
+            }
+        });
 
+        await asyncForEach(categories, async(category) => {
+            if (category.isParentCategory != 1) {
+                res[category.parentCategory]["sub"].push(category)
+            }
+        });
+
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+};
 
 
 /**
@@ -202,9 +227,10 @@ const generateListOfProductTypes = async(products) => {
 
                 url = []
                 const pictures = await getPicture(newprod.prodID);
-                for (j in pictures) {
-                    url.push(pictures[j].pictureURL)
-                }
+                await asyncForEach(pictures, async(pic) => {
+                    url.push(pic.pictureURL)
+                });
+
 
 
 
@@ -590,7 +616,8 @@ module.exports = {
     removeProduct: removeProduct,
     removeProperty: removeProperty,
     getReviewsByProdID: getReviewsByProdID,
-    addReview: addReview
+    addReview: addReview,
+    getAllCategories: getAllCategories
 
 
 }

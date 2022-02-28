@@ -13,7 +13,6 @@ const vm = new Vue({
         $(function() {
             $("#navbar").load("navbar.html");
             $("#footer").load("footer.html");
-            //F
         });
 
 
