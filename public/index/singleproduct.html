@@ -57,11 +57,11 @@
                                 <div v-for="stars in 5 ">
                                     <span class="fa fa-star checked" v-if="stars <= rating"></span>
                                     <span class="fa fa-star" v-if="stars > rating"></span>
-    
+
                                 </div>
                                 <span>({{reviews.length}})</span>
                             </div>
-                            
+
 
                             <h4>Choose your size</h4>
                             <div class="sizehelpcontainer" id="sizehelpS">
@@ -123,16 +123,12 @@
                     <div class="infoborder"></div>
                 </div>
                 <div class="card-body infocontainer">
-                    <div class="textborder">{{product[0].description}}
+                    <div class="textborder" v-html="getBBHTML(product[0].description)">
 
                     </div>
 
-                    <div class="textborder">
-                        <ul>
-                            <li>{{product[0].specification}}</li>
+                    <div class="textborder" v-html="getBBHTML(product[0].specification)">
 
-
-                        </ul>
                     </div>
                 </div>
                 <div class="card-body infocontainer">
@@ -167,7 +163,7 @@
                                     <div v-for="stars in 5 ">
                                         <span class="fa fa-star checked fa-2x starsizer" v-if="stars <= reviewrating"></span>
                                         <span class="fa fa-star starsizer fa-2x" v-if="stars > reviewrating"></span>
-        
+
                                     </div>
                                     <p class="arr" v-on:click="reviewStarsUp()"><i class="arrow_right right"></i></p>
                                 </div>
@@ -239,7 +235,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="javascript/nav.js "></script>
     <script src="javascript/singleproduct.js "></script>
-
+    <script src="bb/bbcode-config.js"></script>
+    <script src="bb/bbcode-parser.js"></script>
 
 
     <script type="text/javascript">
