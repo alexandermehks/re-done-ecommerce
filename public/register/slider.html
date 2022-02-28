@@ -1,48 +1,97 @@
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - youtube.com/codingnepal -->
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">  
+
+<head>
+    <meta charset="utf-8">
     <title>Price Range Slider | CodingNepal</title>
     <link rel="stylesheet" href="slider.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="wrapper">
-      <div id="sliderapp">
-        <header>
-          <h2>Price Range</h2>
-          <p>Use slider or enter min and max price</p>
-        </header>
-        <div class="price-input">
-          <div class="field">
-            <span>Min</span>
-            <input type="number" class="input-min" id="input-min"value="0">
-          </div>
-          <div class="separator">-</div>
-          <div class="field">
-            <span>Max</span>
-            <input type="number" class="input-max" id="input-max" value="5000">
-          </div>
+        <div id="sliderapp">
+            <header>
+                <h2>Price Range</h2>
+                <p>Use slider or enter min and max price</p>
+            </header>
+            <div class="price-input">
+                <div class="field">
+                    <span>Min</span>
+                    <input type="number" class="input-min" id="input-min" v-bind:value="minval">
+                </div>
+                <div class="separator">-</div>
+                <div class="field">
+                    <span>Max</span>
+                    <input type="number" class="input-max" id="input-max" v-bind:value="maxval">
+                </div>
+            </div>
+            <div class="slider">
+                <div class="progress"></div>
+            </div>
+            <div class="range-input">
+                <input type="range" class="range-min" min="0" max="5000" value="0" step="100" v-modal="minval">
+                <input type="range" class="range-max" min="0" max="5000" value="7500" step="100" v-modal="maxval" ref="inputmax">
+            </div>
+            <button v-on:click="getValues(minval,maxval)">CLICK ME</button>
+            <div>
+                <span>Multiline message is:</span>
+                <p style="white-space: pre-line;">{{ message }}</p>
+                <br>
+                <textarea v-model="message" placeholder="add multiple lines"></textarea>
+            </div>
         </div>
-        <div class="slider">
-          <div class="progress"></div>
-        </div>
-        <div class="range-input">
-          <input type="range" class="range-min" min="0" max="5000" value="0" step="100">
-          <input type="range" class="range-max" min="0" max="5000" value="7500" step="100">
-        </div>
-        <button v-on:click="getValues()">CLICK ME</button>
+
     </div>
-  </div>
     <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
-    <script src="slider.vue"></script>
-   
+    <script>
+        const slidervm = new Vue({
+            el: "#sliderapp",
+            data: {
+                minval: 0,
+                maxval: 0,
+                message: ""
+            },
 
 
-   <vue-range-slider v-model="value" :min="min" :max="max" :formatter="formatter"></vue-range-slider> 
-  </body>
+            methods: {
+
+
+                getValues(min, max) {
+                    //let min = document.getElementById("input-min").value;
+                    //let max = document.getElementById("input-max").value;
+                    console.log(this.minval)
+                    console.log("MIN:", min, " MAX:", max)
+                    console.log(this.$refs)
+
+
+
+                }
+
+
+            },
+
+
+            mounted() {
+
+
+            }
+
+
+
+
+
+        });
+    </script>
+    <script src="slider.js"></script>
+
+
+
+    <vue-range-slider v-model="value" :min="min" :max="max" :formatter="formatter"></vue-range-slider>
+</body>
+
 </html>

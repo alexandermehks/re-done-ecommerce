@@ -66,7 +66,7 @@ const getColors = async() => {
 const getOnlyProducts = async() => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        const products = await dbConnection.all("SELECT * FROM product");
         const allColors = await getColors();
         for (i in products) {
             products[i]["allColors"] = allColors
@@ -118,6 +118,9 @@ const getAllCategories = async() => {
             }
         });
 
+
+
+
         return res;
     } catch (error) {
         console.log(error)
@@ -133,7 +136,7 @@ const getAllCategories = async() => {
 const getProducts = async() => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        const products = await dbConnection.all("SELECT * FROM product");
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -145,7 +148,7 @@ const getProducts = async() => {
 const getProductsByProdID = async(prodID) => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all(`SELECT prodId, name, type, price, description, specification FROM product WHERE prodID = (?)`, [prodID]);
+        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?)`, [prodID]);
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -275,7 +278,7 @@ const addProduct = async(data) => {
         const dbConnection = await dbPromise;
 
         console.log("Inserted into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification) VALUES (?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification, catID) VALUES (?,?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification, data.catID])
         return response, data.prodID
 
     } catch (error) {
@@ -289,11 +292,12 @@ const editProduct = async(data) => {
         const dbConnection = await dbPromise;
 
         console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.prodID])
+        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ?, catID = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.catID, data.prodID])
         return response
 
     } catch (error) {
-        res.sendStatus(400, "Something went wrong")
+        console.log(error)
+        res.sendStatus(400, "Something went wrong", error)
     }
 }
 
