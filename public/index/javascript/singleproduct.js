@@ -25,9 +25,11 @@ const vm = new Vue({
         prodname: "",
         sizes: [],
         colors: [],
+        colors1: {},
         order: [{
             "prodID": "None",
-            "propID": "None",
+            "propID": 0,
+            "quantity": "None"
 
 
         }],
@@ -58,9 +60,16 @@ const vm = new Vue({
 
                         if (jQuery.inArray(this.product[i].colorID, checker) == -1) {
 
+
+                        } else {
+                            this.sizes.push(this.product[i].size)
+                            let val = this.product[i].propID
+                            this.colors1[val] = this.product[i].size
+
                             this.colors.push(this.product[i])
                             checker.push(this.product[i].colorID)
                             console.log(checker)
+
                         }
 
 
@@ -73,7 +82,10 @@ const vm = new Vue({
 
                         }
                     }
-                    //this.sizes.sort();
+
+                }
+                this.order.propID = 0
+
 
 
                 },
@@ -153,6 +165,19 @@ const vm = new Vue({
 
             }
 
+
+    }
+    $('#' + id).css({
+        'background-color': 'lightgrey'
+    });
+    
+
+},
+updateCorrectSizes: function(colorID) {
+    this.colors1 = {}
+    this.sizes = []
+    for (var i = 0; i < this.product.length; i++) {
+
         },
         changeColor: function(id) {
             for (var i = 0; i < this.product.length; i++) {
@@ -168,16 +193,29 @@ const vm = new Vue({
         },
         updateCorrectSizes: function(colorID) {
 
+
             this.sizes = []
             for (var i = 0; i < this.product.length; i++) {
 
                 if (this.product[i].colorID === colorID) {
                     if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
 
+
+                this.sizes.push(this.product[i].size)
+                let val = this.product[i].propID
+                this.colors1[val] = this.product[i].size
+            }
+
+        }
+    }
+    this.order.propID = 0;
+    console.log(this.colors1)
+
                     } else {
 
                         this.sizes.push(this.product[i].size)
                     }
+
 
                 }
             }
@@ -201,11 +239,35 @@ const vm = new Vue({
             }
 
 
+
+postReview() {
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+    console.log(date)
+
         },
+
 
         postReview() {
             const current = new Date();
             const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
+
+    const data = {
+        "userID": "0170d36a-78c3-4765-b515-56a6d700bcad",
+        "prodID": this.product[0].prodID,
+        "ratingnumber": this.reviewrating,
+        "comment": date,
+        "date": date
+    }
+    console.log(data)
+    $.ajax({
+        url: 'products/addReview',
+        method: "POST",
+        data: data,
+        success: () => {
+            console.log("Review was added")
+            location.reload();
 
 
             const data = {
@@ -232,9 +294,32 @@ const vm = new Vue({
             });
 
 
+
+},
+addToCart: function(propID) {
+    
+    this.order.prodID = this.product[0].prodID
+    if(this.order.propID === 0){
+        alert("Please choose a size")
+
         },
 
+
     }
+    console.log(this.order.propID)
+    
+    },
+
+    updateOrder: function(propID) {
+        this.order.propID = propID
+        
+        console.log(this.order)
+        },
+
+
+}
+
+    
 
 
 

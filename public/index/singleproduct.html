@@ -81,16 +81,16 @@
                             </div>
 
                             <div class="sizecontainer">
-                                <div v-for="size in sizes">
-
-                                    <div class="sizes" v-on:click="changeColor(size)" v-bind:id="size">{{size}}
+                                <div v-for="(key,value) in colors1">
+                                    <div class="sizes" v-on:click="changeColor(key), updateOrder(value)" v-bind:id="key">{{key}}
                                     </div>
 
                                 </div>
 
 
                             </div>
-                            <button class="buybutton">Add To Cart</button>
+                            <div class = "choosesize" style = "display: None;">Please choose a size</div>
+                            <button class="buybutton" v-on:click="addToCart(1,2,3)">Add To Cart</button>
                             <div>
 
                                 <h4>Choose in different colors</h4>
@@ -184,8 +184,8 @@
                                 <div class="review2">{{review.comment}}</div>
                                 <div class="review3">
                                     <div v-for="stars in 5 ">
-                                        <span class="fa fa-star checked" v-if="stars <= rating"></span>
-                                        <span class="fa fa-star" v-if="stars > rating"></span>
+                                        <span class="fa fa-star checked" v-if="stars <= review.ratingnumber"></span>
+                                        <span class="fa fa-star" v-if="stars > review.ratingnumber"></span>
 
                                     </div>
                                     <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
