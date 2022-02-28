@@ -259,6 +259,20 @@ routes.delete('/deletePicture', async(req, res) => {
 })
 
 
+routes.post('/search', async(req, res) =>{
+    try{
+        console.log(req.body)
+
+        var search_arg = req.body;
+
+
+    } catch(error){
+        console.log("Something went wrong")
+    }
+
+})
+
+
 
 
 

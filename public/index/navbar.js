@@ -55,6 +55,23 @@ const navbarvm = new Vue({
           },
 
 
+          search(){
+               var search_arg = document.getElementById('search-input').value;
+          
+               console.log(obj)
+               $.ajax({
+                    url: '/products/search',
+                    type: 'POST',
+                    data: search_arg,
+                    success: (result) => {
+                         console.log("HEJ")
+                    }
+               })
+          }
+
+
+
+
 
      },
 
