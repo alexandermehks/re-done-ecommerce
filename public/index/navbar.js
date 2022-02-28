@@ -74,7 +74,7 @@ const navbarvm = new Vue({
                              if(result[v].prodID in final){
                                    final[result[v].prodID].push(result[v]);
                              }else{
-                              final[result[v].prodID] = [result[v]];
+                                   final[result[v].prodID] = [result[v]];
 
                              }
                          }
