@@ -21,7 +21,15 @@ const vm = new Vue({
         bb: "[b]HEJ[/b] vanlig [i]Fuck off börje[/i]",
         new_prod_desc_rendered: "",
         new_prod_spec_rendered: "",
-        categories: {}
+        categories: {},
+        classNameToCatID: {
+            "shoes": 1,
+            "sweater": 4,
+            "pants": 2,
+            "tshirt": 3,
+        },
+        choosenCatIdAdd: 1
+
 
 
     },
@@ -60,6 +68,32 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.categories = result;
+
+                    let res = []
+
+                    for (let i in result) {
+                        let cat = result[i];
+                        cat.htmltext = cat.category_name
+                        res.push(cat)
+                        for (let c in cat.sub) {
+                            let cat2 = cat.sub[c];
+                            cat2.htmltext = "- &nbsp;&nbsp;&nbsp;&nbsp;" + cat2.category_name
+                            res.push(cat2);
+                        }
+                    }
+
+
+
+                    this.categories = res;
+
+
+
+
+
+
+
+
+
                 }
             })
         },
@@ -94,6 +128,7 @@ const vm = new Vue({
                         let product = this.onlyProducts[i];
                         if (product.prodID == this.handleProduct.prodID) {
                             this.handleProduct = product;
+                            this.choosenCatIdAdd = this.handleProduct;
                             break;
                         }
                     }
@@ -234,7 +269,7 @@ const vm = new Vue({
             const price = submitEvent.target.elements["productPrice"].value;
             const desc = submitEvent.target.elements["productDescription"].value;
             const spec = submitEvent.target.elements["productSpecification"].value;
-
+            const category = submitEvent.target.elements["productCategoryRealAdd"].value;
             //Add images
             let image = document.getElementById("file").files;
             let images = new FormData();
@@ -248,7 +283,8 @@ const vm = new Vue({
                 "type": type,
                 "price": price,
                 "description": desc,
-                "specification": spec
+                "specification": spec,
+                "catID": category
             }
 
             $.ajax({
@@ -318,6 +354,7 @@ const vm = new Vue({
             const price = submitEvent.target.elements["productPriceEdit"].value;
             const desc = submitEvent.target.elements["productDescriptionEdit"].value;
             const spec = submitEvent.target.elements["productSpecificationEdit"].value;
+            const category = submitEvent.target.elements["productCategoryReal"].value;
 
             console.log(name, type, price, desc, spec)
             const data = {
@@ -326,7 +363,8 @@ const vm = new Vue({
                 "type": type,
                 "price": price,
                 "description": desc,
-                "specification": spec
+                "specification": spec,
+                "catID": category
             }
 
             console.log("Edit", data)
@@ -347,8 +385,8 @@ const vm = new Vue({
                     this.updateDomPictures();
                     //$("#editProductOverlay").fadeOut();
                 }.bind(this),
-                error: function() {
-                    console.log("error")
+                error: function(err) {
+                    console.log("error", err)
                 }.bind(this)
 
             });
@@ -356,8 +394,6 @@ const vm = new Vue({
         },
         getFormValuesProperty(submitEvent) {
             //products/getProductPropertiesByProdAndColorID
-
-            console.log(submitEvent)
 
             let prodID = submitEvent.target.elements.propertyProdID;
             let type = submitEvent.target.elements.propertyType;
@@ -409,7 +445,7 @@ const vm = new Vue({
         },
         clickHandle(product) {
             this.handleProduct = product;
-
+            this.choosenCatIdAdd = this.handleProduct;
             $("#editProductOverlay").fadeIn(function() {
                 $('textarea').each(function() {
                     let rows = $(this).val().split(/\r\n|\r|\n/).length;
@@ -542,15 +578,9 @@ const vm = new Vue({
                 this.new_prod_spec_rendered = textarea.value
 
 
-
-
-
-
-
-
-
-
-
+        },
+        isCategoryAvailable(event) {
+            this.choosenCatIdAdd = this.classNameToCatID[event.target.value]
 
         }
 
@@ -581,6 +611,7 @@ $(document).ready(function() {
     $("#dismissRemoveProduct").click(function() {
         $("#confirm-remove-product").fadeOut();
     });
+
 
     $("#confirmRemoveProduct").click(function() {
         handleProduct = vm.handleProduct;

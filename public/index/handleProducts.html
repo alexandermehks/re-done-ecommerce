@@ -86,13 +86,20 @@
                                 <input type="text" class="form-control" id="productName" placeholder="Product Name" required>
                             </div>
                             <div class="col">
-                                <label for="productPrice" class="form-label">Product Category:</label>
-                                <select class="form-select" aria-label="Product Category" id="productType">
+                                <label for="productPrice" class="form-label">Product Class:</label>
+                                <select class="form-select" aria-label="Product Class" id="productType" @change="isCategoryAvailable($event)">
                                 <option selected value="shoes">Shoes</option>
-                                <option value="sweater">Sweater</option>
                                 <option value="pants">Pants</option>
                                 <option value="tshirt">T-shirt</option>
+                                <option value="sweater">Sweater</option>
+                                
                               </select>
+                            </div>
+                            <div class="col">
+                                <label for="productCategoryRealAdd" class="form-label">Product Category:</label>
+                                <select class="form-select" aria-label="Product Category" id="productCategoryRealAdd">
+                                    <option class="catOption" v-for="category in categories" :selected="category.catID == choosenCatIdAdd" :disabled="category.isParentCategory && (category.catID != choosenCatIdAdd) || !category.isParentCategory && (category.parentCategory != choosenCatIdAdd) " v-bind:key="category.catID" v-bind:value="category.catID" v-html="category.htmltext"></option>
+                                </select>
                             </div>
                             <div class="col">
                                 <label for="productPrice" class="form-label">Product price:</label>
@@ -139,7 +146,7 @@
                                     <textarea class="form-control" id="productDescription" rows="3" placeholder="This product is very good.." required></textarea>
                                 </div>
                                 <div class="col">
-                                    <div style="background-color: antiquewhite; height: 100%;">
+                                    <div style="padding: 5px;border: 1px solid #ced4da;border-radius: 0.25rem;background-color: #ededed; height: 100%;">
                                         <p style="margin-bottom: 0.5rem">Preview</p>
                                         <div v-html="getBBHTML(new_prod_desc_rendered)"></div>
                                     </div>
@@ -186,7 +193,7 @@
                                     <textarea class="form-control" id="productSpecification" rows="3" placeholder="Made out of wolf..." required></textarea>
                                 </div>
                                 <div class="col">
-                                    <div style="background-color: antiquewhite; height: 100%;">
+                                    <div style="padding: 5px;border: 1px solid #ced4da;border-radius: 0.25rem;background-color: #ededed; height: 100%;">
                                         <p style="margin-bottom: 0.5rem">Preview:</p>
 
                                         <div v-html="getBBHTML(new_prod_spec_rendered)"></div>
@@ -222,13 +229,20 @@
                                 <input type="text" class="form-control" id="productNameEdit" placeholder="Product Name" v-bind:value="handleProduct.name" required>
                             </div>
                             <div class="col">
-                                <label for="productPrice" class="form-label">Product Category:</label>
+                                <label for="productPrice" class="form-label">Product Class:</label>
                                 <select class="form-select" aria-label="Product Category" id="productTypeEdit" disabled>
                                 <option selected value="shoes" :selected="handleProduct.type == 'shoes'">Shoes</option>
                                 <option value="sweater" :selected="handleProduct.type == 'sweater'">Sweater</option>
                                 <option value="pants" :selected="handleProduct.type == 'pants'">Pants</option>
                                 <option value="tshirt" :selected="handleProduct.type == 'tshirt'">T-shirt</option>
                               </select>
+                            </div>
+                            <div class="col">
+                                <label for="productCategoryReal" class="form-label">Product Category:</label>
+                                <select class="form-select" aria-label="Product Category" id="productCategoryReal">
+
+                                    <option class="catOption" v-for="category in categories" v-bind:key="category.catID" :selected="handleProduct.catID == category.catID" :disabled="category.isParentCategory && (category.catID != classNameToCatID[handleProduct.type]) || !category.isParentCategory && (category.parentCategory != classNameToCatID[handleProduct.type]) " v-bind:value="category.catID" v-html="category.htmltext"></option>
+                                </select>
                             </div>
                             <div class="col">
                                 <label for="productPrice" class="form-label">Product price:</label>
@@ -379,7 +393,7 @@
                                             <option v-for="shoeSize in shoeSizes" v-bind:key="shoeSize" :selected="shoeSize == 42" v-bind:value="shoeSize">{{shoeSize}}</option>
                                         </select>
                                         <select class="form-select" aria-label="Product Category" id="propertySize" v-if="handleProduct.type != 'shoes'">
-                                            <option v-for="(sizeStr, size) in productSizes" v-bind:key="size" :selected="size == 2" v-bind:value="size">{{sizeStr}}</option>
+                                            <option  v-for="(sizeStr, size) in productSizes" v-bind:key="size" :selected="size == 2" v-bind:value="size">{{sizeStr}}</option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -456,7 +470,7 @@
 
             <div class="confirm-remove-product" id="confirm-remove-picture" style="display: none;">
                 <div style="text-align: center;">
-                    <h3>DO YOU REALLY WANNA REMOVE the PICTURE?</h3>
+                    <h3 ref="h2">DO YOU REALLY WANNA REMOVE the PICTURE?</h3>
                     <p>id: {{currentPicture.picID}}</p>
                     <img v-bind:src="currentPicture.pictureURL" style="max-height: 200px;"><br><br>
                     <button type="button" class="btn btn-primary btn-danger" style="width:30%" v-on:click="confirmRemovePicture(currentPicture)">REMOVE</button> <button type="button" class="btn btn-primary" v-on:click="fadeOutPictureConfirmRemove()" style="width:30%">Dismiss</button>
@@ -495,6 +509,10 @@
             </div>
             <div>
             </div>
+
+
+
+
             <div id=" footer "></div>
         </div>
 
