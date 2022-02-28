@@ -73,15 +73,10 @@ const navbarvm = new Vue({
                               //If key exists
                              if(result[v].prodID in final){
                                    final[result[v].prodID].push(result[v]);
-                                   
-
-
                              }else{
                               final[result[v].prodID] = [result[v]];
 
                              }
-
-
                          }
                          console.log(final)
                          this.searched = final;
