@@ -2,6 +2,7 @@ const navbarvm = new Vue({
      el: "#navbarapp",
      data: {
           loggedin: {},
+          searched: [],
      },
 
      methods: {
@@ -57,14 +58,35 @@ const navbarvm = new Vue({
 
           search(){
                var search_arg = document.getElementById('search-input').value;
-          
-               console.log(obj)
+               let obj = {
+                    "searchString": search_arg
+               } 
                $.ajax({
                     url: '/products/search',
                     type: 'POST',
-                    data: search_arg,
+                    data: obj,
                     success: (result) => {
-                         console.log("HEJ")
+                         let final = {};
+                         let size = Object.keys(result);
+                         for (let v of size){
+                              console.log(result[v])
+                              //If key exists
+                             if(result[v].prodID in final){
+                                   final[result[v].prodID].push(result[v]);
+                                   
+
+
+                             }else{
+                              final[result[v].prodID] = [result[v]];
+
+                             }
+
+
+                         }
+                         console.log(final)
+                         this.searched = final;
+
+                         
                     }
                })
           }
