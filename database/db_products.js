@@ -99,7 +99,31 @@ const getOnlyProducts = async() => {
     }
 };
 
+//Get all categories
+const getAllCategories = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const categories = await dbConnection.all("SELECT * FROM category");
+        let res = {}
+        await asyncForEach(categories, async(category) => {
+            if (category.isParentCategory == 1) {
+                category["sub"] = []
+                res[category.catID] = category;
+            }
+        });
 
+        await asyncForEach(categories, async(category) => {
+            if (category.isParentCategory != 1) {
+                res[category.parentCategory]["sub"].push(category)
+            }
+        });
+
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+};
 
 
 /**
@@ -592,7 +616,8 @@ module.exports = {
     removeProduct: removeProduct,
     removeProperty: removeProperty,
     getReviewsByProdID: getReviewsByProdID,
-    addReview: addReview
+    addReview: addReview,
+    getAllCategories: getAllCategories
 
 
 }
