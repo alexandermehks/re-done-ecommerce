@@ -71,11 +71,14 @@ const getOnlyProducts = async() => {
         for (i in products) {
             products[i]["allColors"] = allColors
 
+            //Add category do object
+            const category = await getCategoryWithId(products[i].catID);
+            products[i].categoryObject = category;
+
+
             //Add pictures to product-object
             url = []
             const pictures = await getPicture(products[i].prodID);
-
-
             await asyncForEach(pictures, async(pic) => {
                 url.push(pic.pictureURL)
             });
@@ -118,15 +121,28 @@ const getAllCategories = async() => {
             }
         });
 
-
-
-
         return res;
     } catch (error) {
         console.log(error)
         res.sendStatus(400, "SOmething went wrong")
     }
 };
+
+const getCategoryWithId = async(catID) => {
+    try {
+        const dbConnection = await dbPromise;
+        const category = await dbConnection.all(`SELECT * FROM category WHERE catID = (?)`, [catID]);
+        if (category.length > 0)
+            return category[0];
+        else return null;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+
+
+}
+
 
 
 /**
@@ -221,6 +237,7 @@ const generateListOfProductTypes = async(products) => {
     await asyncForEach(products, async(product) => {
         const type = product.type;
         const prodID = product.prodID;
+        const catID = product.catID
         prod2 = await getCategoryWithProdId(type, prodID)
         if (prod2.length > 0) {
             await asyncForEach(prod2, async(products2) => {
@@ -242,6 +259,9 @@ const generateListOfProductTypes = async(products) => {
                     url = ["images/product-placeholder.jpg"]
                 newprod["url"] = url;
                 newprod["pictures"] = pictures
+
+                const category = await getCategoryWithId(catID);
+                newprod.categoryObject = category;
 
                 /*
                 url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",

@@ -45,7 +45,7 @@
                                 <th scope="col" class="t-price">Price</th>
                                 <th scope="col" class="t-desc">Description</th>
                                 <th scope="col" class="t-spec">Specification</th>
-                                <th scope="col" class="t-type">Type</th>
+                                <th scope="col" class="t-type">Category</th>
                                 <th scope="col" class="t-handle">Modify</th>
                             </tr>
                         </thead>
@@ -57,7 +57,7 @@
                                 <td class="t-price">{{product.price}}</td>
                                 <td class="t-desc">{{product.description}}</td>
                                 <td class="t-spec">{{product.specification}}</td>
-                                <td class="t-type">{{product.type}}</td>
+                                <td class="t-type">{{product.categoryObject.category_name}}</td>
                                 <td class="t-handle"><button class="btn btn-primary btn-sm" v-on:click="clickHandle(product)">Modify</button></td>
                             </tr>
                         </tbody>
