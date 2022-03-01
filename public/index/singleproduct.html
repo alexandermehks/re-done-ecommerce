@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
-    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+
 </head>
 
 <body>
@@ -90,7 +90,7 @@
 
                             </div>
                             <div class = "choosesize" style = "display: None;">Please choose a size</div>
-                            <button class="buybutton" v-on:click="addToCart(1,2,3)">Add To Cart</button>
+                            <button class="buybutton" v-on:click="addToCart()">Add To Cart</button>
                             <div>
 
                                 <h4>Choose in different colors</h4>
@@ -137,7 +137,7 @@
                     <div class="infoborder"></div>
                 </div>
 
-                <div>
+                <div class = "reloadreview" id = "reloadreview">
                     <h1 style="text-align: center;">Reviews</h1>
                     <div style="text-align: center;">
                         <div class="reviewstars">
@@ -176,9 +176,9 @@
                             <button v-on:click="postReview(), openReviewContainer()">Publish Review</button>
                         </div>
                     </div>
-                    <div class="reviewcontainer">
+                    <div class="reviewcontainer" id = "reviewcontainer">
                         <div v-for="review in reviews">
-                            <div class="reviewcard ">
+                            <div class="reviewcard" id = "reviewcard">
                                 <div class="review1"><b>Name: </b>{{review.userID}}<br><b>Date: </b>2022-02-02
                                 </div>
                                 <div class="review2">{{review.comment}}</div>
@@ -189,11 +189,40 @@
 
                                     </div>
                                     <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
-
+                                    <button class = "editreviewbutton" style="background-color: green;" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
+                                    <button class = "editreviewbutton" style="background-color: red;" v-on:click="deleteReview(review.reviewID)">Delete</button>
                                 </div>
 
 
                             </div>
+                            <div class="reviewform" v-bind:class="review.reviewID" v-bind:id="review.reviewID" style="display: none;">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">Name</label>
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly :placeholder="review.userID">
+                                        <label for="exampleFormControlInput1">Date</label>
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly placeholder="2022-02-02">
+                                    </div>
+                                    <p>Rate the product</p>
+                                    <div class="starscontainer writereviewstars">
+                                        <p v-bin></p>
+                                        <p class="arr" v-on:click="editreviewStarsDown()"><i class="arrow_left left"></i></p>
+                                        <div v-for="stars in 5 ">
+                                            <span class="fa fa-star checked fa-2x starsizer" v-if="stars <= editReview.ratingnumber"></span>
+                                            <span class="fa fa-star starsizer fa-2x" v-if="stars > editReview.ratingnumber"></span>
+    
+                                        </div>
+                                        <p class="arr" v-on:click="editreviewStarsUp()"><i class="arrow_right right"></i></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Write Review</label>
+                                        <textarea class="form-control" v-bind:id="'comment'+review.reviewID" rows="3" :placeholder="editReview.comment">{{editReview.comment}}</textarea>
+                                    </div>
+    
+                                </form>
+                                <button v-on:click="postUpdateReview(), openReviewContainer()" >Update Review</button>
+                            </div>
+                            
                         </div>
 
                         <br>
@@ -248,15 +277,7 @@
             }
         })();
     </script>
-    <script type="text/javascript">
-        (function() {
-            window['__CF$cv$params'] = {
-                r: '6de9304e688c95ea',
-                m: 'cphHXMZTAKVxeoj9koYlHkNyIt0f2Z.q7lexoZPyBAU-1645039807-0-Af2mTUIZQFJ8+Bb4jesNZ/naNm+5YcoeDXGruHJGDX7FMZCR/4iVkytryCHQcaNkyFJRsytd0lF7X4jaFZh68sVbaAk1fiW5oelPJS0PQwKactsAvw5b7G9SIXXOTysl5HtNk4Olar4i6/oVtOJz5U4F6C0H2uni8cLhiaKjuSaxEAXPod1/pk9lKAVvGMEdUxSDGSp1V8Ueh40NJkh8G94=',
-                s: [0x7f242f3f1e, 0xb9925e6927],
-            }
-        })();
-    </script>
+ 
 </body>
 
 </html>

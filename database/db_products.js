@@ -613,6 +613,35 @@ const addReview = async(review) => {
         res.sendStatus(400, "something went wrontt")
     }
 }
+const deleteReview = async(data) => {
+    
+    try {
+        const dbConnection = await dbPromise;
+        if (data) {
+            
+            const res = await dbConnection.run(`DELETE FROM reviews WHERE reviewID = ?`, [data])
+            console.log(data)
+        }
+        return res;
+    } catch (error) {
+        res.sendStatus(400, "something went wrontt")
+    }
+}
+const updateReview = async(data) => {
+    
+    try {
+        const dbConnection = await dbPromise;
+        if (data) {
+            
+            const response = await dbConnection.run(`UPDATE reviews SET ratingnumber = ?, comment = ? WHERE reviewID = ?`, [data.ratingnumber, data.comment, data.reviewID])
+
+            console.log(data)
+        }
+        return res;
+    } catch (error) {
+        res.sendStatus(400, "something went wrontt")
+    }
+}
 
 const searchBar = async(search) => {
     console.log(search)
@@ -654,7 +683,10 @@ module.exports = {
     getReviewsByProdID: getReviewsByProdID,
     addReview: addReview,
     getAllCategories: getAllCategories,
+    deleteReview: deleteReview,
+    updateReview: updateReview,
     searchBar: searchBar
+
 
 
 }

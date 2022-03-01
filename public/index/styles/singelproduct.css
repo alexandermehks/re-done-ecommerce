@@ -282,3 +282,9 @@ flex-basis: 10%;
   .arr{
       margin-top: 7px;
   }
+  .editreviewbutton{
+      width: 7rem;
+      height: 70%;
+      margin-left: 10px;
+      border-radius: 6px;
+  }
