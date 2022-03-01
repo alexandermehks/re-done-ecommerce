@@ -46,11 +46,7 @@ const navbarvm = new Vue({
                     }
                })
           },
-          updateCart(){
-               const user = this.getLoggedInUser()
-               this.shoppingitem = user.shoppingcart[0].amount
-
-          },
+         
 
           logOut() {
                $.ajax({
@@ -76,7 +72,6 @@ const navbarvm = new Vue({
                          let final = {};
                          let size = Object.keys(result);
                          for (let v of size){
-                              console.log(result[v])
                               //If key exists
                              if(result[v].prodID in final){
                                    final[result[v].prodID].push(result[v]);
@@ -85,7 +80,6 @@ const navbarvm = new Vue({
 
                              }
                          }
-                         console.log(final)
                          this.searched = final;
 
                          
@@ -105,7 +99,6 @@ const navbarvm = new Vue({
      mounted() {
 
 
-          $updateCart()
 
 
 
@@ -119,11 +112,11 @@ const navbarvm = new Vue({
 
 
 
+
 });
 
 navbarvm.getLoggedInUser();
-
-
+navbarvm.search();
 
 function onSignIn(googleUser) {
      let user = {}

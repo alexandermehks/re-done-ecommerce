@@ -14,8 +14,8 @@
                <div class="right nav-side">
                     <a href="#">About</a>
                     <a href="register"> <input type="submit" value="Sign up"> </a>
-                    <a href="#" class="a-icon" id="search-icon">
-                         <span class="bi bi-search"></span>
+                    <a href="#" class="a-icon"  id="search-icon">
+                         <span  class="bi bi-search"></span>
                          <input type="text" id="searchbar" style="display:none" value="TEST SEARCH">
                     </a>
                     <a href="#" class="a-icon" id="cart-icon">
@@ -52,13 +52,12 @@
 
 
           <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
-               <h2>Do loging</h2>
-               <h3 v-model="loggedin">hej</h3>  
+               <h3>Hope you have a good day {{ loggedin.name}}!</h3>
                <div>
                     <p> Name: {{ loggedin.name}} </p>
+                    <p> Email: {{ loggedin.email }}</p>
                </div>
 
-               <button v-on:click="getLoggedInUser()">GET LOGGED IN </button>
                <button v-if="!loggedin.type" v-on:click="logOut()">LOG OUT</button>
                <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
                          out</button></a>
@@ -168,7 +167,6 @@
                          </p>
                     </div>
                     <div class="results-found" style="text-align: center; display:block;">
-                    <h1>PLACEHOLDER - HERE WE ADD TOBBES MAGIC ITEMS</h1>
                     <div class="container upd">
                          <div class="row row-cols-md-4">
                               <div v-for="(key,value) in searched"> 
