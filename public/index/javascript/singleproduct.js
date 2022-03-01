@@ -16,7 +16,7 @@ $(function () {
 
 const vm = new Vue({
 
-    el: "#app",
+    el: "#appsingleprod",
     data: {
         product: [],
         reviews: [],

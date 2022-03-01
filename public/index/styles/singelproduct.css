@@ -262,7 +262,7 @@ flex-basis: 10%;
         height: 10px;
         
   }
-  .right:hover{
+  .right1:hover{
     border: solid gray;
     border-width: 0 3px 3px 0;
     display: inline-block;
@@ -271,14 +271,14 @@ flex-basis: 10%;
     height: 15px;
   }
   
-  .right {
+ .right1 {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
   }
-  .left {
+  .left1 {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-  }
+  } 
   .arr{
       margin-top: 7px;
   }
