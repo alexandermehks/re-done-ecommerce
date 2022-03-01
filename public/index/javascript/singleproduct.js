@@ -18,6 +18,7 @@ const vm = new Vue({
 
     el: "#appsingleprod",
     data: {
+        loggedin:{},
         product: [],
         reviews: [],
         rating: 0,
@@ -45,6 +46,8 @@ const vm = new Vue({
         $("#navbar").load("footer.html");
         $("#footer").load("footer.html");
         console.log("HELLO?")
+
+        
     },
     methods: {
         getBBHTML(bbcode) {
@@ -330,17 +333,43 @@ const vm = new Vue({
         console.log(this.order)
     },
     addToCart: function () {
-
         this.order.prodID = this.product[0].prodID
         if (this.order.propID === 0) {
             alert("Please choose a size")
         }
         if(this.order.propID != 0){
+            console.log(this.order)
+            const obj = {
+                "prodID": this.order.prodID,
+                "propID": this.order.propID
+            }
+            $.ajax({
+                url:'/auth/pushToShoppingCart',
+                method:'POST',
+                data:obj,
+                success: () => {
+                    console.log("Bajs")
+                }
+            })
+
+
         alert("You are buying: " +"\npropID: "+ this.order.propID + "\nprodID: " + this.order.prodID)
         }
 
     },
+
+    getLoggedInUser() {
+               $.ajax({
+                    url: '/auth/loggedInUser',
+                    type: 'GET',
+                    success: (result) => {
+                         this.loggedin = result;
+
+                    }
+               })
+          },
     }
 });
 vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")
 vm.loadReviews("01126187-4005-4972-97cf-7fd8f9cfa754")
+vm.getLoggedInUser();
