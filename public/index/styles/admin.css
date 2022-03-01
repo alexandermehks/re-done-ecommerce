@@ -264,3 +264,68 @@
 .catOption:disabled {
     background-color: rgba(122, 122, 122, 0.384);
 }
+
+.tag-holder {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fcfcfc;
+}
+
+.tag {
+    background-color: #f4f5f7;
+    font-size: 14px;
+    line-height: 1;
+    color: inherit;
+    padding: 5px 17px 6px;
+    border-radius: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 5px;
+    border: 1px solid #ced4da;
+    position: relative;
+    display: inline-block;
+}
+
+.tag:hover {
+    background-color: #00bcd4;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.tag .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    margin-bottom: 10px;
+}
+
+.tag .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tag:hover .tooltiptext {
+    visibility: visible;
+}
+
+.dealstag {
+    background-color: rgb(98, 108, 141);
+    color: white;
+}

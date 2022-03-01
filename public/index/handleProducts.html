@@ -57,7 +57,7 @@
                                 <td class="t-price">{{product.price}}</td>
                                 <td class="t-desc">{{product.description}}</td>
                                 <td class="t-spec">{{product.specification}}</td>
-                                <td class="t-type">{{product.categoryObject.category_name}}</td>
+                                <td class="t-type"><span v-if="product.categoryObject">{{product.categoryObject.category_name}}</span></td>
                                 <td class="t-handle"><button class="btn btn-primary btn-sm" v-on:click="clickHandle(product)">Modify</button></td>
                             </tr>
                         </tbody>
@@ -201,12 +201,34 @@
                                 </div>
                             </div>
                         </div>
-                        <label for="file" class="form-label">Add Multiple images to product</label>
-                        <input id="file" type="file" name="files" class="form-control" style="max-width: 30%" multiple required />
-                        <br />
-
-                        <button type="submit" class="btn btn-primary">Add product</button>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="file" class="form-label">Add Multiple images to product</label>
+                                <input id="file" type="file" name="files" class="form-control" style="max-width: 100%" multiple required />
+                                <br>
+                                <button type="submit" class="btn btn-primary">Add product</button>
                     </form>
+                    </div>
+                    <div class="col-8">
+                        <div class="tag-holder">
+                            <div style="display: flex;">
+                                <div style="margin-right: 5px;">Tags: </div>
+                                <span class="tag" v-bind:class="{dealstag : tag.toLowerCase()=='deals'}" v-for="(tag, index) in addTags" v-if="addTags" v-on:click="removeTagNew(index)">
+                                    {{tag}} <span class="tooltiptext">Click to remove</span>
+                                </span>
+                            </div>
+                            <div style="margin-top: 10px;"></div>
+                            <form @submit.prevent="addTagNew">
+                                <input type="text" class="form-control" id="addTagNew" placeholder="Add tag" required>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+
+
+
+
 
                 </div>
 
@@ -325,12 +347,24 @@
                             </div>
                         </div>
                         <div style="margin-top: 10px;"></div>
-
-
                         <button type="submit" class="btn btn-primary">Edit product</button>
                     </form>
                     <div style="margin-top: 10px;"></div>
                     <button class="btn btn-primary btn-danger removeProductButton">Remove product</button>
+                    <div style="margin-top: 10px;"></div>
+
+                    <div class="tag-holder">
+                        <div style="display: flex;">
+                            <div style="margin-right: 5px;">Tags: </div>
+                            <div class="tag" v-bind:class="{dealstag : tag.toLowerCase()=='deals'}" v-for="(tag, index) in handleProduct.tagsArray" v-if="handleProduct.tagsArray" v-on:click="removeTag(index)">
+                                {{tag}} <span class="tooltiptext">Click to remove</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;"></div>
+                        <form @submit.prevent="addTag">
+                            <input type="text" class="form-control" id="addTag" placeholder="Add tag">
+                        </form>
+                    </div>
                     <div style="margin-top: 40px;"></div>
                     <h4 style="text-align: center;">Product Pictures</h4>
                     <div class="row">
@@ -491,10 +525,10 @@
                         <div class="col" style="border: 1px solid black">
                             <h3>Specification:</h3>
                             <div v-html="getBBHTML(prod.specification)"></div>
-
-
                         </div>
-
+                    </div>
+                    <div>
+                        Tags: {{prod.tags}}
                     </div>
 
                     <div style="width: 100%; display: flex">

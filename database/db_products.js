@@ -72,8 +72,7 @@ const getOnlyProducts = async() => {
             products[i]["allColors"] = allColors
 
             //Add category do object
-            const category = await getCategoryWithId(products[i].catID);
-            products[i].categoryObject = category;
+            products[i].categoryObject = await getCategoryWithId(products[i].catID);
 
 
             //Add pictures to product-object
@@ -260,8 +259,7 @@ const generateListOfProductTypes = async(products) => {
                 newprod["url"] = url;
                 newprod["pictures"] = pictures
 
-                const category = await getCategoryWithId(catID);
-                newprod.categoryObject = category;
+                newprod.categoryObject = await getCategoryWithId(catID);
 
                 /*
                 url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
@@ -298,7 +296,7 @@ const addProduct = async(data) => {
         const dbConnection = await dbPromise;
 
         console.log("Inserted into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification, catID) VALUES (?,?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification, data.catID])
+        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification, catID, tags) VALUES (?,?,?,?,?,?,?, ?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification, data.catID, data.tags])
         return response, data.prodID
 
     } catch (error) {
@@ -311,8 +309,8 @@ const editProduct = async(data) => {
     try {
         const dbConnection = await dbPromise;
 
-        console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ?, catID = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.catID, data.prodID])
+        console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification, data.tags])
+        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ?, catID = ?, tags=? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.catID, data.tags, data.prodID])
         return response
 
     } catch (error) {

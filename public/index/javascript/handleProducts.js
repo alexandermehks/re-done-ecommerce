@@ -28,13 +28,14 @@ const vm = new Vue({
             "pants": 2,
             "tshirt": 3,
         },
-        choosenCatIdAdd: 1
+        choosenCatIdAdd: 1,
+        addTags: []
 
 
 
     },
 
-    mounted() {
+    beforeMount() {
         $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
         this.updateAll();
@@ -55,9 +56,12 @@ const vm = new Vue({
                 url: '/products/all',
                 type: 'GET',
                 success: (result) => {
-
-
                     this.products = result;
+                    console.log("Hello?")
+                    for (let i in this.products) {
+                        this.products[i].tagsArray = this.tagStringToArray(this.products[i].tags)
+                    }
+
                     this.getProductPropertiesByProduct();
                 }
             })
@@ -102,33 +106,19 @@ const vm = new Vue({
                 url: '/products/allOnlyProduct',
                 type: 'GET',
                 success: (result) => {
-
-                    console.log(result)
+                    console.log("Okey we add?")
+                        //console.log(result)
                     this.onlyProducts = result;
+                    for (let i in this.onlyProducts) {
+                        this.onlyProducts[i].tagsArray = this.tagStringToArray(this.onlyProducts[i].tags)
+                    }
                     if (this.onlyProducts.length > 0) {
                         this.currentProduct = this.onlyProducts[0];
                     }
-                }
-            })
-
-        },
-        getOnlyProducts() {
-            $.ajax({
-                url: '/products/allOnlyProduct',
-                type: 'GET',
-                success: (result) => {
-
-                    //console.log(result)
-                    this.onlyProducts = result;
-                    if (this.onlyProducts.length > 0) {
-                        this.currentProduct = this.onlyProducts[0];
-                    }
-
                     for (let i in this.onlyProducts) {
                         let product = this.onlyProducts[i];
                         if (product.prodID == this.handleProduct.prodID) {
                             this.handleProduct = product;
-                            this.choosenCatIdAdd = this.handleProduct;
                             break;
                         }
                     }
@@ -256,10 +246,8 @@ const vm = new Vue({
             this.getOnlyProducts()
             this.getAllProductsWithPropertiesByIdAndColor()
             this.getAllCategories();
-
-
             this.updateDomPictures();
-
+            //Add tags to all products
 
         },
         getFormValues(submitEvent) {
@@ -278,13 +266,20 @@ const vm = new Vue({
             }
 
             console.log(name, type, price, desc, spec)
+
+            let tag = this.addTags.join(",");
+            if (this.addTags.length == 0)
+                tag = ""
+
+
             const data = {
                 "name": name,
                 "type": type,
                 "price": price,
                 "description": desc,
                 "specification": spec,
-                "catID": category
+                "catID": category,
+                "tags": tag
             }
 
             $.ajax({
@@ -364,7 +359,8 @@ const vm = new Vue({
                 "price": price,
                 "description": desc,
                 "specification": spec,
-                "catID": category
+                "catID": category,
+                "tags": this.handleProduct.tags
             }
 
             console.log("Edit", data)
@@ -445,7 +441,6 @@ const vm = new Vue({
         },
         clickHandle(product) {
             this.handleProduct = product;
-            this.choosenCatIdAdd = this.handleProduct;
             $("#editProductOverlay").fadeIn(function() {
                 $('textarea').each(function() {
                     let rows = $(this).val().split(/\r\n|\r|\n/).length;
@@ -581,9 +576,104 @@ const vm = new Vue({
         },
         isCategoryAvailable(event) {
             this.choosenCatIdAdd = this.classNameToCatID[event.target.value]
+        },
+        tagStringToArray(tag) {
+            if (tag)
+                return tag.split(',')
+            return []
+        },
+        addTag(submitEvent) {
+            let taginput = submitEvent.target.elements.addTag.value
+            submitEvent.target.elements.addTag.value = ""
 
+            this.handleProduct.tagsArray.push(taginput);
+            const arr = this.handleProduct.tagsArray
+                //Update from handleProduct
+            const comma = arr.join(",")
+            this.handleProduct.tag = arr;
+            const data = {
+                "prodID": this.handleProduct.prodID,
+                "name": this.handleProduct.name,
+                "type": this.handleProduct.type,
+                "price": this.handleProduct.price,
+                "description": this.handleProduct.description,
+                "specification": this.handleProduct.specification,
+                "catID": this.handleProduct.catID,
+                "tags": comma
+            }
+
+            $.ajax({
+                url: '/products/edit',
+                method: "PUT",
+                data: data,
+                success: function(response) {
+                    console.log("Product was edited")
+                    console.log(response)
+                    this.updateAll()
+
+                    //Update handle product as well without db call
+                    this.handleProduct.tagsArray = arr;
+                    this.handleProduct.tags = comma;
+                    this.updateDomPictures();
+                    //$("#editProductOverlay").fadeOut();
+                }.bind(this),
+                error: function(err) {
+                    console.log("error", err)
+                }.bind(this)
+            });
+        },
+        removeTag(index) {
+            if (index < this.handleProduct.tagsArray.length && index >= 0) {
+                this.handleProduct.tagsArray.splice(index, 1);
+                this.handleProduct.tags = this.handleProduct.tagsArray.join(",");
+
+                const arr = this.handleProduct.tagsArray
+                const comma = this.handleProduct.tags
+                const data = {
+                    "prodID": this.handleProduct.prodID,
+                    "name": this.handleProduct.name,
+                    "type": this.handleProduct.type,
+                    "price": this.handleProduct.price,
+                    "description": this.handleProduct.description,
+                    "specification": this.handleProduct.specification,
+                    "catID": this.handleProduct.catID,
+                    "tags": comma
+                }
+
+                $.ajax({
+                    url: '/products/edit',
+                    method: "PUT",
+                    data: data,
+                    success: function(response) {
+                        console.log("Product was edited")
+                        console.log(response)
+                        this.updateAll()
+
+                        //Update handle product as well without db call
+                        this.handleProduct.tagsArray = arr;
+                        this.handleProduct.tags = comma;
+                        this.updateDomPictures();
+                        //$("#editProductOverlay").fadeOut();
+                    }.bind(this),
+                    error: function(err) {
+                        console.log("error", err)
+                    }.bind(this)
+                });
+
+            }
+        },
+        addTagNew(submitEvent) {
+            let taginput = submitEvent.target.elements.addTagNew.value
+            submitEvent.target.elements.addTagNew.value = ""
+            if (taginput) {
+                this.addTags.push(taginput)
+            }
+        },
+        removeTagNew(index) {
+            if (index < this.addTags.length && index >= 0) {
+                this.addTags.splice(index, 1);
+            }
         }
-
 
 
 
