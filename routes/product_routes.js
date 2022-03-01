@@ -267,14 +267,22 @@ routes.post('/search', async(req, res) =>{
 
         let search_arg = req.body.searchString;
         const split_text = search_arg.split(" ");
-
+        
         let ans = await dbService.getProducts();
 
-        console.log(ans)
+        // category name = ans[1].categoryObject.category_name
+        // description = ans[1].categoryObject.description
 
         for(let i = 0; i < ans.length; i++){
             for(let j = 0; j < split_text.length; j++){
-                if(ans[i].type.includes(split_text[j]) || ans[i].name.includes(split_text[j])){
+
+                //Easy to add more search arguments.
+                let category_name = ans[i].categoryObject.category_name.toLowerCase().includes(split_text[j].toLowerCase());
+                let category_description = ans[i].categoryObject.description.toLowerCase().includes(split_text[j].toLowerCase());
+                let prod_name = ans[i].name.toLowerCase().includes(split_text[j].toLowerCase());
+                let description = ans[i].description.toLowerCase().includes(split_text[j].toLowerCase());
+
+                if(category_name || category_description || prod_name|| description){
                     obj[i] = ans[i];
                 }
             }
