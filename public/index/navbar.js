@@ -3,6 +3,7 @@ const navbarvm = new Vue({
      data: {
           loggedin: {},
           searched: [],
+          shoppingitem: 0
      },
 
      methods: {
@@ -41,8 +42,14 @@ const navbarvm = new Vue({
                     success: (result) => {
                          this.loggedin = result;
 
+
                     }
                })
+          },
+          updateCart(){
+               const user = this.getLoggedInUser()
+               this.shoppingitem = user.shoppingcart[0].amount
+
           },
 
           logOut() {
@@ -84,7 +91,9 @@ const navbarvm = new Vue({
                          
                     }
                })
-          }
+          },
+          
+          
 
 
 
@@ -96,13 +105,13 @@ const navbarvm = new Vue({
      mounted() {
 
 
+          $updateCart()
 
 
 
 
 
-
-
+         
 
      }
 

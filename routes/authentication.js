@@ -82,7 +82,7 @@ routes.post('/pushToShoppingCart', async (req, res) => {
                const cart = current_session.user.shoppingcart;
                const propID = req.body.propID;
                const prodID = req.body.prodID;
-
+               
                if(propID in cart){
                     cart[propID].amount = cart[propID].amount + 1
                }else{
@@ -92,6 +92,7 @@ routes.post('/pushToShoppingCart', async (req, res) => {
                console.log(cart)
 
           }
+          res.send("OK")
      }
      catch(error){
           res.sendStatus(400, "Something went wrong")
