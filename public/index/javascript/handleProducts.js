@@ -583,7 +583,7 @@ const vm = new Vue({
             return []
         },
         addTag(submitEvent) {
-            let taginput = submitEvent.target.elements.addTag.value
+            let taginput = submitEvent.target.elements.addTag.value.toLowerCase()
             submitEvent.target.elements.addTag.value = ""
 
             this.handleProduct.tagsArray.push(taginput);
@@ -663,7 +663,7 @@ const vm = new Vue({
             }
         },
         addTagNew(submitEvent) {
-            let taginput = submitEvent.target.elements.addTagNew.value
+            let taginput = submitEvent.target.elements.addTagNew.value.toLowerCase()
             submitEvent.target.elements.addTagNew.value = ""
             if (taginput) {
                 this.addTags.push(taginput)
