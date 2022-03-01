@@ -10,7 +10,7 @@ function changeStarColor(id) {
 
 
 
-$(function() {
+$(function () {
     $("#navbar").load("navbar.html");
 });
 
@@ -22,12 +22,21 @@ const vm = new Vue({
         reviews: [],
         rating: 0,
         reviewrating: 0,
+        editReview: {
+            "reviewID": "a",
+            "ratingnumber": 0,
+            "comment": "a",
+            "userID": "a",
+            "date" :  "a"
+        },
         prodname: "",
         sizes: [],
         colors: [],
+        colors1: {},
         order: [{
             "prodID": "None",
-            "propID": "None",
+            "propID": 0,
+            "quantity": "None"
 
 
         }],
@@ -53,6 +62,7 @@ const vm = new Vue({
                     this.prodname = data[0].name
                     this.order.prodID = data[0].prodID
                     var checker = []
+                    this.colors1 = {}
                     for (var i = 0; i < data.length; i++) {
 
 
@@ -60,21 +70,22 @@ const vm = new Vue({
 
                             this.colors.push(this.product[i])
                             checker.push(this.product[i].colorID)
-                            console.log(checker)
+                            
                         }
 
 
                         if (this.product[i].colorID === this.product[0].colorID) {
                             if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
-
+                                
                             } else {
                                 this.sizes.push(this.product[i].size)
+                                this.colors1[this.product[i].propID] = this.product[i].size
                             }
 
                         }
                     }
-                    //this.sizes.sort();
-
+                    this.order.propID = 0
+                    
 
                 },
                 error: (data) => {
@@ -82,7 +93,6 @@ const vm = new Vue({
                     return null
                 }
             });
-
             //update questions
         },
         loadReviews(id) {
@@ -98,7 +108,7 @@ const vm = new Vue({
                         totalrating += this.reviews[i].ratingnumber
                     }
                     this.rating = (totalrating / this.reviews.length).toFixed(2)
-                    console.log(this.rating)
+                    
                 },
                 error: (data) => {
                     console.log(data)
@@ -108,15 +118,62 @@ const vm = new Vue({
 
             //update questions
         },
-        openReviewContainer: function() {
+        deleteReview(reviewID) {
+            //Load  questions
+
+            $.ajax({
+                url: 'products/deleteReview/' + reviewID,
+                data: reviewID,
+                type: 'DELETE',
+                success: (reviewID) => {
+                    for (var i = 0; i < this.reviews.length; i++) {
+                        if(this.reviews[i].reviewID === reviewID ){
+                            delete this.reviews[i]
+                            console.log(this.reviews)
+                        }
+                    }
+                   location.reload()
+                    
+                },
+                error: (data) => {
+                    console.log(data)
+                    return null
+                }
+            });
+
+            //update questions
+        },
+        updateReview: function(reviewID){
+            alert(reviewID)
+
+        },
+        openReviewContainer: function () {
             $("#reviewform").slideToggle();
+        },
+        updateReview: function (id,comment,date,userID,ratingnumber) {
+            for (var i = 0; i < this.reviews.length; i++) {
+                if(this.reviews[i].reviewID != id){
+                if($('#'+this.reviews[i].reviewID).is(':visible')) {
+                    $('#'+this.reviews[i].reviewID).slideToggle();
+                  }
+                }
+
+            }
+
+            $('#'+id).slideToggle();
+            this.editReview.reviewID = id
+            this.editReview.comment = comment
+            this.editReview.date = date
+            this.editReview.userID = userID
+            this.editReview.ratingnumber = ratingnumber
+           
         },
 
 
 
-        updatePicturePick: function(id) {
+        updatePicturePick: function (id) {
             for (var i = 0; i < this.product.length; i++) {
-                console.log("aWD")
+                
                 $('#' + this.product[i].propID).css({
                     'border': '0px solid black'
                 });
@@ -127,7 +184,7 @@ const vm = new Vue({
             });
 
         },
-        updateSizePick: function(id, products) {
+        updateSizePick: function (id, products) {
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].propID + "1").css({
                     'background-color': 'white'
@@ -139,12 +196,12 @@ const vm = new Vue({
 
 
         },
-        updatePicture: function(url) {
+        updatePicture: function (url) {
             $("#picbig").attr('src', url);
 
 
         },
-        updatePictureColor: function(url) {
+        updatePictureColor: function (url) {
             $("#picbig").attr('src', url);
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].size).css({
@@ -153,91 +210,137 @@ const vm = new Vue({
 
             }
 
-        },
-        changeColor: function(id) {
-            for (var i = 0; i < this.product.length; i++) {
-                $('#' + this.product[i].size).css({
-                    'background-color': 'white'
-                });
 
-            }
-            $('#' + id).css({
-                'background-color': 'lightgrey'
+        },
+
+
+
+    
+    changeColor: function (id) {
+        for (var i = 0; i < this.product.length; i++) {
+            $('#' + this.product[i].size).css({
+                'background-color': 'white'
             });
 
-        },
-        updateCorrectSizes: function(colorID) {
+        }
+        $('#' + id).css({
+            'background-color': 'lightgrey'
+        });
 
-            this.sizes = []
-            for (var i = 0; i < this.product.length; i++) {
+    },
+    updateCorrectSizes: function(colorID) {
+        this.colors1 = {}
 
-                if (this.product[i].colorID === colorID) {
-                    if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+        this.sizes = []
+        for (var i = 0; i < this.product.length; i++) {
 
-                    } else {
+            if (this.product[i].colorID === colorID) {
+                if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
 
-                        this.sizes.push(this.product[i].size)
-                    }
+                } else {
+
+                    this.sizes.push(this.product[i].size)
+                    this.colors1[this.product[i].propID] = this.product[i].size
 
                 }
+
             }
+        }
 
-            //this.sizes.sort();
-            $("#sizecontainer").load(window.location.href + " #sizecontainer");
+        //this.sizes.sort();
+        $("#sizecontainer").load(window.location.href + " #sizecontainer");
+        this.order.propID = 0
+    },
+    reviewStarsUp: function () {
+        if (this.reviewrating < 5) {
+            this.reviewrating += 1
+            $("#writereviewstars").load(window.location.href + " #writereviewstars");
+        }
 
+
+    },
+    reviewStarsDown: function () {
+        if (this.reviewrating >= 0) {
+            this.reviewrating -= 1
+            $("#writereviewstars").load(window.location.href + " #writereviewstars");
+        }
+    },
+    editreviewStarsUp: function () {
+        if (this.editReview.ratingnumber < 5) {
+            this.editReview.ratingnumber += 1
+            $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
+        }
+
+    },
+    editreviewStarsDown: function () {
+        if (this.editReview.ratingnumber >= 0) {
+            this.editReview.ratingnumber -= 1
+            $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
+        }
+
+    },
+
+    postReview() {
+        const current = new Date();
+        const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
+
+        const data = {
+            "userID": "0170d36a-78c3-4765-b515-56a6d700bcad",
+            "prodID": this.product[0].prodID,
+            "ratingnumber": this.reviewrating,
+            "comment": $('#comment').val(),
+            "date": date
+        }
+        $.ajax({
+            url: 'products/addReview',
+            method: "POST",
+            data: data,
+            success: () => {
+                console.log("Review was added")
+                location.reload();
+
+            },
+        })
         },
-        reviewStarsUp: function() {
-            if (this.reviewrating < 5) {
-                this.reviewrating += 1
-                $("#writereviewstars").load(window.location.href + " #writereviewstars");
-            }
-
-
-        },
-        reviewStarsDown: function() {
-            if (this.reviewrating >= 0) {
-                this.reviewrating -= 1
-                $("#writereviewstars").load(window.location.href + " #writereviewstars");
-            }
-
-
-        },
-
-        postReview() {
-            const current = new Date();
-            const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-
-
+        postUpdateReview() {
             const data = {
-                "userID": "0170d36a-78c3-4765-b515-56a6d700bcad",
-                "prodID": this.product[0].prodID,
-                "ratingnumber": 2,
-                "comment": $('#comment').val(),
-                "date": date
+                
+                "reviewID": this.editReview.reviewID,
+                "ratingnumber": this.editReview.ratingnumber,
+                "comment": $('#comment'+this.editReview.reviewID).val(),
+                
             }
-            console.log(data)
+            
             $.ajax({
-                url: 'products/addReview',
-                method: "POST",
+                url: 'products/editreview',
+                method: "put",
                 data: data,
                 success: () => {
-                    console.log("Review was added")
+                    console.log("Review has been updated")
                     location.reload();
-
+    
                 },
-                error: function() {
-                    console.log("error")
-                }
+            })
+            },
 
-            });
+    updateOrder: function (propID) {
+        this.order.propID = propID
 
+        console.log(this.order)
+    },
+    addToCart: function () {
 
-        },
+        this.order.prodID = this.product[0].prodID
+        if (this.order.propID === 0) {
+            alert("Please choose a size")
+        }
+        if(this.order.propID != 0){
+        alert("You are buying: " +"\npropID: "+ this.order.propID + "\nprodID: " + this.order.prodID)
+        }
 
+    },
     }
-
-
-
 });
 vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")
 vm.loadReviews("01126187-4005-4972-97cf-7fd8f9cfa754")

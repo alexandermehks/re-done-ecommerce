@@ -258,6 +258,73 @@ routes.delete('/deletePicture', async(req, res) => {
     }
 })
 
+routes.delete('/deleteReview/:id', async(req, res) => {
+    try {
+        console.log(req.body)
+
+        let re = await dbService.deleteReview(req.params.id);
+
+        if (re) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+routes.put('/editreview', async(req, res) => {
+    try {
+        
+        let mes = await dbService.updateReview(req.body);
+
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
+
+routes.post('/search', async(req, res) =>{
+    try{
+        let obj = {
+
+        }
+
+        let search_arg = req.body.searchString;
+        const split_text = search_arg.split(" ");
+        
+        let ans = await dbService.getProducts();
+
+        // category name = ans[1].categoryObject.category_name
+        // description = ans[1].categoryObject.description
+
+        for(let i = 0; i < ans.length; i++){
+            for(let j = 0; j < split_text.length; j++){
+
+                //Easy to add more search arguments.
+                let category_name = ans[i].categoryObject.category_name.toLowerCase().includes(split_text[j].toLowerCase());
+                let category_description = ans[i].categoryObject.description.toLowerCase().includes(split_text[j].toLowerCase());
+                let prod_name = ans[i].name.toLowerCase().includes(split_text[j].toLowerCase());
+                let description = ans[i].description.toLowerCase().includes(split_text[j].toLowerCase());
+
+                if(category_name || category_description || prod_name|| description){
+                    obj[i] = ans[i];
+                }
+            }
+
+        }
+        res.json(obj)
+
+    } catch(error){
+        console.log("Something went wrong")
+    }
+
+})
+
 
 
 
