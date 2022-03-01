@@ -258,6 +258,35 @@ routes.delete('/deletePicture', async(req, res) => {
     }
 })
 
+routes.delete('/deleteReview/:id', async(req, res) => {
+    try {
+        console.log(req.body)
+
+        let re = await dbService.deleteReview(req.params.id);
+
+        if (re) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+routes.put('/editreview', async(req, res) => {
+    try {
+        
+        let mes = await dbService.updateReview(req.body);
+
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
 
 
 
