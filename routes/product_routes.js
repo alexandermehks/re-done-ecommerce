@@ -288,6 +288,36 @@ routes.put('/editreview', async(req, res) => {
 })
 
 
+routes.post('/search', async(req, res) =>{
+    try{
+        let obj = {
+
+        }
+
+        let search_arg = req.body.searchString;
+        const split_text = search_arg.split(" ");
+
+        let ans = await dbService.getProducts();
+
+        console.log(ans)
+
+        for(let i = 0; i < ans.length; i++){
+            for(let j = 0; j < split_text.length; j++){
+                if(ans[i].type.includes(split_text[j]) || ans[i].name.includes(split_text[j])){
+                    obj[i] = ans[i];
+                }
+            }
+
+        }
+        res.json(obj)
+
+    } catch(error){
+        console.log("Something went wrong")
+    }
+
+})
+
+
 
 
 

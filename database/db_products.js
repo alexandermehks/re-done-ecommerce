@@ -66,16 +66,19 @@ const getColors = async() => {
 const getOnlyProducts = async() => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        const products = await dbConnection.all("SELECT * FROM product");
         const allColors = await getColors();
         for (i in products) {
             products[i]["allColors"] = allColors
 
+            //Add category do object
+            const category = await getCategoryWithId(products[i].catID);
+            products[i].categoryObject = category;
+
+
             //Add pictures to product-object
             url = []
             const pictures = await getPicture(products[i].prodID);
-
-
             await asyncForEach(pictures, async(pic) => {
                 url.push(pic.pictureURL)
             });
@@ -125,6 +128,22 @@ const getAllCategories = async() => {
     }
 };
 
+const getCategoryWithId = async(catID) => {
+    try {
+        const dbConnection = await dbPromise;
+        const category = await dbConnection.all(`SELECT * FROM category WHERE catID = (?)`, [catID]);
+        if (category.length > 0)
+            return category[0];
+        else return null;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+
+
+}
+
+
 
 /**
  * 
@@ -133,7 +152,7 @@ const getAllCategories = async() => {
 const getProducts = async() => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT prodId, name, type, price, description, specification FROM product");
+        const products = await dbConnection.all("SELECT * FROM product");
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -145,7 +164,7 @@ const getProducts = async() => {
 const getProductsByProdID = async(prodID) => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all(`SELECT prodId, name, type, price, description, specification FROM product WHERE prodID = (?)`, [prodID]);
+        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?)`, [prodID]);
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -218,6 +237,7 @@ const generateListOfProductTypes = async(products) => {
     await asyncForEach(products, async(product) => {
         const type = product.type;
         const prodID = product.prodID;
+        const catID = product.catID
         prod2 = await getCategoryWithProdId(type, prodID)
         if (prod2.length > 0) {
             await asyncForEach(prod2, async(products2) => {
@@ -239,6 +259,9 @@ const generateListOfProductTypes = async(products) => {
                     url = ["images/product-placeholder.jpg"]
                 newprod["url"] = url;
                 newprod["pictures"] = pictures
+
+                const category = await getCategoryWithId(catID);
+                newprod.categoryObject = category;
 
                 /*
                 url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
@@ -275,7 +298,7 @@ const addProduct = async(data) => {
         const dbConnection = await dbPromise;
 
         console.log("Inserted into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification) VALUES (?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification])
+        const response = await dbConnection.run(`INSERT INTO product (prodId, name, type, price, description, specification, catID) VALUES (?,?,?,?,?,?,?)`, [data.prodID, data.name, data.type, data.price, data.description, data.specification, data.catID])
         return response, data.prodID
 
     } catch (error) {
@@ -289,11 +312,12 @@ const editProduct = async(data) => {
         const dbConnection = await dbPromise;
 
         console.log("EDIT into db", [data.prodID, data.name, data.type, data.price, data.description, data.specification])
-        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.prodID])
+        const response = await dbConnection.run(`UPDATE product SET name = ?, price = ?, description = ?, specification = ?, catID = ? WHERE prodID = ?`, [data.name, data.price, data.description, data.specification, data.catID, data.prodID])
         return response
 
     } catch (error) {
-        res.sendStatus(400, "Something went wrong")
+        console.log(error)
+        res.sendStatus(400, "Something went wrong", error)
     }
 }
 
@@ -619,6 +643,18 @@ const updateReview = async(data) => {
     }
 }
 
+const searchBar = async(search) => {
+    console.log(search)
+    try{
+        const dbConnection = await dbPromise;
+        const res = await dbConnection.run
+
+    } catch (error){
+        res.sendStatus(400, "something went wrong")
+    }
+
+}
+
 
 
 
@@ -648,7 +684,9 @@ module.exports = {
     addReview: addReview,
     getAllCategories: getAllCategories,
     deleteReview: deleteReview,
-    updateReview: updateReview
+    updateReview: updateReview,
+    searchBar: searchBar
+
 
 
 }
