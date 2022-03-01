@@ -18,8 +18,9 @@ const vm = new Vue({
 
     el: "#appsingleprod",
     data: {
-        loggedin:{},
+        loggedin: {},
         product: [],
+        test: 0,
         reviews: [],
         rating: 0,
         reviewrating: 0,
@@ -28,7 +29,7 @@ const vm = new Vue({
             "ratingnumber": 0,
             "comment": "a",
             "userID": "a",
-            "date" :  "a"
+            "date": "a"
         },
         prodname: "",
         sizes: [],
@@ -45,9 +46,8 @@ const vm = new Vue({
     mounted() {
         $("#navbar").load("footer.html");
         $("#footer").load("footer.html");
-        console.log("HELLO?")
 
-        
+
     },
     methods: {
         getBBHTML(bbcode) {
@@ -73,13 +73,13 @@ const vm = new Vue({
 
                             this.colors.push(this.product[i])
                             checker.push(this.product[i].colorID)
-                            
+
                         }
 
 
                         if (this.product[i].colorID === this.product[0].colorID) {
                             if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
-                                
+
                             } else {
                                 this.sizes.push(this.product[i].size)
                                 this.colors1[this.product[i].propID] = this.product[i].size
@@ -88,7 +88,7 @@ const vm = new Vue({
                         }
                     }
                     this.order.propID = 0
-                    
+
 
                 },
                 error: (data) => {
@@ -111,7 +111,7 @@ const vm = new Vue({
                         totalrating += this.reviews[i].ratingnumber
                     }
                     this.rating = (totalrating / this.reviews.length).toFixed(2)
-                    
+
                 },
                 error: (data) => {
                     console.log(data)
@@ -130,13 +130,13 @@ const vm = new Vue({
                 type: 'DELETE',
                 success: (reviewID) => {
                     for (var i = 0; i < this.reviews.length; i++) {
-                        if(this.reviews[i].reviewID === reviewID ){
+                        if (this.reviews[i].reviewID === reviewID) {
                             delete this.reviews[i]
                             console.log(this.reviews)
                         }
                     }
-                   location.reload()
-                    
+                    location.reload()
+
                 },
                 error: (data) => {
                     console.log(data)
@@ -146,37 +146,37 @@ const vm = new Vue({
 
             //update questions
         },
-        updateReview: function(reviewID){
+        updateReview: function (reviewID) {
             alert(reviewID)
 
         },
         openReviewContainer: function () {
             $("#reviewform").slideToggle();
         },
-        updateReview: function (id,comment,date,userID,ratingnumber) {
+        updateReview: function (id, comment, date, userID, ratingnumber) {
             for (var i = 0; i < this.reviews.length; i++) {
-                if(this.reviews[i].reviewID != id){
-                if($('#'+this.reviews[i].reviewID).is(':visible')) {
-                    $('#'+this.reviews[i].reviewID).slideToggle();
-                  }
+                if (this.reviews[i].reviewID != id) {
+                    if ($('#' + this.reviews[i].reviewID).is(':visible')) {
+                        $('#' + this.reviews[i].reviewID).slideToggle();
+                    }
                 }
 
             }
 
-            $('#'+id).slideToggle();
+            $('#' + id).slideToggle();
             this.editReview.reviewID = id
             this.editReview.comment = comment
             this.editReview.date = date
             this.editReview.userID = userID
             this.editReview.ratingnumber = ratingnumber
-           
+
         },
 
 
 
         updatePicturePick: function (id) {
             for (var i = 0; i < this.product.length; i++) {
-                
+
                 $('#' + this.product[i].propID).css({
                     'border': '0px solid black'
                 });
@@ -218,103 +218,104 @@ const vm = new Vue({
 
 
 
-    
-    changeColor: function (id) {
-        for (var i = 0; i < this.product.length; i++) {
-            $('#' + this.product[i].size).css({
-                'background-color': 'white'
-            });
 
-        }
-        $('#' + id).css({
-            'background-color': 'lightgrey'
-        });
-
-    },
-    updateCorrectSizes: function(colorID) {
-        this.colors1 = {}
-
-        this.sizes = []
-        for (var i = 0; i < this.product.length; i++) {
-
-            if (this.product[i].colorID === colorID) {
-                if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
-
-                } else {
-
-                    this.sizes.push(this.product[i].size)
-                    this.colors1[this.product[i].propID] = this.product[i].size
-
-                }
+        changeColor: function (id) {
+            for (var i = 0; i < this.product.length; i++) {
+                $('#' + this.product[i].size).css({
+                    'background-color': 'white'
+                });
 
             }
-        }
+            $('#' + id).css({
+                'background-color': 'lightgrey'
+            });
 
-        //this.sizes.sort();
-        $("#sizecontainer").load(window.location.href + " #sizecontainer");
-        this.order.propID = 0
-    },
-    reviewStarsUp: function () {
-        if (this.reviewrating < 5) {
-            this.reviewrating += 1
-            $("#writereviewstars").load(window.location.href + " #writereviewstars");
-        }
+        },
+        updateCorrectSizes: function (colorID) {
+            this.colors1 = {}
 
+            this.sizes = []
+            for (var i = 0; i < this.product.length; i++) {
 
-    },
-    reviewStarsDown: function () {
-        if (this.reviewrating >= 0) {
-            this.reviewrating -= 1
-            $("#writereviewstars").load(window.location.href + " #writereviewstars");
-        }
-    },
-    editreviewStarsUp: function () {
-        if (this.editReview.ratingnumber < 5) {
-            this.editReview.ratingnumber += 1
-            $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
-        }
+                if (this.product[i].colorID === colorID) {
+                    if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
 
-    },
-    editreviewStarsDown: function () {
-        if (this.editReview.ratingnumber >= 0) {
-            this.editReview.ratingnumber -= 1
-            $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
-        }
+                    } else {
 
-    },
+                        this.sizes.push(this.product[i].size)
+                        this.colors1[this.product[i].propID] = this.product[i].size
 
-    postReview() {
-        const current = new Date();
-        const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+                    }
+
+                }
+            }
+            
+
+            //this.sizes.sort();
+            $("#sizecontainer").load(window.location.href + " #sizecontainer");
+            this.order.propID = 0
+        },
+        reviewStarsUp: function () {
+            if (this.reviewrating < 5) {
+                this.reviewrating += 1
+                $("#writereviewstars").load(window.location.href + " #writereviewstars");
+            }
 
 
-        const data = {
-            "userID": "0170d36a-78c3-4765-b515-56a6d700bcad",
-            "prodID": this.product[0].prodID,
-            "ratingnumber": this.reviewrating,
-            "comment": $('#comment').val(),
-            "date": date
-        }
-        $.ajax({
-            url: 'products/addReview',
-            method: "POST",
-            data: data,
-            success: () => {
-                console.log("Review was added")
-                location.reload();
+        },
+        reviewStarsDown: function () {
+            if (this.reviewrating >= 0) {
+                this.reviewrating -= 1
+                $("#writereviewstars").load(window.location.href + " #writereviewstars");
+            }
+        },
+        editreviewStarsUp: function () {
+            if (this.editReview.ratingnumber < 5) {
+                this.editReview.ratingnumber += 1
+                $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
+            }
 
-            },
-        })
+        },
+        editreviewStarsDown: function () {
+            if (this.editReview.ratingnumber >= 0) {
+                this.editReview.ratingnumber -= 1
+                $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
+            }
+
+        },
+
+        postReview() {
+            const current = new Date();
+            const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
+
+            const data = {
+                "userID": this.loggedin.id,
+                "prodID": this.product[0].prodID,
+                "ratingnumber": this.reviewrating,
+                "comment": $('#comment').val(),
+                "date": date
+            }
+            $.ajax({
+                url: 'products/addReview',
+                method: "POST",
+                data: data,
+                success: () => {
+                    console.log("Review was added")
+                    location.reload();
+
+                },
+            })
         },
         postUpdateReview() {
             const data = {
-                
+
                 "reviewID": this.editReview.reviewID,
                 "ratingnumber": this.editReview.ratingnumber,
-                "comment": $('#comment'+this.editReview.reviewID).val(),
-                
+                "comment": $('#comment' + this.editReview.reviewID).val(),
+
             }
-            
+
             $.ajax({
                 url: 'products/editreview',
                 method: "put",
@@ -322,52 +323,87 @@ const vm = new Vue({
                 success: () => {
                     console.log("Review has been updated")
                     location.reload();
-    
+
                 },
             })
-            },
+        },
 
-    updateOrder: function (propID) {
-        this.order.propID = propID
+        updateOrder: function (propID) {
+            this.order.propID = propID
 
-        console.log(this.order)
-    },
-    addToCart: function () {
-        this.order.prodID = this.product[0].prodID
-        if (this.order.propID === 0) {
-            alert("Please choose a size")
-        }
-        if(this.order.propID != 0){
-            console.log(this.order)
-            const obj = {
-                "prodID": this.order.prodID,
-                "propID": this.order.propID
+
+        },
+        notloggedinpopup: function () {
+            $("#loginpopup").slideToggle();
+            setTimeout(function () {
+                $('#loginpopup').fadeOut('fast');
+            }, 1000);
+
+
+        },
+        pleasechoosesize: function () {
+            $("#choosesize").slideToggle();
+            setTimeout(function () {
+                $('#choosesize').fadeOut('fast');
+            }, 1000);
+
+
+        },
+        shoptoggle: function(){
+            $("#navigation-cart").slideToggle();
+            setTimeout(function () {
+                $('#navigation-cart').fadeOut('fast');
+            }, 3000);
+        },
+
+        addToCart: function () {
+            this.order.prodID = this.product[0].prodID
+            if (this.order.propID != 0) {
+
+
+
+                if (this.loggedin.id) {
+                    if (this.order.propID != 0) {
+                        var prod;
+                        for (var i = 0; i < this.product.length; i++) {
+                            if (this.product[i].propID === this.order.propID) {
+                                prod = this.product[i]
+
+                            }
+                        }
+
+                        $.ajax({
+                            url: '/auth/pushToShoppingCart',
+                            method: 'POST',
+                            data: prod,
+                            success: () => {
+                                console.log("Product added")
+                                
+                                navbarvm.getLoggedInUser()
+                                vm.shoptoggle()
+                            }
+                        })
+                    }
+                } else {
+                    vm.notloggedinpopup()
+                    
+                }
+            } else {
+                vm.pleasechoosesize()
             }
+
+        },
+
+        getLoggedInUser() {
             $.ajax({
-                url:'/auth/pushToShoppingCart',
-                method:'POST',
-                data:obj,
-                success: () => {
-                    console.log("Bajs")
+                url: '/auth/loggedInUser',
+                type: 'GET',
+                success: (result) => {
+                    this.loggedin = result;
+
                 }
             })
-
-
-        alert("You are buying: " +"\npropID: "+ this.order.propID + "\nprodID: " + this.order.prodID)
-        }
-
-    },
-
-    getLoggedInUser() {
-               $.ajax({
-                    url: '/auth/loggedInUser',
-                    type: 'GET',
-                    success: (result) => {
-                         this.loggedin = result;
-
-                    }
-               })
-          },
+        },
     }
 });
 vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")

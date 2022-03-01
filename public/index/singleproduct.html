@@ -24,7 +24,7 @@
 
 <body>
 
-       <div id="navbar"></div>
+       <div id="navbar" class="navbar"></div>
 
     <div id="appsingleprod">
  
@@ -60,7 +60,7 @@
                     <div class="item3">
                         <div class="buysection">
                             <div class="titlecontainer">
-                                <h3>{{prodname}}</h3>
+                                <h3>{{test}}</h3>
                                 <h2><b>{{product[0].price}} Kr</b></h2>
                             </div>
                             <div class="reviewstars" style="justify-content: left;">
@@ -100,6 +100,8 @@
 
                             </div>
                             <div class = "choosesize" style = "display: None;">Please choose a size</div>
+                            <div class="loginpopup" id = "loginpopup">Please log in to add a product</div>
+                            <div class="loginpopup" id = "choosesize">Please choose a size first</div>
                             <button class="buybutton" v-on:click="addToCart()">Add To Cart</button>
                             <div>
 
@@ -159,13 +161,13 @@
                         </div>
 
                         <h4>{{rating}}/5</h4>
-                        <button class="reviewbutton" id="reviewbutton" v-on:click="openReviewContainer()">Write
+                        <button class="reviewbutton" id="reviewbutton" v-if="loggedin.id" v-on:click="openReviewContainer()">Write
                                    Review</button>
                         <div class="reviewform" id="reviewform" style="display: none;">
                             <form>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bassenilsson93@gmail.com">
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="loggedin.email" readonly>
                                 </div>
                                 <p>Rate the product</p>
                                 <div class="starscontainer writereviewstars">
@@ -189,7 +191,7 @@
                     <div class="reviewcontainer" id = "reviewcontainer">
                         <div v-for="review in reviews">
                             <div class="reviewcard" id = "reviewcard">
-                                <div class="review1"><b>Name: </b>{{review.userID}}<br><b>Date: </b>2022-02-02
+                                <div class="review1"><b>Name: </b>{{review.name}}<br><b>Date: </b>2022-02-02
                                 </div>
                                 <div class="review2">{{review.comment}}</div>
                                 <div class="review3">
@@ -199,8 +201,8 @@
 
                                     </div>
                                     <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
-                                    <button class = "editreviewbutton" style="background-color: green;" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
-                                    <button class = "editreviewbutton" style="background-color: red;" v-on:click="deleteReview(review.reviewID)">Delete</button>
+                                    <button class = "editreviewbutton" style="background-color: green;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
+                                    <button class = "editreviewbutton" style="background-color: red;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="deleteReview(review.reviewID)">Delete</button>
                                 </div>
 
 
@@ -209,7 +211,7 @@
                                 <form>
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">Name</label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly :placeholder="review.userID">
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly :placeholder="review.name">
                                         <label for="exampleFormControlInput1">Date</label>
                                         <input type="email" class="form-control" id="exampleFormControlInput1" readonly placeholder="2022-02-02">
                                     </div>

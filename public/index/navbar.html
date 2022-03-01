@@ -53,7 +53,7 @@
 
           <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
                <h2>Do loging</h2>
-               <h3>{{ loggedin }}</h3>  
+               <h3 v-model="loggedin">hej</h3>  
                <div>
                     <p> Name: {{ loggedin.name}} </p>
                </div>
@@ -79,7 +79,19 @@
 
           <div class="navigation-cart" id="navigation-cart" style="display: none;">
                <h2>SHOPPING CART</h2>
-               HERE YOU DESIGN SHOPPIUNG CART YOU MO
+               
+               <div v-for="l in loggedin.shoppingcart">
+                    <div style="display: flex;">
+                    <img class="card-img-top picsmall_left" v-bind:src="l.picURL" alt="Card image cap">
+                    <div style="margin-left: 5px;"><p>{{l.name}}</p>
+                    <p>Amount: {{l.amount}}</p>                    
+               </div>
+               <div>
+                    <p><b>Price: {{l.price}}</b></p>
+                    <p>Size: {{l.size}}</p>
+               </div>
+               </div>
+               </div>
           </div>
           <div class="navigation-categories " style="display: none; ">
                <div class="categories ">

@@ -578,7 +578,8 @@ const getReviewsByProdID = async(prodID) => {
         for (let i = 0; i < res.length; i++) {
 
             let name = await getUserNameByReviews(res[i].userID);
-            res[i].userID = name[0]['name']
+            res[i].name = name[0]['name']
+            res[i].userID = name[0]['userID']
         }
 
         return res;
@@ -591,7 +592,7 @@ const getUserNameByReviews = async(userID) => {
     try {
 
         const dbConnection = await dbPromise;
-        const res = await dbConnection.all("SELECT name FROM user WHERE userID = (?)", [userID]);
+        const res = await dbConnection.all("SELECT name,userID FROM user WHERE userID = (?)", [userID]);
 
         return res;
     } catch (error) {
