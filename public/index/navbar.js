@@ -3,6 +3,7 @@ const navbarvm = new Vue({
     data: {
         loggedin: {},
         searched: [],
+        shoppingitem: 0
     },
 
 
