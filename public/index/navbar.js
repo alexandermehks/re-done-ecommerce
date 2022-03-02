@@ -114,6 +114,7 @@ const navbarvm = new Vue({
 });
 
 navbarvm.getLoggedInUser();
+navbarvm.search("");
 
 
 
