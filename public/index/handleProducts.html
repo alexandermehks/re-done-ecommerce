@@ -52,7 +52,7 @@
                         <tbody>
                             <tr v-for="product in onlyProducts" v-bind:key="product.prodID">
                                 <th scope="row" class="t-check"><input type="checkbox" name="asd" value="asd"></th>
-                                <td class="t-url"><img class="img-product-table" src="https://www.famousfootwear.com/blob/product-images/20000/50/17/2/50172_pair_large.jpg"></td>
+                                <td class="t-url"><img class="img-product-table" v-bind:src="product.url[0]" v-if="product && product.url"></td>
                                 <td class="t-name">{{product.name}}</td>
                                 <td class="t-price">{{product.price}}</td>
                                 <td class="t-desc">{{product.description}}</td>
@@ -92,7 +92,7 @@
                                 <option value="pants">Pants</option>
                                 <option value="tshirt">T-shirt</option>
                                 <option value="sweater">Sweater</option>
-                                
+                                <option value="accesoaries">Accesoaries</option>
                               </select>
                             </div>
                             <div class="col">
@@ -257,6 +257,7 @@
                                 <option value="sweater" :selected="handleProduct.type == 'sweater'">Sweater</option>
                                 <option value="pants" :selected="handleProduct.type == 'pants'">Pants</option>
                                 <option value="tshirt" :selected="handleProduct.type == 'tshirt'">T-shirt</option>
+                                <option value="accesoaries" :selected="handleProduct.type == 'accesoaries'">Accesoaries</option>
                               </select>
                             </div>
                             <div class="col">
@@ -547,7 +548,7 @@
 
 
 
-            <div id=" footer "></div>
+            <div id="footer"></div>
         </div>
 
     </div>

@@ -71,7 +71,7 @@ body {
 }
 
 .sub-hero-gray {
-    background-color: silver;
+    background-color: #f4f5f7 !important;
     height: 70%;
     width: 100%;
     position: absolute;
@@ -101,6 +101,62 @@ body {
     width: 70%;
     margin-top: 5%;
     margin-left: 15%;
+}
+
+.sub-hero-new {
+    font-style: normal;
+    line-height: 25px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    font-family: 'Montserrat';
+    letter-spacing: 7px;
+    font-size: 15px;
+    font-weight: 200;
+    text-transform: uppercase;
+    color: #00bcd4;
+    margin-top: 50px;
+}
+
+.sub-hero-new-title {
+    font-family: 'Abhaya Libre';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 80px;
+    line-height: 80px;
+    text-transform: none;
+    letter-spacing: 0;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 60px;
+    color: #3c3950;
+    margin-top: 30px;
+}
+
+.sub-hero-inner-text h1 {
+    font-family: 'Abhaya Libre';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 80px;
+    line-height: 80px;
+    text-transform: none;
+    letter-spacing: 0;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    color: #3c3950;
+}
+
+.sub-hero-inner-text p {
+    color: #5f727f;
+    box-sizing: border-box;
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 37px;
+    text-transform: none;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .centered-img {
