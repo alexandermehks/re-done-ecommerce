@@ -212,6 +212,11 @@ nav {
     color: #00bcd4;
 }
 
+.right a {
+    color: #9597a3;
+    font-size: 24px;
+}
+
 .a-icon {
     min-width: 40px!important;
 }

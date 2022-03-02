@@ -27,19 +27,24 @@ const vm = new Vue({
             "sweater": 4,
             "pants": 2,
             "tshirt": 3,
+            "accesoaries": 8,
         },
         choosenCatIdAdd: 1,
-        addTags: []
+        addTags: [],
 
 
 
     },
 
     beforeMount() {
-        $("#navbar").load("navbar.html");
-        $("#footer").load("footer.html");
+
         this.updateAll();
         this.getColors();
+        $("#footer").load("footer.html");
+    },
+    mounted() {
+        $("#navbar").load("navbar.html");
+        $("#footer").load("footer.html");
     },
 
     methods: {
@@ -489,7 +494,7 @@ const vm = new Vue({
                     this.updateAll()
 
                     //Loop through handle product and remove img as well
-                    for (i in this.handleProduct.pictures) {
+                    for (let i in this.handleProduct.pictures) {
                         if (this.handleProduct.pictures[i].picID == picture.picID) {
                             this.handleProduct.pictures.splice(i, 1)
                             break;
@@ -704,7 +709,7 @@ $(document).ready(function() {
 
 
     $("#confirmRemoveProduct").click(function() {
-        handleProduct = vm.handleProduct;
+        let handleProduct = vm.handleProduct;
         if (handleProduct.prodID) {
             console.log("Ready to remove product", handleProduct.prodID)
                 //Post request remove product

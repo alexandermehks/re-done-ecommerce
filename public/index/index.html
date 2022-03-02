@@ -27,7 +27,8 @@
                 </div>
             </div>
 
-            <div style="height: 40px "></div>
+            <div style="height: 70px "></div>
+
             <div class="sub-hero ">
                 <div class="sub-hero-gray "></div>
                 <div class="sub-hero-gray-flex ">
@@ -36,18 +37,19 @@
                         <div class="centered-img"></div>
 
                     </div>
+
+
+
+
                     <div class="sub-hero-text ">
                         <div class="sub-hero-inner-text ">
                             <h1>Tobias Loves Kungen av Edsbyn!</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at tempor commodo. Mauris commodo quis imperdiet massa tincidunt.
-                                Turpis tincidunt id aliquet risus feugiat in ante metus dictum. Tellus id interdum velit laoreet id. Sed id semper risus in hendrerit gravida. Faucibus vitae aliquet nec ullamcorper sit amet risus. Vitae tempus quam pellentesque
-                                nec nam. Sapien pellentesque habitant morbi tristique. Mi eget mauris pharetra et ultrices neque ornare aenean. Velit ut tortor pretium viverra suspendisse potenti nullam ac tortor. Ipsum nunc aliquet bibendum enim facilisis
-                                gravida neque convallis.
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod exercitation tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam, nostrud ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+                                in voluptate velit esse cillum dolore eu fugiat nulla paria.
+
                             </p>
-                            <p>Ac odio tempor orci dapibus. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Sem et tortor consequat id porta nibh venenatis cras sed. Tempus quam pellentesque nec nam aliquam sem et tortor consequat.
-                                Vitae congue mauris rhoncus aenean vel elit. Tellus id interdum velit laoreet id donec ultrices tincidunt. Tellus in hac habitasse platea. Proin libero nunc consequat interdum varius sit amet mattis. Rhoncus urna neque
-                                viverra justo nec ultrices dui sapien eget. Morbi non arcu risus quis varius quam quisque.
-                            </p>
+
 
                         </div>
                     </div>
@@ -55,49 +57,50 @@
 
             </div>
             <div style="height: 40px "></div>
+            <div class="sub-hero-new">
+                DISCOVER NEW ARRIVALS
+            </div>
 
+            <div class="sub-hero-new-title">
+                Shoes & Accessories
+            </div>
 
             <div>
-                <center>
-                    <h2>IN HERE WE WILL ADD CARDS</h2>
-                </center>
+
                 <div class="prod-container">
-                    <div class="prod-card" v-for="product in onlyProducts">
-                        <a href="#" class="prod-card-img"></a>
-                        <div class="prod-card-body">
-                            <div class="prod-hr-body">
-                                <div class="prod-hr"></div>
+                    <div class="prod-card" v-for="product in onlyProducts" v-if="product.categoryObject.parentCategory == 1 || product.categoryObject.parentCategory == 8">
+                        <a href=" # " class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
+                        <div class="prod-card-body ">
+                            <div class="prod-hr-body ">
+                                <div class="prod-hr "></div>
                             </div>
-                            <div class="prod-categories">
-                                <a class="prod-categories-item" href="#">Accessoaries</a>
-                                <a class="prod-categories-item" href="#">Bags</a>
+                            <div class="prod-categories ">
+                                <a class="prod-categories-item " href="# ">{{product.categoryObject.parent_name}}</a>
+                                <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0 " href="# ">{{product.categoryObject.category_name}}</a>
                             </div>
-                            <div class="prod-title">
+                            <div class="prod-title ">
                                 {{product.name}}
                             </div>
-                            <div class="prod-price">
+                            <div class="prod-price ">
                                 {{product.price}}kr
                             </div>
 
-                            <div style="margin-top: 5px">
-                                <a class="add-cart-button" href="#">Add to cart</a>
+                            <div style="margin-top: 5px ">
+                                <a class="add-cart-button " href="# ">Add to cart</a>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
 
             </div>
             <div style="height: 40px "></div>
-            <div class="hero rounded-corner">
-                <img src="images/discount.png" class="rounded-corner" style="width:100%;">
+            <div class="hero rounded-corner ">
+                <img src="images/discount.png " class="rounded-corner " style="width:100%; ">
                 <div class="centered-hero-text ">
-                    <p class="hero-big">Lorum impsum Dolare</p>
-                    <p class="hero-bigger">Sign up for 20% discount</p>
+                    <p class="hero-big ">Lorum impsum Dolare</p>
+                    <p class="hero-bigger ">Sign up for 20% discount</p>
                     <div>
-                        <input type="text" placeholder="Enter your email adress">
+                        <input type="text " placeholder="Enter your email adress ">
                     </div>
                     <div>
                         <button>Get 20% discount now!</button>
@@ -106,17 +109,17 @@
             </div>
             <div style="height: 40px "></div>
 
-            <div class="campaign-1">
-                <div class="campaign-1-inner uggla"><img src="images/uggla.png"></div>
-                <div class="campaign-1-inner">
-                    <div class="campaign-1-inner-top price">
+            <div class="campaign-1 ">
+                <div class="campaign-1-inner uggla "><img src="images/uggla.png "></div>
+                <div class="campaign-1-inner ">
+                    <div class="campaign-1-inner-top price ">
                         <p>Bracelet - By uggla<br /><span>1200 kr</span></p>
                     </div>
                     <div class="campaign-1-inner-bottom ">
-                        <div class="campaign-1-inner-bottom-inner inner1 price">
+                        <div class="campaign-1-inner-bottom-inner inner1 price ">
                             <p>Sunglasses - By uggla<br /><span>200 kr</span></p>
                         </div>
-                        <div class="campaign-1-inner-bottom-inner inner2 price">
+                        <div class="campaign-1-inner-bottom-inner inner2 price ">
                             <p>Fedora - By uggla<br /><span>200 kr</span></p>
                         </div>
                     </div>
@@ -125,28 +128,59 @@
 
             </div>
             <div style="height: 40px "></div>
-            <div class="special-offers">
-                <h3>Lorum ipsum Dolare</h3>
-                <h1>Special offers!</h1>
-                <div class="edsbyn">
-                    <a href="#"><img src="images/kung.png"></a>
+            <div class="special-offers ">
+                <div style="height: 40px "></div>
+                <div class="sub-hero-new">
+                    LOREM IPSUM DOLOR SIT AMET
+                </div>
+
+                <div class="sub-hero-new-title">
+                    Special holiday offer
+                </div>
+                <div class="edsbyn ">
+                    <a href="# "><img src="images/kung.png "></a>
                 </div>
             </div>
             <div style="height: 40px "></div>
-            <div style="height: 700px ">
-                <div class="row">
-                    <div class="col-sm-4" v-for="product in onlyProducts" v-if="product.tagsArray.includes('deals')">
-                        <div class="card" style="width: 200px;">
-                            <img class="card-img" src="./images/girl.png" alt="picture of product">
-                            <div class="card-body">
-                                <h5 class="card-title">{{product.name}}</h5>
-                                <p class="card-text">{{product.price}}</p>
-                                <button type="button" class="button">Add to cart</button>
+            <div>
+
+                <div class="prod-container ">
+                    <div class="prod-card " v-for="product in onlyProducts " v-if="product.tagsArray.includes( 'deals') ">
+                        <a href="# " class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
+                        <div class="prod-card-body ">
+                            <div class="prod-hr-body ">
+                                <div class="prod-hr "></div>
+                            </div>
+                            <div class="prod-categories ">
+                                <a class="prod-categories-item " href="# ">{{product.categoryObject.parent_name}}</a>
+                                <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0 " href="# ">{{product.categoryObject.category_name}}</a>
+                            </div>
+                            <div class="prod-title ">
+                                {{product.name}}
+                            </div>
+                            <div class="prod-price ">
+                                {{product.price}}kr
+                            </div>
+
+                            <div style="margin-top: 5px ">
+                                <a class="add-cart-button " href="# ">Add to cart</a>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+
+            <div class="sub-hero-new">
+                TESTIMONIALS
+            </div>
+
+            <div class="sub-hero-new-title">
+                Our happy clients
+            </div>
+            <DIV>
+                ADD HAPPY CLIENTS
+            </DIV>
             <div id="footer"></div>
         </div>
 
@@ -154,10 +188,10 @@
 
     <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
     <script src="javascript/nav.js "></script>
-    <script src="javascript/index.js"></script>
+    <script src="javascript/index.js "></script>
 
 </body>
 

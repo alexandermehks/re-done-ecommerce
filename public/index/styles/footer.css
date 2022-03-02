@@ -17,6 +17,21 @@ footer {
     align-items: center;
     justify-content: center;
     padding: 40px;
+    color: #99a9b5;
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+footer a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #5f727f;
+    text-decoration: none;
 }
 
 footer .left {

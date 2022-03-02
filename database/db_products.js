@@ -19,6 +19,7 @@ const dbPromise = (async() => {
             driver: sqllite3.Database
         });
     } catch (error) {
+        console.log(error)
         throw new error('DB CONNECTION FAILED');
     }
 })();
@@ -131,9 +132,14 @@ const getCategoryWithId = async(catID) => {
     try {
         const dbConnection = await dbPromise;
         const category = await dbConnection.all(`SELECT * FROM category WHERE catID = (?)`, [catID]);
-        if (category.length > 0)
+
+
+
+        if (category.length > 0) {
+            const categoryParent = await dbConnection.all(`SELECT * FROM category WHERE catID = (?)`, [category[0].parentCategory]);
+            category[0].parent_name = categoryParent[0].category_name;
             return category[0];
-        else return null;
+        } else return null;
     } catch (error) {
         console.log(error)
         res.sendStatus(400, "SOmething went wrong")
@@ -300,6 +306,7 @@ const addProduct = async(data) => {
         return response, data.prodID
 
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "Something went wrong")
     }
 }
@@ -387,7 +394,7 @@ const addProductProperty = async(req) => {
                 data.propID = id_propID
                 const dbConnection = await dbPromise;
 
-                if (['shoes', 'sweater', 'pants', 'tshirt'].includes(data.type)) {
+                if (['shoes', 'sweater', 'pants', 'tshirt', 'accesoaries'].includes(data.type)) {
                     console.log("Inserted into db", [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
                     const response = await dbConnection.run(`INSERT INTO ${data.type} (propID, prodID, colorID, balance, size, picURL) VALUES (?,?,?,?,?,?)`, [data.propID, data.prodID, data.colorID, data.balance, data.size, data.picURL])
                     return response
@@ -400,6 +407,7 @@ const addProductProperty = async(req) => {
 
 
         } catch (error) {
+            console.log(error)
             res.sendStatus(400, "Something went wrong");
         }
 
@@ -554,6 +562,7 @@ const addPicture = async(propID, file) => {
         const response = await dbConnection.run(`INSERT INTO pic (propID, pictureURL) VALUES (?,?)`, [propID, file])
         return response
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "cant add picture")
     }
 };
@@ -565,6 +574,7 @@ const getPicture = async(propID) => {
         return response
 
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "cant get picture")
     }
 };
@@ -609,46 +619,50 @@ const addReview = async(review) => {
         }
         return res;
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "something went wrontt")
     }
 }
 const deleteReview = async(data) => {
-    
+
     try {
         const dbConnection = await dbPromise;
         if (data) {
-            
+
             const res = await dbConnection.run(`DELETE FROM reviews WHERE reviewID = ?`, [data])
             console.log(data)
         }
         return res;
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "something went wrontt")
     }
 }
 const updateReview = async(data) => {
-    
+
     try {
         const dbConnection = await dbPromise;
         if (data) {
-            
+
             const response = await dbConnection.run(`UPDATE reviews SET ratingnumber = ?, comment = ? WHERE reviewID = ?`, [data.ratingnumber, data.comment, data.reviewID])
 
             console.log(data)
         }
         return res;
     } catch (error) {
+        console.log(error)
         res.sendStatus(400, "something went wrontt")
     }
 }
 
 const searchBar = async(search) => {
     console.log(search)
-    try{
+    try {
         const dbConnection = await dbPromise;
         const res = await dbConnection.run
 
-    } catch (error){
+    } catch (error) {
+        console.log(error)
         res.sendStatus(400, "something went wrong")
     }
 
