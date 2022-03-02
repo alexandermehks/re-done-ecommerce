@@ -16,15 +16,12 @@
 .picsmall{
     width: 7rem;
     height: 8rem;
-    
-    
-    
 }
 .picsmall_left{
     width: 7rem;
     height: 10rem;
     margin-left: 5px;
-    
+    margin-bottom: 2rem;
     
 }
 .picsmall1:hover{
@@ -32,11 +29,11 @@
     
 }
 
-.card{
+.card1{
     
     margin-left: 15%;
     margin-right: 15%;
-    
+    border: none;
     
 }
 .piccontainer{
@@ -209,8 +206,6 @@ flex-basis: 10%;
     .review3{
         flex-basis: 20%;
         display: flex;
-        
-        
     }
 .reviewbutton{
     width: 20%;
@@ -262,7 +257,7 @@ flex-basis: 10%;
         height: 10px;
         
   }
-  .right:hover{
+  .right1:hover{
     border: solid gray;
     border-width: 0 3px 3px 0;
     display: inline-block;
@@ -271,14 +266,14 @@ flex-basis: 10%;
     height: 15px;
   }
   
-  .right {
+ .right1 {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
   }
-  .left {
+  .left1 {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-  }
+  } 
   .arr{
       margin-top: 7px;
   }
@@ -287,4 +282,13 @@ flex-basis: 10%;
       height: 70%;
       margin-left: 10px;
       border-radius: 6px;
+  }
+  .loginpopup{
+      border: 1px black solid;
+      border-radius: 5px;
+      margin-top: 10px;
+      padding: 10px;
+      color: red;
+      font-weight: bold;
+      display: none;
   }
