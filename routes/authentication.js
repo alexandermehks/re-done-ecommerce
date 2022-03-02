@@ -57,11 +57,14 @@ routes.post('/doLogIn', async (req, res) => {
           const match = await dbService.comparePassword(req.body.email, req.body.password);
           if (match) {
                const user = await dbService.getUser(req.body.email);
+               console.log(user)
                current_session = req.session;
                current_session.user = {};
+               current_session.user.id = user.userID;
                current_session.user.email = user.email;
                current_session.user.name = user.name;
                current_session.user.role = user.role;
+               current_session.user.shoppingcart = {};
                res.json(current_session.user)
           }
           else {
@@ -70,6 +73,29 @@ routes.post('/doLogIn', async (req, res) => {
      }
      catch (error) {
           res.sendStatus(400, "Cant log in");
+     }
+})
+
+routes.post('/pushToShoppingCart', async (req, res) => {
+     try {
+          if(current_session.user){
+               const cart = current_session.user.shoppingcart;
+               const propID = req.body.propID;
+               const prodID = req.body.prodID;
+               
+               if(propID in cart){
+                    cart[propID].amount = cart[propID].amount + 1
+               }else{
+                    cart[propID] = req.body
+                    cart[propID]["amount"] = 1
+               }
+               console.log(cart)
+
+          }
+          res.send("OK")
+     }
+     catch(error){
+          res.sendStatus(400, "Something went wrong")
      }
 })
 

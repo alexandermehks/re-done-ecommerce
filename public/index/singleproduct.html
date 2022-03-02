@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
+
+
+    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kingnation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous"> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/singelproduct.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
-
+    
+    
 </head>
 
 <body>
 
+       <div id="navbar" class="navbar"></div>
 
-    <div id="app">
+    <div id="appsingleprod">
+ 
 
-        <div id="navbar"></div>
+
+
 
 
         <div class="wrapper">
@@ -35,7 +45,7 @@
                 </div>
 
             </div>
-            <div class="card card">
+            <div class="card1 card1">
                 <div class="piccontainer">
                     <div class="smallpicscontainer item1">
                         <div v-for="pic in product[0].url">
@@ -50,7 +60,7 @@
                     <div class="item3">
                         <div class="buysection">
                             <div class="titlecontainer">
-                                <h3>{{prodname}}</h3>
+                                <h3>{{test}}</h3>
                                 <h2><b>{{product[0].price}} Kr</b></h2>
                             </div>
                             <div class="reviewstars" style="justify-content: left;">
@@ -90,6 +100,8 @@
 
                             </div>
                             <div class = "choosesize" style = "display: None;">Please choose a size</div>
+                            <div class="loginpopup" id = "loginpopup">Please log in to add a product</div>
+                            <div class="loginpopup" id = "choosesize">Please choose a size first</div>
                             <button class="buybutton" v-on:click="addToCart()">Add To Cart</button>
                             <div>
 
@@ -149,23 +161,23 @@
                         </div>
 
                         <h4>{{rating}}/5</h4>
-                        <button class="reviewbutton" id="reviewbutton" v-on:click="openReviewContainer()">Write
+                        <button class="reviewbutton" id="reviewbutton" v-if="loggedin.id" v-on:click="openReviewContainer()">Write
                                    Review</button>
                         <div class="reviewform" id="reviewform" style="display: none;">
                             <form>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bassenilsson93@gmail.com">
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="loggedin.email" readonly>
                                 </div>
                                 <p>Rate the product</p>
                                 <div class="starscontainer writereviewstars">
-                                    <p class="arr" v-on:click="reviewStarsDown()"><i class="arrow_left left"></i></p>
+                                    <p class="arr" v-on:click="reviewStarsDown()"><i class="arrow_left left1"></i></p>
                                     <div v-for="stars in 5 ">
                                         <span class="fa fa-star checked fa-2x starsizer" v-if="stars <= reviewrating"></span>
                                         <span class="fa fa-star starsizer fa-2x" v-if="stars > reviewrating"></span>
 
                                     </div>
-                                    <p class="arr" v-on:click="reviewStarsUp()"><i class="arrow_right right"></i></p>
+                                    <p class="arr" v-on:click="reviewStarsUp()"><i class="arrow_right right1"></i></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Write Review</label>
@@ -179,7 +191,7 @@
                     <div class="reviewcontainer" id = "reviewcontainer">
                         <div v-for="review in reviews">
                             <div class="reviewcard" id = "reviewcard">
-                                <div class="review1"><b>Name: </b>{{review.userID}}<br><b>Date: </b>2022-02-02
+                                <div class="review1"><b>Name: </b>{{review.name}}<br><b>Date: </b>2022-02-02
                                 </div>
                                 <div class="review2">{{review.comment}}</div>
                                 <div class="review3">
@@ -189,8 +201,8 @@
 
                                     </div>
                                     <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
-                                    <button class = "editreviewbutton" style="background-color: green;" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
-                                    <button class = "editreviewbutton" style="background-color: red;" v-on:click="deleteReview(review.reviewID)">Delete</button>
+                                    <button class = "editreviewbutton" style="background-color: green;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
+                                    <button class = "editreviewbutton" style="background-color: red;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="deleteReview(review.reviewID)">Delete</button>
                                 </div>
 
 
@@ -199,20 +211,20 @@
                                 <form>
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">Name</label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly :placeholder="review.userID">
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly :placeholder="review.name">
                                         <label for="exampleFormControlInput1">Date</label>
                                         <input type="email" class="form-control" id="exampleFormControlInput1" readonly placeholder="2022-02-02">
                                     </div>
                                     <p>Rate the product</p>
                                     <div class="starscontainer writereviewstars">
                                         <p v-bin></p>
-                                        <p class="arr" v-on:click="editreviewStarsDown()"><i class="arrow_left left"></i></p>
+                                        <p class="arr" v-on:click="editreviewStarsDown()"><i class="arrow_left left1"></i></p>
                                         <div v-for="stars in 5 ">
                                             <span class="fa fa-star checked fa-2x starsizer" v-if="stars <= editReview.ratingnumber"></span>
                                             <span class="fa fa-star starsizer fa-2x" v-if="stars > editReview.ratingnumber"></span>
     
                                         </div>
-                                        <p class="arr" v-on:click="editreviewStarsUp()"><i class="arrow_right right"></i></p>
+                                        <p class="arr" v-on:click="editreviewStarsUp()"><i class="arrow_right right1"></i></p>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">Write Review</label>
@@ -252,12 +264,13 @@
                     </div>
                 </div>
             </div>
-
+        </div>
 
 
         </div>
 
     </div>
+    <div id="footer"></div>
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -268,15 +281,7 @@
     <script src="bb/bbcode-parser.js"></script>
 
 
-    <script type="text/javascript">
-        (function() {
-            window['__CF$cv$params'] = {
-                r: '6dbcbc595d1795fd',
-                m: 'u_Yy.NJQKEwkxyHKpVGVnuU4aaRFikBX6p9hLePXCpA-1644573684-0-ARV1cGwbSbP4JabUimtlwn3QEqKCW5TIzWMHuJ9MoU4RV/Abfl6dYm/6LUWVpgBqnBrMGW298gq6wcUNSn8R95+pWoMTASwsShfwvBn6Jt0YwvTxqIdEcNCgv9b6+pzw6nVxbQWKySfYfn3ysa7E9Vr7tHZ4OduYvtlMrwPTrSJhtqutLWDHqPJa8wRROu+bIKfivbTSMpu999W47nFmstU=',
-                s: [0xfd811ef1ed, 0x0b80c17a84],
-            }
-        })();
-    </script>
+    
  
 </body>
 
