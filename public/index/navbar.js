@@ -85,7 +85,17 @@ const navbarvm = new Vue({
 
                 }
             })
-        }
+        },
+
+
+        updateGoogleUserCart(cart){
+            this.loggedin.shoppingcart = cart;
+        },
+
+
+       
+
+
 
 
 
@@ -116,8 +126,6 @@ const navbarvm = new Vue({
 navbarvm.getLoggedInUser();
 navbarvm.search("");
 
-
-
 function onSignIn(googleUser) {
     let user = {}
     user['status'] = true;
@@ -127,12 +135,14 @@ function onSignIn(googleUser) {
     user['email'] = profile.getEmail();
     user['type'] = "GOOGLE";
     user['id'] = profile.getId();
+    user['shoppingcart'] = {};
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
     navbarvm.loggedin = user;
 }
+
 
 
 function signOut() {
