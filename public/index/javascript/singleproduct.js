@@ -436,5 +436,4 @@ const vm = new Vue({
             })
         },
     }
-
 });

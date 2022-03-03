@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/prodstyle.css">
     <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/card.css">
 
     <!---             jquery price range            -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
@@ -83,7 +84,41 @@
 
         </div>
 
-        <!--- sektion 2 -->
+        <div class="prod-container">
+            <div class="prod-card" v-for="product in currentShow" v-bind:key="product.propID">
+                <a :href="'/singleproduct?prodID='+product.prodID" class="prod-card-img " v-bind:style="{backgroundImage: 'url(' + product.picURL + ')' } "></a>
+                <div class="prod-card-body ">
+                    <div class="prod-hr-body ">
+                        <div class="prod-hr "></div>
+                    </div>
+                    <div class="prod-categories ">
+                        <a class="prod-categories-item ">{{product.categoryObject.parent_name}}</a>
+                        <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0">{{product.categoryObject.category_name}}</a>
+                    </div>
+                    <div>
+                        <img :src="product.picURL" width="50px" height="50px">
+                    </div>
+                    <div class="prod-title ">
+                        {{product.name}}
+                    </div>
+                    <div class="prod-price ">
+                        {{product.price}}kr
+                    </div>
+
+                    <div class="button-holder">
+                        <div style="margin-top: 5px">
+                            <a class="add-cart-button " :href="'/singleproduct?prodID='+product.prodID">Read more</a>
+                        </div>
+                        <div style="margin-top: 10px">
+                            <a class="add-cart-button " href="# ">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--- sektion 2 
         <div class="section-3-container section-container productUpd">
 
             <div class="container upd">
@@ -101,7 +136,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
+
 
         <div class="section-4-container section-container">
             <div class="card w-100">
