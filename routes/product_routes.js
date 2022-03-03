@@ -323,6 +323,22 @@ routes.post('/search', async(req, res) =>{
         console.log("Something went wrong")
     }
 
+}),
+
+
+routes.get('/singleproduct/:id', async(req, res) => {
+    try{
+        console.log(req.params)
+        const products = await dbService.getProductsByProdID(req.params.id);
+        console.log("Bajs")
+        res.redirect('/singleproduct/'+req.params.id)
+        console.log("Bajs2")
+
+    }
+
+    catch(error){
+        res.sendStatus(400, "something went wrong")
+    }
 })
 
 
