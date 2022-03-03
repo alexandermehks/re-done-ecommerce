@@ -356,13 +356,23 @@ const vm = new Vue({
             }, 3000);
         },
 
+
+
+       // if(propID in cart){
+        //     cart[propID].amount = cart[propID].amount + 1
+        //}else{
+         //    cart[propID] = req.body
+          //   cart[propID]["amount"] = 1
+        //}
+
+
+
         addToCart: function () {
             this.order.prodID = this.product[0].prodID
             if (this.order.propID != 0) {
-
-
-
-                if (this.loggedin.id) {
+                console.log("BAJS")
+                 
+                if (this.loggedin.id || this.loggedin.type === "GOOGLE") {
                     if (this.order.propID != 0) {
                         var prod;
                         for (var i = 0; i < this.product.length; i++) {
@@ -384,7 +394,7 @@ const vm = new Vue({
                             }
                         })
                     }
-                } else {
+                } else if(this.loggedin.type) {
                     vm.notloggedinpopup()
                     
                 }

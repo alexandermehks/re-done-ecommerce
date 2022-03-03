@@ -97,37 +97,19 @@ const navbarvm = new Vue({
                     console.log(this.categories)
                 }
             })
-        }
-
-
-
-
-
+        },
+        updateGoogleUserCart(cart){
+            this.loggedin.shoppingcart = cart;
+        },
     },
-
-
     mounted() {
-
         this.getCategories();
-
-
-
-
-
-
-
-
     }
-
-
-
-
 
 });
 
 navbarvm.getLoggedInUser();
-
-
+navbarvm.search("");
 
 function onSignIn(googleUser) {
     let user = {}
@@ -142,7 +124,17 @@ function onSignIn(googleUser) {
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      $.ajax({
+                    url: '/auth/doLogIn',
+                    type: 'POST',
+                    data: user,
+                    success: (result) => {
+                        console.log("bajs")
+
+                    }
+                })
     navbarvm.loggedin = user;
+    signOut();
 }
 
 
@@ -155,8 +147,6 @@ function signOut() {
 }
 
 $(document).ready(function() {
-
-
     $("#search-input").on("input", function() {
         // Print entered value in a div box
         navbarvm.search($(this).val())
