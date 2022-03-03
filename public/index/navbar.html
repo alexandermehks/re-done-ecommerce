@@ -21,10 +21,11 @@
                     <input type="text" id="searchbar" style="display:none" value="TEST SEARCH">
                 </a>
                 <a href="#" class="a-icon" id="cart-icon">
-                    <span class="bi bi-cart"></span>
+                    <span class="bi bi-cart">{{ shoppingitem }}</span>
                 </a>
                 <a href="#" class="a-icon" id="profile-icon">
-                    <span class="bi bi-person-circle"></span>
+                    <span v-if="!loggedin.name" class="bi bi-person-circle"></span>
+                    <span v-else class="bi bi-person-circle" style="color:green;"></span>
                 </a>
 
 
@@ -34,21 +35,20 @@
 
 
         <div v-if="!loggedin.status" class="navigation-profile" id="navigation-profile" style="display: none;">
-            <h2>logga in</h2>
+            <h2>Log In</h2>
             <form>
-                <input type="text" id="login" name="login" placeholder="login">
-                <input type="password" id="password" name="login" placeholder="password">
-                <input type="submit" value="Log In" v-on:click="logIn()">
+                <input type="text" id="login" name="login" placeholder="Login">
+                <input type="password" id="password" name="login" placeholder="Password">
+                <div>
+                    <input type="submit" id="button-login" value="Log In" v-on:click="logIn()">
+                </div>
             </form>
 
 
-            <a href="#" class="fb btn">
-                <i class="fa fa-facebook fa-fw"></i> Login with Facebook
-            </a>
-            <a href="#" class="twitter btn">
-                <i class="fa fa-twitter fa-fw"></i> Login with Twitter
-            </a>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+           <div>
+                <p>Log in using Google:</p> 
+                <div class="g-signin2" id="google-sign-in-button" data-onsuccess="onSignIn"></div>
+            </div>
 
         </div>
 
@@ -60,7 +60,9 @@
                 <p> Email: {{ loggedin.email }}</p>
             </div>
 
-            <button v-on:click="logOut()">LOG OUT</button>
+
+            <button class="btn btn-primary" v-on:click="logOut()">LOG OUT</button>
+
 
             <!--
             <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
@@ -79,8 +81,7 @@
 
 
 
-
-        <div class="navigation-cart" id="navigation-cart" style="display: none;">
+        <div class="navigation-cart" id="navigation-cart" style="display: none;"> 
             <h2>SHOPPING CART</h2>
 
             <div v-for="l in loggedin.shoppingcart">

@@ -32,7 +32,7 @@
                 <button class="btn btn-1" v-on:click="updateProd($event)" value="pants">Pants</button>
                 <button class="btn btn-1" v-on:click="updateProd($event)" value="sweater">Sweater</button>
                 <button class="btn btn-1" v-on:click="updateProd($event)" value="tshirt">T-shirt</button>
-                <button class="btn btn-1" v-on:click="updateProd($event)" value="jeans">Jeans</button>
+                <button class="btn btn-1" v-on:click="updateProd($event)" value="accesoaries">Accesoaries</button>
 
             </div>
         </div>
@@ -54,14 +54,12 @@
                     <button class="btn-4" v-bind:class="{active:choosenSizes[size]}" v-for="(sizeStr, size) in productSizes" v-bind:key="size" v-on:click="updSizeFilter(size)" v-bind:value="size">{{sizeStr}}</button>
 
                 </div>
+
                 <div class="filter ">
                     <h3>Color</h3>
 
                     <button class="color" v-bind:class="{active:choosenColor[color]}" v-for="(bajshex, color) in productColor" v-bind:key="color" v-on:click="updColorFilter(color)" :style="{ 'background-color': `${bajshex}`}"></button>
-                    <!--      <button class="color" style="background-color: #fcfcfc" data-hex="#000000"></button>
-                    <button class="color" style="background-color: #4040b9" data-hex="#4040b9"></button>
-                    <button class="color" style="background-color: #5dad3742" data-hex="#5dad3742"></button>
--->
+
                 </div>
                 <div class="filter ">
                     <p>
@@ -72,15 +70,17 @@
                 </div>
                 <div class="filter">
                     <form>
+                        <h3>shoe size</h3>
                         <div class="bajs">
                             <select class="form-select" @change="updShoeSize($event)">
                 <option v-for="(number, sizee) in shoeSizes" v-bind:key="number" v-bind:value="number">{{number}}</option>
                 </select>
-
                         </div>
                     </form>
                 </div>
+                <button class="btn btn-7" v-on:click="clearAllFilter">Clear all filters</button>
             </div>
+
         </div>
 
         <!--- sektion 2 -->

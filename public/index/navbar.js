@@ -43,6 +43,11 @@ const navbarvm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.loggedin = result;
+                    this.shoppingitem = 0;
+                    for(let item in this.loggedin.shoppingcart){
+                        this.shoppingitem += this.loggedin.shoppingcart[item].amount
+                    }
+                    console.log(this.shoppingitem)
 
                 }
             })
@@ -102,6 +107,7 @@ const navbarvm = new Vue({
         updateGoogleUserCart(cart) {
             this.loggedin.shoppingcart = cart;
         },
+
 
     },
     mounted() {
