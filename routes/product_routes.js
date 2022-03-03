@@ -330,9 +330,9 @@ routes.get('/singleproduct/:id', async(req, res) => {
     try{
         console.log(req.params)
         const products = await dbService.getProductsByProdID(req.params.id);
-        console.log("Bajs")
+    
         res.redirect('/singleproduct/'+req.params.id)
-        console.log("Bajs2")
+       
 
     }
 
