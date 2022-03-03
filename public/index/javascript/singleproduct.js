@@ -10,9 +10,7 @@ function changeStarColor(id) {
 
 
 
-$(function() {
-    $("#navbar").load("navbar.html");
-});
+
 
 const vm = new Vue({
 
@@ -44,8 +42,11 @@ const vm = new Vue({
         }],
     },
     mounted() {
-        $("#navbar").load("footer.html");
+        $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
+        
+
+        
     },
     beforeMount() {
         //Get page id

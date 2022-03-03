@@ -47,6 +47,10 @@ $(document).ready(function() {
     });
 
     $(function() {
+        $("#footer").load("footer.html")
+    })
+
+    $(function() {
         $("#productcard").load("productcard.html");
     });
 
@@ -205,6 +209,12 @@ const vm = new Vue({
             window.location.href = "/singleproduct?id=" + id
 
         },
+
+
+        addToShoppingCart() {
+            alert("Functionality not yet created")
+        }
+          
           
 
 
