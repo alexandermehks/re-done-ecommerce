@@ -70,13 +70,13 @@
 
                 <div class="prod-container">
                     <div class="prod-card" v-for="product in getProductsByCategory([1,8], 5)">
-                        <a href=" # " class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
+                        <a href="/singleproduct" class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
                         <div class="prod-card-body ">
                             <div class="prod-hr-body ">
                                 <div class="prod-hr "></div>
                             </div>
                             <div class="prod-categories ">
-                                <a class="prod-categories-item " href="# ">{{product.categoryObject.parent_name}}</a>
+                                <a class="prod-categories-item " href="">{{product.categoryObject.parent_name}}</a>
                                 <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0 " href="# ">{{product.categoryObject.category_name}}</a>
                             </div>
                             <div class="prod-title ">
@@ -178,7 +178,7 @@
 
                 <div class="prod-container ">
                     <div class="prod-card " v-for="product in getProductsBytags(['deals'], 10)">
-                        <a href="# " class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
+                        <a href="/singleproduct" class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
                         <div class="prod-card-body ">
                             <div class="prod-hr-body ">
                                 <div class="prod-hr "></div>
