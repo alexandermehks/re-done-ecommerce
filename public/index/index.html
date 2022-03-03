@@ -21,7 +21,9 @@
             <div class="hero rounded-corner">
                 <img src="images/header.png" class="rounded-corner" style="width:100%; ">
                 <div class="centered-hero-text ">
-                    <p class="hero-small ">Lorum impsum</p>
+                    <p class="hero-small ">
+                        Refresh your look with the new
+                    </p>
                     <p class="hero-big ">Winter collection</p>
                 </div>
             </div>
@@ -42,7 +44,7 @@
 
                     <div class="sub-hero-text ">
                         <div class="sub-hero-inner-text ">
-                            <h1>Tobias Loves Kungen av Edsbyn!</h1>
+                            <h1>We love helping people feel great about how they look!</h1>
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod exercitation tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam, nostrud ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
                                 in voluptate velit esse cillum dolore eu fugiat nulla paria.
@@ -67,7 +69,7 @@
             <div>
 
                 <div class="prod-container">
-                    <div class="prod-card" v-for="product in onlyProducts" v-if="product.categoryObject.parentCategory == 1 || product.categoryObject.parentCategory == 8">
+                    <div class="prod-card" v-for="product in getProductsByCategory([1,8], 5)">
                         <a href=" # " class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
                         <div class="prod-card-body ">
                             <div class="prod-hr-body ">
@@ -84,7 +86,10 @@
                                 {{product.price}}kr
                             </div>
 
-                            <div style="margin-top: 5px ">
+                            <div style="margin-top: 5px">
+                                <a class="add-cart-button " href="/singleproduct">Read more</a>
+                            </div>
+                            <div style="margin-top: 10px">
                                 <a class="add-cart-button " href="# ">Add to cart</a>
                             </div>
                         </div>
@@ -96,8 +101,8 @@
             <div class="hero rounded-corner ">
                 <img src="images/discount.png " class="rounded-corner " style="width:100%; ">
                 <div class="centered-hero-text ">
-                    <p class="hero-big ">Lorum impsum Dolare</p>
-                    <p class="hero-bigger ">Sign up for 20% discount</p>
+                    <p class="discount-lorum">Lorum impsum Dolare</p>
+                    <p class="discount-signup-text">Sign up for 20% discount</p>
                     <div>
                         <input type="text " placeholder="Enter your email adress ">
                     </div>
@@ -108,19 +113,47 @@
             </div>
             <div style="height: 40px "></div>
 
-            <div class="campaign-1 ">
-                <div class="campaign-1-inner uggla "><img src="images/uggla.png "></div>
+            <div class="campaign-1">
+                <div class="campaign-1-inner uggla"><img src="images/uggla.png"></div>
+
                 <div class="campaign-1-inner ">
-                    <div class="campaign-1-inner-top price ">
-                        <p>Bracelet - By uggla<br /><span>1200 kr</span></p>
+
+                    <div class="campaign-1-inner-top price">
+                        <a href="/singleproduct">
+                            <div class="campaign-bg">
+                                <div class="campaign-bg-bracelet zoom"></div>
+                            </div>
+                            <div class="campaign-text">
+                                <p>Bracelet - By uggla<br /><span>1200 kr</span></p>
+                            </div>
+                        </a>
                     </div>
+
+
                     <div class="campaign-1-inner-bottom ">
                         <div class="campaign-1-inner-bottom-inner inner1 price ">
-                            <p>Sunglasses - By uggla<br /><span>200 kr</span></p>
+                            <a href="/singleproduct">
+                                <div class="campaign-bg">
+                                    <div class="campaign-bg-sunglass zoom"></div>
+                                </div>
+                                <div class="campaign-text">
+                                    <p>Sunglasses - By uggla<br /><span>200 kr</span></p>
+                                </div>
+                            </a>
                         </div>
+
+
                         <div class="campaign-1-inner-bottom-inner inner2 price ">
-                            <p>Fedora - By uggla<br /><span>200 kr</span></p>
+                            <a href="/singleproduct">
+                                <div class="campaign-bg">
+                                    <div class="campaign-bg-fedora zoom"></div>
+                                </div>
+                                <div class="campaign-text">
+                                    <p>Fedora - By uggla<br /><span>200 kr</span></p>
+                                </div>
+                            </a>
                         </div>
+
                     </div>
                 </div>
 
@@ -144,7 +177,7 @@
             <div>
 
                 <div class="prod-container ">
-                    <div class="prod-card " v-for="product in onlyProducts " v-if="product.tagsArray.includes( 'deals') ">
+                    <div class="prod-card " v-for="product in getProductsBytags(['deals'], 10)">
                         <a href="# " class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + product.pictures[0].pictureURL + ')' } "></a>
                         <div class="prod-card-body ">
                             <div class="prod-hr-body ">
@@ -161,7 +194,10 @@
                                 {{product.price}}kr
                             </div>
 
-                            <div style="margin-top: 5px ">
+                            <div style="margin-top: 5px">
+                                <a class="add-cart-button " href="/singleproduct">Read more</a>
+                            </div>
+                            <div style="margin-top: 10px">
                                 <a class="add-cart-button " href="# ">Add to cart</a>
                             </div>
                         </div>
@@ -178,7 +214,7 @@
                 Our happy clients
             </div>
             <DIV>
-                ADD HAPPY CLIENTS
+                ADD HAPPY CLIENT
             </DIV>
             <div id="footer"></div>
         </div>

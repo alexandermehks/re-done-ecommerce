@@ -3,7 +3,8 @@ const navbarvm = new Vue({
     data: {
         loggedin: {},
         searched: [],
-        shoppingitem: 0
+        shoppingitem: 0,
+        categories: {}
     },
 
 
@@ -86,40 +87,24 @@ const navbarvm = new Vue({
                 }
             })
         },
+        getCategories() {
+            $.ajax({
+                url: '/products/allCategories',
+                type: 'GET',
+                success: (result) => {
+                    this.categories = result;
 
-
+                    console.log(this.categories)
+                }
+            })
+        },
         updateGoogleUserCart(cart){
             this.loggedin.shoppingcart = cart;
         },
-
-
-       
-
-
-
-
-
-
-
     },
-
-
     mounted() {
-
-
-
-
-
-
-
-
-
-
+        this.getCategories();
     }
-
-
-
-
 
 });
 
@@ -153,7 +138,6 @@ function onSignIn(googleUser) {
 }
 
 
-
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function() {
@@ -163,8 +147,6 @@ function signOut() {
 }
 
 $(document).ready(function() {
-
-
     $("#search-input").on("input", function() {
         // Print entered value in a div box
         navbarvm.search($(this).val())
