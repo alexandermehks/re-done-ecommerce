@@ -10,7 +10,7 @@ function changeStarColor(id) {
 
 
 
-$(function () {
+$(function() {
     $("#navbar").load("navbar.html");
 });
 
@@ -46,8 +46,17 @@ const vm = new Vue({
     mounted() {
         $("#navbar").load("footer.html");
         $("#footer").load("footer.html");
-
-
+    },
+    beforeMount() {
+        //Get page id
+        let prodID = new URL(location.href).searchParams.get('prodID')
+        console.log(prodID)
+        if (!prodID) {
+            prodID = "57984369-c562-45de-b33c-1a011b372810";
+        }
+        this.loadProduct(prodID)
+        this.loadReviews(prodID)
+        this.getLoggedInUser();
     },
     methods: {
         getBBHTML(bbcode) {
@@ -61,38 +70,50 @@ const vm = new Vue({
                 url: 'products/byProdId/' + id,
                 type: 'GET',
                 success: (data) => {
-                    this.product = data
-                    this.prodname = data[0].name
-                    this.order.prodID = data[0].prodID
-                    var checker = []
-                    this.colors1 = {}
-                    for (var i = 0; i < data.length; i++) {
+
+                    //IF valid id, get product
+                    if (data.length > 0) {
+
+                        this.product = data
+                        this.prodname = data[0].name
+                        this.order.prodID = data[0].prodID
+                        var checker = []
+                        this.colors1 = {}
+                        for (var i = 0; i < data.length; i++) {
 
 
-                        if (jQuery.inArray(this.product[i].colorID, checker) == -1) {
+                            if (jQuery.inArray(this.product[i].colorID, checker) == -1) {
 
-                            this.colors.push(this.product[i])
-                            checker.push(this.product[i].colorID)
+                                this.colors.push(this.product[i])
+                                checker.push(this.product[i].colorID)
 
-                        }
-
-
-                        if (this.product[i].colorID === this.product[0].colorID) {
-                            if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
-
-                            } else {
-                                this.sizes.push(this.product[i].size)
-                                this.colors1[this.product[i].propID] = this.product[i].size
                             }
 
+
+                            if (this.product[i].colorID === this.product[0].colorID) {
+                                if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
+
+                                } else {
+                                    this.sizes.push(this.product[i].size)
+                                    this.colors1[this.product[i].propID] = this.product[i].size
+                                }
+
+                            }
+                        }
+                        this.order.propID = 0
+                    } else {
+                        //IF invalid id, return default product
+                        if (id != "57984369-c562-45de-b33c-1a011b372810") {
+                            this.loadProduct("57984369-c562-45de-b33c-1a011b372810")
                         }
                     }
-                    this.order.propID = 0
-
 
                 },
                 error: (data) => {
-                    console.log("AAA")
+                    //IF invalid id, return default product
+                    if (id != "57984369-c562-45de-b33c-1a011b372810") {
+                        this.loadProduct("57984369-c562-45de-b33c-1a011b372810")
+                    }
                     return null
                 }
             });
@@ -146,14 +167,14 @@ const vm = new Vue({
 
             //update questions
         },
-        updateReview: function (reviewID) {
+        updateReview: function(reviewID) {
             alert(reviewID)
 
         },
-        openReviewContainer: function () {
+        openReviewContainer: function() {
             $("#reviewform").slideToggle();
         },
-        updateReview: function (id, comment, date, userID, ratingnumber) {
+        updateReview: function(id, comment, date, userID, ratingnumber) {
             for (var i = 0; i < this.reviews.length; i++) {
                 if (this.reviews[i].reviewID != id) {
                     if ($('#' + this.reviews[i].reviewID).is(':visible')) {
@@ -174,7 +195,7 @@ const vm = new Vue({
 
 
 
-        updatePicturePick: function (id) {
+        updatePicturePick: function(id) {
             for (var i = 0; i < this.product.length; i++) {
 
                 $('#' + this.product[i].propID).css({
@@ -187,7 +208,7 @@ const vm = new Vue({
             });
 
         },
-        updateSizePick: function (id, products) {
+        updateSizePick: function(id, products) {
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].propID + "1").css({
                     'background-color': 'white'
@@ -199,12 +220,12 @@ const vm = new Vue({
 
 
         },
-        updatePicture: function (url) {
+        updatePicture: function(url) {
             $("#picbig").attr('src', url);
 
 
         },
-        updatePictureColor: function (url) {
+        updatePictureColor: function(url) {
             $("#picbig").attr('src', url);
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].size).css({
@@ -219,7 +240,7 @@ const vm = new Vue({
 
 
 
-        changeColor: function (id) {
+        changeColor: function(id) {
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].size).css({
                     'background-color': 'white'
@@ -231,7 +252,7 @@ const vm = new Vue({
             });
 
         },
-        updateCorrectSizes: function (colorID) {
+        updateCorrectSizes: function(colorID) {
             this.colors1 = {}
 
             this.sizes = []
@@ -249,13 +270,13 @@ const vm = new Vue({
 
                 }
             }
-            
+
 
             //this.sizes.sort();
             $("#sizecontainer").load(window.location.href + " #sizecontainer");
             this.order.propID = 0
         },
-        reviewStarsUp: function () {
+        reviewStarsUp: function() {
             if (this.reviewrating < 5) {
                 this.reviewrating += 1
                 $("#writereviewstars").load(window.location.href + " #writereviewstars");
@@ -263,20 +284,20 @@ const vm = new Vue({
 
 
         },
-        reviewStarsDown: function () {
+        reviewStarsDown: function() {
             if (this.reviewrating >= 0) {
                 this.reviewrating -= 1
                 $("#writereviewstars").load(window.location.href + " #writereviewstars");
             }
         },
-        editreviewStarsUp: function () {
+        editreviewStarsUp: function() {
             if (this.editReview.ratingnumber < 5) {
                 this.editReview.ratingnumber += 1
                 $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
             }
 
         },
-        editreviewStarsDown: function () {
+        editreviewStarsDown: function() {
             if (this.editReview.ratingnumber >= 0) {
                 this.editReview.ratingnumber -= 1
                 $("#editwritereviewstars").load(window.location.href + " #editwritereviewstars");
@@ -328,50 +349,50 @@ const vm = new Vue({
             })
         },
 
-        updateOrder: function (propID) {
+        updateOrder: function(propID) {
             this.order.propID = propID
 
 
         },
-        notloggedinpopup: function () {
+        notloggedinpopup: function() {
             $("#loginpopup").slideToggle();
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#loginpopup').fadeOut('fast');
             }, 1000);
 
 
         },
-        pleasechoosesize: function () {
+        pleasechoosesize: function() {
             $("#choosesize").slideToggle();
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#choosesize').fadeOut('fast');
             }, 1000);
 
 
         },
-        shoptoggle: function(){
+        shoptoggle: function() {
             $("#navigation-cart").slideToggle();
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#navigation-cart').fadeOut('fast');
             }, 3000);
         },
 
 
 
-       // if(propID in cart){
+        // if(propID in cart){
         //     cart[propID].amount = cart[propID].amount + 1
         //}else{
-         //    cart[propID] = req.body
-          //   cart[propID]["amount"] = 1
+        //    cart[propID] = req.body
+        //   cart[propID]["amount"] = 1
         //}
 
 
 
-        addToCart: function () {
+        addToCart: function() {
             this.order.prodID = this.product[0].prodID
             if (this.order.propID != 0) {
                 console.log("BAJS")
-                 
+
                 if (this.loggedin.id || this.loggedin.type === "GOOGLE") {
                     if (this.order.propID != 0) {
                         var prod;
@@ -388,15 +409,15 @@ const vm = new Vue({
                             data: prod,
                             success: () => {
                                 console.log("Product added")
-                                
+
                                 navbarvm.getLoggedInUser()
                                 vm.shoptoggle()
                             }
                         })
                     }
-                } else if(this.loggedin.type) {
+                } else if (this.loggedin.type) {
                     vm.notloggedinpopup()
-                    
+
                 }
             } else {
                 vm.pleasechoosesize()
@@ -415,14 +436,5 @@ const vm = new Vue({
             })
         },
     }
+
 });
-
-var param = new URLSearchParams(document.location.search);
-
-let ids = param.get("id");
-
-vm.loadProduct(ids)
-vm.loadReviews(ids)
-//vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")
-//vm.loadReviews("01126187-4005-4972-97cf-7fd8f9cfa754")
-vm.getLoggedInUser();

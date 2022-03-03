@@ -21,7 +21,7 @@
                     <input type="text" id="searchbar" style="display:none" value="TEST SEARCH">
                 </a>
                 <a href="#" class="a-icon" id="cart-icon">
-                    <span class="bi bi-cart">{{ shoppingitem }}</span>
+                    <span class="bi bi-cart cart-icon"><div class="num-items">{{ shoppingitem}}</div></span>
                 </a>
                 <a href="#" class="a-icon" id="profile-icon">
                     <span v-if="!loggedin.name" class="bi bi-person-circle"></span>

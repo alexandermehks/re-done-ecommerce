@@ -300,23 +300,41 @@ nav {
     margin-right: 100px;
 }
 
-#login{
+#login {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 15px;
 }
 
-#password{
+#password {
     padding: 10px;
     border-radius: 15px;
 }
 
-#button-login{
-  color: black; 
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 250px;
-  height: 50px;
+#button-login {
+    color: black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 250px;
+    height: 50px;
 }
 
+.cart-icon {
+    position: relative;
+}
 
+.num-items {
+    color: white;
+    position: absolute;
+    background-color: rgb(226, 93, 93);
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.226);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -10px;
+    right: -10px;
+}
