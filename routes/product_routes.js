@@ -328,11 +328,7 @@ routes.post('/search', async(req, res) =>{
 
 routes.get('/singleproduct/:id', async(req, res) => {
     try{
-        console.log(req.params)
-        const products = await dbService.getProductsByProdID(req.params.id);
-    
         res.redirect('/singleproduct/'+req.params.id)
-       
 
     }
 
