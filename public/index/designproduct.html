@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="styles/prodstyle.css">
     <link rel="stylesheet" href="styles/nav.css">
 
- <!---             jquery price range            -->
+    <!---             jquery price range            -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-   
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
@@ -24,103 +24,113 @@
     <div id="appee">
         <div id="navbar"></div>
 
-<!--- första sektion -->
-<div class="section-1-container section-container">
-    <div class="container">
-        
-            <button class="btn btn-1" v-on:click="updateProd($event)" value="tshirt" >Shoes</button>
-            <button class="btn btn-1" v-on:click="getCategory($event)" value="pants" >Pants</button>
-            <button class="btn btn-1" v-on:click="getCategory($event)" value="sweater" >Sweater</button> 
-            <button class="btn btn-1" v-on:click="getCategory($event)" value="tshirt" >T-shirt</button> 
-            <button class="btn btn-1" v-on:click="getCategory($event)" value="jeans" >Jeans</button>
-          
-    </div>
-</div>
+        <!--- första sektion -->
+        <div class="section-1-container section-container">
+            <div class="container">
 
-<!-- koppla knappar till cardsen, aktiv knapp-->
+                <button class="btn btn-1" v-on:click="updateProd($event)" value="shoes">Shoes</button>
+                <button class="btn btn-1" v-on:click="updateProd($event)" value="pants">Pants</button>
+                <button class="btn btn-1" v-on:click="updateProd($event)" value="sweater">Sweater</button>
+                <button class="btn btn-1" v-on:click="updateProd($event)" value="tshirt">T-shirt</button>
+                <button class="btn btn-1" v-on:click="updateProd($event)" value="jeans">Jeans</button>
 
-<!--- sektion 2 -->
-<!-- när man trycker på bilden kommer man in i enskild produkt-->
-
-    
-
-<div class="filter-menu" id="filter-menu">
-    <div class="filter-button">
-        <a href="#" id="filter-dropdown">Filter</a>
-    </div>
-    <div class="filters " style="display: none; ">
-        <div class="filter ">
-            <h3>size</h3>
-            <button class="btn-4">S</button>
-            <button class="btn-4">M</button>
-            <button class="btn-4">L</button>
-            <button class="btn-4">XL</button>
+            </div>
         </div>
-        <div class="filter ">
-            <h3>Color</h3>
-            <button class="color" style="background-color: #080805" data-hex="#e1e851"></button>
-            <button class="color" style="background-color: #ffffff" data-hex="#ffffff"></button>
-            <button class="color" style="background-color: #efe5ce" data-hex="#efe5ce"></button>
-            <button class="color" style="background-color: #acdc9d" data-hex="#acdc9d"></button>
-            <button class="color" style="background-color: #f5f4a0" data-hex="#f5f4a0"></button>
-        </div>
-        <div class="filter ">
-            <p>
-                <label for="amount">Price range:</label>
-                <input type="text" id="amount" readonly style="border:0; color:#0f51a8; font-weight:bold;">
-            </p>
-            <div id="slider-range"></div>
-        </div>
-    </div>
-</div>
 
-<!--- sektion 2 -->
-<div class="section-3-container section-container productUpd">
+        <!-- koppla knappar till cardsen, aktiv knapp-->
 
-    <div class="container upd">
-    
-        <div class="row row-cols-md-4">
-            <div class="col-sm-4" v-for="product in currentShow" v-bind:key="product.propID">
-                <div class="card" style="width: 200px;" >
-                    <img class="card-img" v-bind:src="product.picURL" alt="picture of product">
-                    <div class="card-body">
-                        <h5 class="card-title">{{product.prodID}}</h5>
-                        <p class="card-text">{{product.colorID}}</p>
-                        <button type="button" class="button">Add to cart</button>
+        <!--- sektion 2 -->
+        <!-- när man trycker på bilden kommer man in i enskild produkt-->
+
+
+
+        <div class="filter-menu" id="filter-menu">
+            <div class="filter-button">
+                <a href="#" id="filter-dropdown">Filter</a>
+            </div>
+            <div class="filters " style="display: none; ">
+                <div class="filter ">
+                    <h3>size</h3>
+                    <button class="btn-4" v-bind:class="{active:choosenSizes[size]}" v-for="(sizeStr, size) in productSizes" v-bind:key="size" v-on:click="updSizeFilter(size)" v-bind:value="size">{{sizeStr}}</button>
+
+                </div>
+                <div class="filter ">
+                    <h3>Color</h3>
+
+                    <button class="color" v-bind:class="{active:choosenColor[color]}" v-for="(bajshex, color) in productColor" v-bind:key="color" v-on:click="updColorFilter(color)" :style="{ 'background-color': `${bajshex}`}"></button>
+                    <!--      <button class="color" style="background-color: #fcfcfc" data-hex="#000000"></button>
+                    <button class="color" style="background-color: #4040b9" data-hex="#4040b9"></button>
+                    <button class="color" style="background-color: #5dad3742" data-hex="#5dad3742"></button>
+-->
+                </div>
+                <div class="filter ">
+                    <p>
+                        <label for="amount">Price range:</label>
+                        <input type="text" id="amount" readonly style="border:0; color:#0f51a8; font-weight:bold;">
+                    </p>
+                    <div id="slider-range"></div>
+                </div>
+                <div class="filter">
+                    <form>
+                        <div class="bajs">
+                            <select class="form-select" @change="updShoeSize($event)">
+                <option v-for="(number, sizee) in shoeSizes" v-bind:key="number" v-bind:value="number">{{number}}</option>
+                </select>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--- sektion 2 -->
+        <div class="section-3-container section-container productUpd">
+
+            <div class="container upd">
+
+                <div class="row row-cols-md">
+                    <div class="col-sm" v-for="product in currentShow" v-bind:key="product.propID">
+                        <div class="card" style="width: 200px;">
+                            <img class="card-img" v-bind:src="product.picURL" alt="picture of product">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.type}}</h5>
+                                <p class="card-text">{{product.colorID}}</p>
+                                <button type="button" class="button">Add to cart</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="section-4-container section-container">
-    <div class="card w-100">
-        <form>
-            <p>Don't miss the latest, sign up to our newsletter!</p>
-            <div class="form-group">
+        <div class="section-4-container section-container">
+            <div class="card w-100">
+                <form>
+                    <p>Don't miss the latest, sign up to our newsletter!</p>
+                    <div class="form-group">
 
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                     else.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-primary">Sign up</button>
-        </form>
         </div>
-</div>
 
-</div>
+
+
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="javascript/productpage.js "></script>
     <script src="javascript/nav.js "></script>
-    
-    
 
-    
+
+
+
 </body>
 
 </html>
