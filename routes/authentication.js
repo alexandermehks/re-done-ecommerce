@@ -54,10 +54,17 @@ const req = require('express/lib/request');
  */
 routes.post('/doLogIn', async (req, res) => {
      try {
+          if(req.body.type === "GOOGLE") {
+               current_session = req.session;
+               current_session.user = {};
+               current_session.user.email = req.body.email;
+               current_session.user.name = req.body.name;
+               current_session.user.type = "GOOGLE";
+               current_session.user.shoppingcart = {};
+         }
           const match = await dbService.comparePassword(req.body.email, req.body.password);
           if (match) {
                const user = await dbService.getUser(req.body.email);
-               console.log(user)
                current_session = req.session;
                current_session.user = {};
                current_session.user.id = user.userID;
@@ -89,7 +96,6 @@ routes.post('/pushToShoppingCart', async (req, res) => {
                     cart[propID] = req.body
                     cart[propID]["amount"] = 1
                }
-               console.log(cart)
 
           }
           res.send("OK")
@@ -111,7 +117,7 @@ routes.get('/loggedInUser', async (req, res) => {
           else if (current_session.user) {
                user = current_session.user;
                user['status'] = true;
-               console.log(user)
+               console.log(user, "bajs")
                res.json(user)
           }
           else {

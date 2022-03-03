@@ -368,29 +368,11 @@ const vm = new Vue({
 
 
         addToCart: function () {
-            let googleuser = false;
             this.order.prodID = this.product[0].prodID
             if (this.order.propID != 0) {
-
-                if(navbarvm.loggedin.type === "GOOGLE"){
-                    googleuser = true
-                    const cart = {};
-
-                    if(this.order.propID != 0){
-                        for (var i = 0; i < this.product.length; i++){
-                            if(this.product[i].propID in cart){
-                                cart[this.product[i].propID].amount = cart[this.product[i].propID].amount +1
-                            }else{
-                                cart[this.product[i].propID] = this.product[i]
-                                cart[this.product[i].propID]['amount'] = 1
-                            }
-
-                        }
-                        navbarvm.updateGoogleUserCart(cart);
-
-                    }
-                }
-                if (this.loggedin.id) {
+                console.log("BAJS")
+                 
+                if (this.loggedin.id || this.loggedin.type === "GOOGLE") {
                     if (this.order.propID != 0) {
                         var prod;
                         for (var i = 0; i < this.product.length; i++) {
@@ -412,7 +394,7 @@ const vm = new Vue({
                             }
                         })
                     }
-                } else if(!googleuser) {
+                } else if(this.loggedin.type) {
                     vm.notloggedinpopup()
                     
                 }

@@ -60,9 +60,11 @@
                 <p> Email: {{ loggedin.email }}</p>
             </div>
 
-            <button v-if="!loggedin.type" v-on:click="logOut()">LOG OUT</button>
+            <button  v-on:click="logOut()">LOG OUT</button>
+
+           <!--
             <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
-                         out</button></a>
+                         out</button></a> -->
 
 
         </div>
