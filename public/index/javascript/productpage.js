@@ -201,6 +201,13 @@ const vm = new Vue({
         },
 
 
+        testlol(id){
+            window.location.href = "/singleproduct?id=" + id
+
+        },
+          
+
+
     },
 
     mounted() {
