@@ -98,9 +98,11 @@ const navbarvm = new Vue({
                 }
             })
         },
-        updateGoogleUserCart(cart){
+
+        updateGoogleUserCart(cart) {
             this.loggedin.shoppingcart = cart;
         },
+
     },
     mounted() {
         this.getCategories();
@@ -124,15 +126,15 @@ function onSignIn(googleUser) {
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-      $.ajax({
-                    url: '/auth/doLogIn',
-                    type: 'POST',
-                    data: user,
-                    success: (result) => {
-                        console.log("bajs")
+    $.ajax({
+        url: '/auth/doLogIn',
+        type: 'POST',
+        data: user,
+        success: (result) => {
+            console.log("bajs")
 
-                    }
-                })
+        }
+    })
     navbarvm.loggedin = user;
     signOut();
 }
