@@ -13,6 +13,12 @@
     display: flex;
     align-items: top;
     justify-content: center;
+    background-color: rgb(244, 246, 247);
+    border: 1px solid rgb(223, 229, 232);
+    padding-top: 40px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 100px;
 }
 
 .navigation-search-holder {}
@@ -47,7 +53,6 @@
 
 .top-searches a:hover {
     background-color: #00bcd4;
-    ;
     color: white;
     cursor: pointer;
     text-decoration: none;
@@ -160,8 +165,58 @@
 }
 
 .categories {
-    width: 200px;
+    width: 100%;
     height: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.categories hr {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.categories .category_name {
+    width: 100%;
+}
+
+.categories a .category_name {
+    color: rgb(60, 57, 80);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 25px;
+    text-decoration: none;
+    width: 100%;
+    padding: 5px;
+}
+
+.categories .category_name:hover {
+    background-color: #00bcd4;
+    color: white;
+}
+
+.categories .aholder {
+    width: 100%;
+    padding: 10px;
+}
+
+.categories p {
+    width: 100%;
+}
+
+.categories a {
+    font-family: "Source Sans Pro";
+    color: rgb(95, 114, 127);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-decoration: none;
+    width: 100%;
+}
+
+.categories .aholder:hover {
+    background-color: #00bcd4;
+    color: white;
 }
 
 nav {
@@ -203,19 +258,24 @@ nav {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: black;
-    font-size: 16px;
+    color: rgb(60, 57, 80);
+    font-size: 14px;
+    line-height: 15px;
+    font-weight: 700;
+}
+
+.nav-side a span {
+    font-size: 28px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .nav-side a:hover {
-    font-size: 18px;
     color: #00bcd4;
+    background-color: rgba(0, 0, 0, 0.021);
 }
 
-.right a {
-    color: #9597a3;
-    font-size: 24px;
-}
+.right a {}
 
 .a-icon {
     min-width: 40px!important;

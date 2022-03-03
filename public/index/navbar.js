@@ -3,7 +3,8 @@ const navbarvm = new Vue({
     data: {
         loggedin: {},
         searched: [],
-        shoppingitem: 0
+        shoppingitem: 0,
+        categories: {}
     },
 
 
@@ -85,6 +86,17 @@ const navbarvm = new Vue({
 
                 }
             })
+        },
+        getCategories() {
+            $.ajax({
+                url: '/products/allCategories',
+                type: 'GET',
+                success: (result) => {
+                    this.categories = result;
+
+                    console.log(this.categories)
+                }
+            })
         }
 
 
@@ -96,7 +108,7 @@ const navbarvm = new Vue({
 
     mounted() {
 
-
+        this.getCategories();
 
 
 
