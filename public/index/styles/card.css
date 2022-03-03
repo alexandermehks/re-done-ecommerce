@@ -121,10 +121,6 @@
     font-family: 'Source Sans Pro';
     font-style: normal;
     font-weight: 400;
-    text-transform: none;
-    box-sizing: border-box;
-    background: 0 0;
-    outline: 0 none;
     text-decoration: none;
     vertical-align: top;
     border-width: 1px;
@@ -146,6 +142,12 @@
     transition: all .3s;
     padding: 5px 15px 6px;
     flex-direction: row;
+}
+
+.add-cart-button a:visited {
+    text-decoration: none;
+    color: inherit;
+    background-color: red;
 }
 
 .add-cart-button:hover {
