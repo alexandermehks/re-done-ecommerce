@@ -60,9 +60,9 @@
                 <p> Email: {{ loggedin.email }}</p>
             </div>
 
-            <button  v-on:click="logOut()">LOG OUT</button>
+            <button v-on:click="logOut()">LOG OUT</button>
 
-           <!--
+            <!--
             <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
                          out</button></a> -->
 
@@ -148,35 +148,46 @@
                 </div>
                 <div class="results-found" style="text-align: center; display:block;">
                     <div class="container upd">
-                        <div class="row row-cols-md-4">
-                            <div v-for="(key,value) in searched">
-                                <div class="card" style="width: 200px;">
-                                    <img class="card-img" v-bind:src="key[0].picURL" alt="picture">
-                                    <div class="card-body">
-                                        <a style="text-decoration:none; color:rgb(255,127,80)" href="">
-                                            <h5 class="card-title"> {{ key[0].name }}</h5>
-                                        </a>
-                                        <button type="button" class="button"> Add to cart </button>
+
+                        <div class="prod-container">
+                            <div class="prod-card" v-for="(key, value) in searched">
+                                <a href="/singleproduct" class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + key[0].pictures[0].pictureURL + ')' } "></a>
+                                <div class="prod-card-body ">
+                                    <div class="prod-hr-body ">
+                                        <div class="prod-hr "></div>
+                                    </div>
+                                    <div class="prod-categories ">
+                                        <a class="prod-categories-item " href="">{{key[0].categoryObject.parent_name}}</a>
+                                        <a class="prod-categories-item " v-if="key[0].categoryObject.isParentCategory==0 " href="# ">{{key[0].categoryObject.category_name}}</a>
+                                    </div>
+                                    <div class="prod-title ">
+                                        {{key[0].name}}
+                                    </div>
+                                    <div class="prod-price ">
+                                        {{key[0].price}}kr
+                                    </div>
+
+                                    <div class="button-holder">
+                                        <div style="margin-top: 5px">
+                                            <a class="add-cart-button " href="/singleproduct">Read more</a>
+                                        </div>
+                                        <div style="margin-top: 10px">
+                                            <a class="add-cart-button " href="# ">Add to cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div style="height: 1000px;"></div>
                     </div>
-
-
-
-
-
-                    <div style="height: 1000px;"></div>
                 </div>
+
+
             </div>
-
-
+            <div class="over-search"></div>
         </div>
-        <div class="over-search"></div>
-    </div>
 
-</div>
+    </div>
 </div>
 </div>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>

@@ -8,6 +8,15 @@
 .prod-card {
     width: 250px;
     margin: 25px;
+    position: relative;
+    padding-bottom: 80px;
+}
+
+.prod-card .button-holder {
+    height: 80px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
 }
 
 .prod-card-img {
@@ -109,11 +118,6 @@
 }
 
 .add-cart-button {
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    --main-bg-color: #fff;
-    --main-bg-color-08: rgba(255, 255, 255, .8);
-    --styled-bg-color: #f4f5f7;
     font-family: 'Source Sans Pro';
     font-style: normal;
     font-weight: 400;
