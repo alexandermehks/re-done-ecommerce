@@ -18,10 +18,10 @@ $(document).ready(function() {
     $("#slider-range").slider({
         range: true,
         min: 0,
-        max: 1000,
-        values: [85, 300],
+        max: 5000,
+        values: [0, 3000],
         slide: function(event, ui) {
-            $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            $("#amount").val("SEK " + ui.values[0] + " - SEK " + ui.values[1]);
 
             const minValue = ui.values[0];
             const maxValue = ui.values[1];
@@ -29,8 +29,8 @@ $(document).ready(function() {
 
         }
     });
-    $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-        " - $" + $("#slider-range").slider("values", 1));
+    $("#amount").val("SEK " + $("#slider-range").slider("values", 0) +
+        " - SEK " + $("#slider-range").slider("values", 1));
 
 
     $(".selector").slider({
@@ -101,6 +101,7 @@ const vm = new Vue({
         choosenCategory: "",
         choosenShoeSize: "",
         color: {},
+        maxValuee: "",
 
     },
     methods: {
@@ -115,29 +116,29 @@ const vm = new Vue({
         },
 
         updShoeSize(e) {
+
             let sizeValue = e.target.value;
             this.choosenShoeSize = sizeValue;
             this.updateAllFilter()
 
         },
+        clearAllFilter() {
+            location.reload()
 
-
-        priceRange(storBajs) {
-            this.priceMin = storBajs;
-            const pricemMax = ui.values[1];
-            console.log(priceMin)
         },
 
         getValueRange(minValue, maxValue) {
-            this.currentShow = []
-            const color = this.choosenColor;
-            const products = this.products;
-            for (let i = 0; i < products.length; i++) {
-                if (products[i].price > minValue && products[i].price < maxValue) {
-                    this.currentShow.push(products[i])
-                        //Lägger till där det ska visas
-                }
-            }
+            // this.currentShow = []
+            this.minValuee = minValue;
+            this.maxValuee = maxValue;
+            this.updateAllFilter()
+                //  const products = this.products;
+                // for (let i = 0; i < products.length; i++) {
+                //     if (products[i].price > minValue && products[i].price < maxValue) {
+                //    this.currentShow.push(products[i])
+                //Lägger till där det ska visas
+                //  }
+                //   }
         },
 
 
@@ -148,6 +149,7 @@ const vm = new Vue({
             const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4];
             for (var i = 0; i < this.products.length; i++) {
                 let product = this.products[i]
+                console.log(this.maxValuee)
                 if (product.type === this.choosenCategory || this.choosenCategory === "") {
                     // console.log(this.choosenShoeSize)
 
@@ -157,8 +159,11 @@ const vm = new Vue({
 
                             if (this.choosenColor[product.colorID] || allColor) {
 
-                                //console.log(product)
-                                this.currentShow.push(product)
+                                if (product.price > this.minValuee && product.price < this.maxValuee || this.maxValuee === "") {
+                                    // console.log(minValue)
+                                    //console.log(product)
+                                    this.currentShow.push(product)
+                                }
                             }
 
                         }
