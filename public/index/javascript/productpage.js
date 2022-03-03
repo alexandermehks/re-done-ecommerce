@@ -209,6 +209,12 @@ const vm = new Vue({
             window.location.href = "/singleproduct?id=" + id
 
         },
+
+
+        addToShoppingCart() {
+            alert("Functionality not yet created")
+        }
+          
           
 
 
