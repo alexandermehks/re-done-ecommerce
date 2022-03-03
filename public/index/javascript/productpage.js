@@ -47,6 +47,10 @@ $(document).ready(function() {
     });
 
     $(function() {
+        $("#footer").load("footer.html")
+    })
+
+    $(function() {
         $("#productcard").load("productcard.html");
     });
 
