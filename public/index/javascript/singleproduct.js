@@ -416,6 +416,13 @@ const vm = new Vue({
         },
     }
 });
-vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")
-vm.loadReviews("01126187-4005-4972-97cf-7fd8f9cfa754")
+
+var param = new URLSearchParams(document.location.search);
+
+let ids = param.get("id");
+
+vm.loadProduct(ids)
+vm.loadReviews(ids)
+//vm.loadProduct("01126187-4005-4972-97cf-7fd8f9cfa754")
+//vm.loadReviews("01126187-4005-4972-97cf-7fd8f9cfa754")
 vm.getLoggedInUser();
