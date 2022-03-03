@@ -201,7 +201,7 @@ const vm = new Vue({
         },
 
 
-        testlol(id){
+        viewProduct(id){
             window.location.href = "/singleproduct?id=" + id
 
         },
