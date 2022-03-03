@@ -53,10 +53,7 @@ const vm = new Vue({
         console.log(prodID)
         if (!prodID) {
             prodID = "57984369-c562-45de-b33c-1a011b372810";
-
         }
-
-
         this.loadProduct(prodID)
         this.loadReviews(prodID)
         this.getLoggedInUser();

@@ -130,7 +130,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{product.type}}</h5>
                                 <p class="card-text">{{product.colorID}}</p>
-                                <a class="button" :href="'/singleproduct?prodID='+product.prodID">View More</a>
+                                <button type="button" class="button" v-on:click="viewProduct(product.prodID)">View More</button>
                             </div>
                         </div>
                     </div>
