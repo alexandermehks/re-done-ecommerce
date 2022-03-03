@@ -10,9 +10,7 @@ function changeStarColor(id) {
 
 
 
-$(function() {
-    $("#navbar").load("navbar.html");
-});
+
 
 const vm = new Vue({
 
@@ -44,12 +42,15 @@ const vm = new Vue({
         }],
     },
     mounted() {
-        $("#navbar").load("footer.html");
+        $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
+        
+
+        
     },
     beforeMount() {
         //Get page id
-        let prodID = new URL(location.href).searchParams.get('prodID')
+        let prodID = new URL(location.href).searchParams.get('id')
         console.log(prodID)
         if (!prodID) {
             prodID = "57984369-c562-45de-b33c-1a011b372810";
