@@ -326,16 +326,7 @@ routes.post('/search', async(req, res) =>{
 }),
 
 
-routes.get('/singleproduct/:id', async(req, res) => {
-    try{
-        res.redirect('/singleproduct/'+req.params.id)
 
-    }
-
-    catch(error){
-        res.sendStatus(400, "something went wrong")
-    }
-})
 
 
 
