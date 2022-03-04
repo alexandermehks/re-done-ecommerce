@@ -19,7 +19,7 @@ $(document).ready(function() {
         range: true,
         min: 0,
         max: 5000,
-        values: [0, 3000],
+        values: [0, 5000],
         slide: function(event, ui) {
             $("#amount").val("SEK " + ui.values[0] + " - SEK " + ui.values[1]);
 
@@ -205,7 +205,7 @@ const vm = new Vue({
         },
 
 
-        viewProduct(id){
+        viewProduct(id) {
             window.location.href = "/singleproduct?id=" + id
 
         },
@@ -214,8 +214,8 @@ const vm = new Vue({
         addToShoppingCart() {
             alert("Functionality not yet created")
         }
-          
-          
+
+
 
 
     },
