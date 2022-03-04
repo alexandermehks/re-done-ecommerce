@@ -4,7 +4,7 @@
         <nav>
             <div class="left nav-side">
                 <a href="designproduct" id="category-home">Products</a>
-                <a href="#" id="category-new">Deals</a>
+                <a href="dealsProducts" id="category-new">Deals</a>
                 <a href="#" id="category-categories">Categories</a>
                 <a href="#" id="category-sale">News</a>
             </div>
@@ -40,7 +40,7 @@
                 <input type="text" id="login" name="login" placeholder="Login">
                 <input type="password" id="password" name="login" placeholder="Password">
             </form>
-           <button class="btn btn-primary" v-on:click="logIn()">Login</button> 
+            <button class="btn btn-primary" v-on:click="logIn()">Login</button>
 
 
             <div>
@@ -79,22 +79,22 @@
 
 
 
-        <div v-if="loggedin.status && loggedin.shoppingcart.total != 0"class="navigation-cart" id="navigation-cart" style="display: none;">
+        <div v-if="loggedin.status && loggedin.shoppingcart.total != 0" class="navigation-cart" id="navigation-cart" style="display: none;">
 
             <div v-for="l in loggedin.shoppingcart">
-                <div class = "nav_cart_dropdown">
+                <div class="nav_cart_dropdown">
                     <img class=" picsmall_left cart_item_1" v-bind:src="l.picURL" alt="Card image cap">
-                    <div style="margin-left: 5px;" class = "cart_item_2">
+                    <div style="margin-left: 5px;" class="cart_item_2">
                         <p>{{l.name}}</p>
                         <p>Amount: {{l.amount}}</p>
                     </div>
-                    <div class= "cart_item_3">
+                    <div class="cart_item_3">
                         <p><b>Price: {{l.price}}</b></p>
-                        <p >Size: {{l.size}}</p>
+                        <p>Size: {{l.size}}</p>
                     </div>
                 </div>
             </div>
-            <div v-if="loggedin.status === true"class="checkout-flexbox">
+            <div v-if="loggedin.status === true" class="checkout-flexbox">
                 <a href="cart"><button id="checkout-button" class="btn btn-primary">Checkout</button></a>
                 <h3>Total: {{ loggedin.totalInCart }}</h3>
             </div>

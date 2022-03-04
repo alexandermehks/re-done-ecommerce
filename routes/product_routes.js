@@ -275,7 +275,7 @@ routes.delete('/deleteReview/:id', async(req, res) => {
 })
 routes.put('/editreview', async(req, res) => {
     try {
-        
+
         let mes = await dbService.updateReview(req.body);
 
         if (mes) {
@@ -288,45 +288,52 @@ routes.put('/editreview', async(req, res) => {
 })
 
 
-routes.post('/search', async(req, res) =>{
-    try{
-        let obj = {
+routes.post('/search', async(req, res) => {
+        try {
+            let obj = {
 
-        }
-
-        let search_arg = req.body.searchString;
-        const split_text = search_arg.split(" ");
-        
-        let ans = await dbService.getProducts();
-
-        // category name = ans[1].categoryObject.category_name
-        // description = ans[1].categoryObject.description
-
-        for(let i = 0; i < ans.length; i++){
-            for(let j = 0; j < split_text.length; j++){
-
-                //Easy to add more search arguments.
-                let category_name = ans[i].categoryObject.category_name.toLowerCase().includes(split_text[j].toLowerCase());
-                let category_description = ans[i].categoryObject.description.toLowerCase().includes(split_text[j].toLowerCase());
-                let prod_name = ans[i].name.toLowerCase().includes(split_text[j].toLowerCase());
-                let description = ans[i].description.toLowerCase().includes(split_text[j].toLowerCase());
-
-                if(category_name || category_description || prod_name|| description){
-                    obj[i] = ans[i];
-                }
             }
 
+            let search_arg = req.body.searchString;
+            const split_text = search_arg.split(" ");
+
+            let ans = await dbService.getProducts();
+
+            // category name = ans[1].categoryObject.category_name
+            // description = ans[1].categoryObject.description
+
+            for (let i = 0; i < ans.length; i++) {
+                for (let j = 0; j < split_text.length; j++) {
+
+                    //Easy to add more search arguments.
+                    let category_name = ans[i].categoryObject.category_name.toLowerCase().includes(split_text[j].toLowerCase());
+                    let category_description = ans[i].categoryObject.description.toLowerCase().includes(split_text[j].toLowerCase());
+                    let prod_name = ans[i].name.toLowerCase().includes(split_text[j].toLowerCase());
+                    let description = ans[i].description.toLowerCase().includes(split_text[j].toLowerCase());
+
+                    if (category_name || category_description || prod_name || description) {
+                        obj[i] = ans[i];
+                    }
+                }
+
+            }
+            res.json(obj)
+
+        } catch (error) {
+            console.log("Something went wrong")
         }
-        res.json(obj)
 
-    } catch(error){
-        console.log("Something went wrong")
-    }
-
-}),
+    }),
 
 
-
+    routes.get('/allDeals', async(req, res) => {
+        try {
+            const prod = await dbService.getProductsDeal();
+            res.send(prod);
+        } catch (error) {
+            res.sendStatus(400, "Something went wrong");
+        }
+    });
 
 
 
