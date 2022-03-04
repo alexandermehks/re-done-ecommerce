@@ -193,6 +193,10 @@ const vm = new Vue({
             //  console.log()
         },
 
+        newsMail(emailN) {
+
+        },
+
         getSingle(id) {
 
             $.ajax({
