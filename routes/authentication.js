@@ -61,6 +61,7 @@ routes.post('/doLogIn', async (req, res) => {
                current_session.user.name = req.body.name;
                current_session.user.type = "GOOGLE";
                current_session.user.shoppingcart = {};
+               current_session.user.totalInCart = 0;
          }
           const match = await dbService.comparePassword(req.body.email, req.body.password);
           if (match) {
@@ -72,6 +73,7 @@ routes.post('/doLogIn', async (req, res) => {
                current_session.user.name = user.name;
                current_session.user.role = user.role;
                current_session.user.shoppingcart = {};
+               current_session.user.totalInCart = 0;
                res.json(current_session.user)
           }
           else {
@@ -92,10 +94,15 @@ routes.post('/pushToShoppingCart', async (req, res) => {
                
                if(propID in cart){
                     cart[propID].amount = cart[propID].amount + 1
+                    let parseval = parseInt(req.body.price)
+                    current_session.user.totalInCart += parseval;
                }else{
                     cart[propID] = req.body
                     cart[propID]["amount"] = 1
+                    let parseval = parseInt(req.body.price)
+                    current_session.user.totalInCart += parseval;
                }
+               console.log(current_session.user)
 
           }
           res.send("OK")
