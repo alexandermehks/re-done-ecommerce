@@ -18,7 +18,7 @@ body {
 
 .img-sm {
     width: 80px;
-    height: 80px
+    height: 80px; 
 }
 
 .itemside .info {
@@ -116,3 +116,4 @@ a {
 .btn-apply {
     font-size: 11px
 }
+

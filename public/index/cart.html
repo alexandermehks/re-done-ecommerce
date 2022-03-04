@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/cart.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
@@ -22,8 +23,8 @@
         <h1> <br> <br> Shopping cart</h1>
     </div>
     <!-- cart-->
-    <div id = "app">
-    <div class="container-fluid">
+    <div id = "appcheckout">
+    <div  class="container-fluid">
         <div class="row">
             <aside class="col-lg-9">
                 <div class="card">
@@ -38,103 +39,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr v-for="l in loggedin.shoppingcart">
                                     <td>
                                         <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="..." class="img-sm"></div>
-                                            <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">Shoe</a>
-                                                <p class="text-muted small">SIZE:  <br> Brand: <br> Colour: <br> Description: </p>
+                                            <div class="aside"><img v-bind:src="l.picURL" class="img-sm"></div>
+                                            <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true"> {{ l.name }}</a>
+                                                <p class="text-muted small">SIZE: {{ l.size }}  <br> Brand: <br> Colour: {{ l.colorID }} <br> </p>
                                             </figcaption>
                                         </figure>
                                     </td>
                                     <td> <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
+                                            <option>{{ l.amount }}</option>
+                                            
                                         </select> </td>
                                     <td>
-                                        <div class="price-wrap"> <var class="price">1000</var>  </div>
+                                        <div class="price-wrap"> <var class="price"> {{ l.price }}</var>  </div>
                                     </td>
                                     <td class="text-right d-none d-md-block"> <a href="" class="btn btn-light" data-abc="true"> Remove</a> </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="..." class="img-sm"></div>
-                                            <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">T-shirt</a>
-                                                <p class="text-muted small">SIZE:  <br> Brand: <br> Colour: <br> Description: </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td> <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                        </select> </td>
-                                    <td>
-                                        <div class="price-wrap"> <var class="price">150</var> </div>
-                                    </td>
-                                    <td class="text-right d-none d-md-block"> <a href="" class="btn btn-light btn-round" data-abc="true"> Remove</a> </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="..." class="img-sm"></div>
-                                            <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">Jacket</a>
-                                                <p class="small text-muted">SIZE: <br> Brand: <br> Colour: <br> Description: </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td> <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                        </select> </td>
-                                    <td>
-                                        <div class="price-wrap"> <var class="price">1300</var> </div>
-                                    </td>
-                                    <td class="text-right d-none d-md-block">  <a href="" class="btn btn-light btn-round" data-abc="true"> Remove</a> </td>
-                                </tr>
+                               
+                                
                             </tbody>
                         </table>
                     </div>
                 </div>
             </aside>
             <aside class="col-lg-3">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group"> <label>Have coupon?</label>
-                                <div class="input-group"> <input type="text" class="form-control coupon" name="" placeholder="Coupon code"> <span class="input-group-append"> <button class="btn btn-primary btn-apply coupon">Apply</button> </span> </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                
                 <div class="card">
                     <div class="card-body">
                         <dl class="dlist-align">
                             <dt>Total price:</dt>
-                            <dd class="text-right ml-3">....</dd>
+                            <dd class="text-right ml-3"> <b>{{loggedin.totalInCart}}</b></dd>
                         </dl>
                         <dl class="dlist-align">
-                            <dt>Discount:</dt>
-                            <dd class="text-right text-danger ml-3"> - ....</dd>
+                            <dt><b>Discount: WHAT TO PUT HERE</b></dt>
                         </dl>
-                        <dl class="dlist-align">
-                            <dt>Shipping:</dt>
-                            <select>
-                                <option class="text-muted">Standard-Delivery - 4-5dag- 59</option>
-                                <option class="text-muted">Express-Delivery - 2-3dag 99</option>
-                                <option class="text-muted">Overnight-Delivery - 1dag 199</option>
-                            </select>
-                        </dl>
-                        <dl class="dlist-align">
-                            <dt>Total (incl. moms):</dt>
-                            <dd class="text-right text-dark b ml-3"><strong>....</strong></dd>
-                        </dl>
-                        <hr> <a href="#" class="btn btn-out btn-warning btn-square btn-main" data-abc="true"> Proceed to Checkout </a> <a href="#" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+                        
+                        
+                        <hr> <a href="#" class="btn btn-out btn-warning btn-square btn-main" data-abc="true"> Proceed to Checkout </a> <a href="/designproduct" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
                     </div>
                 </div>
             </aside>
