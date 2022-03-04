@@ -193,19 +193,20 @@ const vm = new Vue({
             //  console.log()
         },
 
-        newsMail(emailN) {
-
-        },
-
-        getSingle(id) {
-
+        newsMail() {
+            const email = document.getElementById("emailN").value
+            let obj = {
+                "email": email
+            }
             $.ajax({
-                url: "products/singleProduct/" + id,
-                type: 'GET',
+                url: "user/postEmail",
+                type: 'POST',
+                data: obj,
                 success: (result) => {
-                    console.log(result)
+                    //  console.log(result)
                 }
             })
+
         },
 
 
