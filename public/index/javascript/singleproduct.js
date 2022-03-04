@@ -18,6 +18,7 @@ const vm = new Vue({
     data: {
         loggedin: {},
         product: [],
+        loggedinreview:  0,
         test: 0,
         reviews: [],
         rating: 0,
@@ -436,9 +437,22 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.loggedin = result;
+                    
+                    for (var i = 0; i < this.reviews.length; i++) {
+                        
+                        if(this.loggedin.id === this.reviews[i].userID){
+                            this.loggedinreview = 1
+                        }
+
+                    }
+                    console.log(this.reviews)
+                    console.log(this.loggedinreview)
+
 
                 }
             })
         },
+        
     }
 });
+vm.getLoggedInUser()
