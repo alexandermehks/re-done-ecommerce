@@ -206,6 +206,8 @@ flex-basis: 10%;
     .review3{
         flex-basis: 20%;
         display: flex;
+        align-items: center;
+       
     }
 .reviewbutton{
     width: 20%;
@@ -292,3 +294,142 @@ flex-basis: 10%;
       font-weight: bold;
       display: none;
   }
+  .add-cart-buttons {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: top;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    color: black;
+
+    background-color: green;
+    border-color: #DFE5E8FF;
+    width: 85%;
+    height: 3.5rem;
+    font-size: 14px;
+    line-height: 1.2;
+    text-align: left;
+    margin: 4px 0 0;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    padding: 5px 15px 6px;
+    flex-direction: row;
+    margin-top: 15px;
+    margin-bottom: 15px;
+   
+}
+
+
+
+.add-cart-buttons:hover {
+    background-color: #00bcd4;
+    color: white;
+}
+.review_button{
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: top;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    color: black;
+
+    background-color: #DFE5E8FF;
+    border-color: #DFE5E8FF;
+    width: 30%;
+    height: 3.5rem;
+    font-size: 20px;
+    line-height: 1.2;
+    text-align: left;
+    margin: 4px 0 0;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    padding: 5px 15px 6px;
+    margin-left: auto;
+    text-align: center;
+}
+
+
+
+.review_button:hover {
+    background-color: #00bcd4;
+    color: white;
+}
+.review_edit_button{
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: top;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    color: black;
+
+    background-color: green;
+    border-color: #DFE5E8FF;
+    width: 30%;
+    height: 3.5rem;
+    font-size: 14px;
+    line-height: 1.2;
+    text-align: left;
+    margin: 4px 0 0;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    padding: 5px 15px 6px;
+    margin-left: auto;
+    text-align: center;
+}
+
+
+
+.review_edit_button:hover {
+    background-color: #00bcd4;
+    color: white;
+}
+.review_delete_button{
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: top;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    color: black;
+
+    background-color: red;
+    border-color: #DFE5E8FF;
+    width: 30%;
+    height: 3.5rem;
+    font-size: 14px;
+    line-height: 1.2;
+    text-align: left;
+    margin: 4px 0 0;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    padding: 5px 15px 6px;
+    margin-left: auto;
+    text-align: center;
+}
+
+
+
+.review_delete_button:hover {
+    background-color: #00bcd4;
+    color: white;
+}
