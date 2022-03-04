@@ -6,9 +6,9 @@
 
 
 
-const vm = new Vue({
+const checkoutvm = new Vue({
 
-    el: "#app",
+    el: "#appcheckout",
     data: {
         loggedin: {},
         
