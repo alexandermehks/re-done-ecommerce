@@ -54,18 +54,21 @@ $(document).ready(function() {
         $("#productcard").load("productcard.html");
     });
 
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 205) {
+            $('#myBtnTop').fadeIn();
+        } else {
+            $('#myBtnTop').fadeOut();
+        }
+    }).trigger('scroll');
+
 
 });
-/*
-$(document).ready(function() {
-    // Handler for .ready() called.
-    $("#category").change(function() {
 
-        let val = $(this).val();
-        //  console.log(val)
+function topFunction() {
 
-    });
-});*/
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
+}
 
 const vm = new Vue({
     el: "#appee",
