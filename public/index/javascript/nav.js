@@ -59,7 +59,7 @@ $(document).ready(function() {
         }
     );
 
-    $("#profile-icon").hover(
+    $("#profile-icon").click(
         function() {
             $(".navigation-categories").hide();
             $(".navigation-cart").hide();

@@ -338,3 +338,17 @@ nav {
     top: -10px;
     right: -10px;
 }
+.nav_cart_dropdown{
+    display: flex;
+    height: 100px;
+    margin-bottom: 5px;
+}
+.cart_item_1{
+    flex-basis: 25%;
+}
+.cart_item_2{
+    flex-basis: 55%;
+}
+.cart_item_3{
+    flex-basis: 30%;
+}
