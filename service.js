@@ -28,7 +28,8 @@ app.use(session({
      secret: process.env.SECRET,
      resave: true,
      saveUninitialized: true,
-     cookie: { secure: true }
+     cookie: { secure: true },
+     httpOnly: false,
 }))
 app.use(upload())
 

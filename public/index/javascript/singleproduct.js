@@ -416,6 +416,7 @@ const vm = new Vue({
                                 console.log("Product added")
 
                                 navbarvm.getLoggedInUser()
+                               
                                 vm.shoptoggle()
                             }
                         })
