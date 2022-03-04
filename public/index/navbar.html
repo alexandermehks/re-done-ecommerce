@@ -85,13 +85,13 @@
             <h2>SHOPPING CART</h2>
 
             <div v-for="l in loggedin.shoppingcart">
-                <div style="display: flex;">
-                    <img class="card-img-top picsmall_left" v-bind:src="l.picURL" alt="Card image cap">
-                    <div style="margin-left: 5px;">
+                <div class = "nav_cart_dropdown">
+                    <img class=" picsmall_left cart_item_1" v-bind:src="l.picURL" alt="Card image cap">
+                    <div style="margin-left: 5px;" class = "cart_item_2">
                         <p>{{l.name}}</p>
                         <p>Amount: {{l.amount}}</p>
                     </div>
-                    <div>
+                    <div class= "cart_item_3">
                         <p><b>Price: {{l.price}}</b></p>
                         <p>Size: {{l.size}}</p>
                     </div>

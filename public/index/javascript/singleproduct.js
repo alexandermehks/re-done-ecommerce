@@ -133,6 +133,9 @@ const vm = new Vue({
                         totalrating += this.reviews[i].ratingnumber
                     }
                     this.rating = (totalrating / this.reviews.length).toFixed(2)
+                    if(this.reviews.length == 0){
+                        this.rating = 0
+                    }
 
                 },
                 error: (data) => {
@@ -416,8 +419,9 @@ const vm = new Vue({
                             }
                         })
                     }
-                } else if (this.loggedin.type) {
+                } else{
                     vm.notloggedinpopup()
+                    
 
                 }
             } else {

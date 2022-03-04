@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="styles/singelproduct.css">
     <link rel="stylesheet" href="styles/card.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 
 
 </head>
@@ -50,7 +51,7 @@
                 <div class="piccontainer">
                     <div class="smallpicscontainer item1">
                         <div v-for="pic in product[0].url">
-                            <img class="card-img-top picsmall_left" v-bind:src="pic" v-on:click="updatePicture(pic)" alt="Card image cap">
+                            <img class="card-img-top picsmall_left1" v-bind:src="pic" v-on:click="updatePicture(pic)" alt="Card image cap">
                         </div>
 
                     </div>
@@ -61,15 +62,15 @@
                     <div class="item3">
                         <div class="buysection">
                             <div class="titlecontainer">
-                                <h3>{{test}}</h3>
+                                <h3>{{product[0].name}}</h3>
                                 <h2><b>{{product[0].price}} Kr</b></h2>
                             </div>
                             <div class="reviewstars" style="justify-content: left;">
                                 <div v-for="stars in 5 ">
                                     <span class="fa fa-star checked" v-if="stars <= rating"></span>
                                     <span class="fa fa-star" v-if="stars > rating"></span>
-
                                 </div>
+                             
                                 <span>({{reviews.length}})</span>
                             </div>
 
