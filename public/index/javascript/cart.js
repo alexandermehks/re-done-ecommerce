@@ -76,6 +76,34 @@ const checkoutvm = new Vue({
                     navbarvm.getLoggedInUser()
                 }
             })
+        },
+
+
+        //SAMPLE EMAIL FUNCTION
+        email(){
+            $.ajax({
+                url:'/user/getEmails',
+                type: 'GET',
+                success: (result) => {
+                    let obj = {}
+                    let keys = Object.keys(result);
+                    for(let i = 0; i < keys.length; i++){
+                        obj[i] = result[i]
+                    }
+
+                    $.ajax({
+                        url:'/services/email',
+                        type: 'POST',
+                        data: obj,
+                        success: (email_res) =>{
+                            console.log(email_res)
+                        }
+
+                    })
+                }
+            })
+
+           
         }
         
     }

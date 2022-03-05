@@ -6,6 +6,8 @@ var session = require('express-session');
 //Filesystem that ables to read a file
 const fs = require('fs');
 const upload = require('express-fileupload')
+const nodemailer = require('nodemailer');
+
 
 
 const app = express();
@@ -14,15 +16,9 @@ const port = 3000;
 const user_routes = require('./routes/user_routes')
 const prod_routes = require('./routes/product_routes')
 const auth_routes = require('./routes/authentication')
+const services_routes = require('./routes/services')
 
 
-app.use(session({
-     secret: process.env.SECRET,
-     resave: true,
-     saveUninitialized: true,
-     cookie: { secure: true },
-     httpOnly: false,
-}))
 
 
 
@@ -38,12 +34,23 @@ app.use(express.static('uploads'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
+
+app.use(session({
+     secret: process.env.SECRET,
+     resave: true,
+     saveUninitialized: true,
+     cookie: { secure: true },
+     httpOnly: false,
+}))
+
+
 app.use(upload())
 
 //Default routing for user routes will be /user
 app.use('/user', user_routes);
 app.use('/products', prod_routes);
 app.use('/auth', auth_routes);
+app.use('/services', services_routes)
 
 
 /**
