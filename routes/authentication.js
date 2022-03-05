@@ -113,7 +113,6 @@ routes.post('/pushToShoppingCart', async (req, res) => {
 
 routes.post('/removeFromShoppingCart', async (req,res) => {
      try{
-          console.log(req.body.prodID)
           const cart = current_session.user.shoppingcart;
           let keys = Object.keys(cart)
           for(let i = 0; i < keys.length; i++){
@@ -134,7 +133,27 @@ routes.post('/removeFromShoppingCart', async (req,res) => {
 
 routes.post('/updateAmount', async (req,res) => {
      try{
-          console.log("BAHS")
+          const propID = req.body.propID;
+          const value = req.body.value;
+          let cart = current_session.user.shoppingcart;
+          let totalInCart = current_session.user.totalInCart;
+          let keys = Object.keys(cart)
+
+          for(let i = 0; i < keys.length; i++){
+               if(keys[i].toString() === propID.toString()){
+                    //FOR DECREMENT OF AMOUNT
+                    if(cart[propID].amount != 0 && value === "-1"){
+                         cart[propID].amount += -1;
+                         current_session.user.totalInCart -= parseInt(cart[propID].price)
+                    }
+                    else if(value === "1" && cart[propID].amount != 10){
+                         cart[propID].amount += 1;
+                         current_session.user.totalInCart += parseInt(cart[propID].price)
+                    }
+
+               }
+          }
+
           res.send("OK")
           
      }

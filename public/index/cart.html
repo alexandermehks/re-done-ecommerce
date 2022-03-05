@@ -47,12 +47,13 @@
                                             </figcaption>
                                         </figure>
                                     </td>
-                                    <td> <select id="value-table" v-on:change="updateAmount($event, l.propID)"class="form-control">
-                                            <option id="change-val" v-on:change="updateAmount()" value="-1">{{ l.amount - 1}}</option>
-                                            <option id="change-val1" v-on:change="updateAmount()" value="0" selected>{{ l.amount }}</option>
-                                            <option id="change-val2" v-on:change="updateAmount()" value="1">{{ l.amount + 1  }}</option>
-                                            
-                                        </select> </td>
+                                    <td>
+                                    <div class="amount-changer">
+                                        <button class="btn btn-primary" v-on:click="updateAmount(-1, l.propID)">-</button>
+                                        <p> {{ l.amount }}</p>
+                                        <button class="btn btn-primary" v-on:click="updateAmount(1, l.propID)">+</button>
+                                    </div>
+                                    </td>
                                     <td>
                                         <div class="price-wrap"> <var class="price"> {{ l.price }}</var>  </div>
                                     </td>
