@@ -94,6 +94,16 @@ routes.post('/postEmail', async(req, res) => {
 
 });
 
+routes.get('/getEmails', async(req, res) => {
+    try{
+        const emails = await dbService.getEmailFromEmailSub()
+        res.send(emails)
+    }
+    catch(error){
+       res.sendStatus(400, "Something went wrong") 
+    }
+})
+
 
 
 
