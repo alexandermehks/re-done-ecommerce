@@ -615,7 +615,7 @@ const addReview = async(review) => {
     try {
         const dbConnection = await dbPromise;
         if (review) {
-            const res = await dbConnection.run("INSERT INTO reviews(prodID, userID, ratingnumber, comment,date) VALUES(?,?,?,?,?)", [review.prodID, review.userID, review.ratingnumber, review.comment,review.date])
+            const res = await dbConnection.run("INSERT INTO reviews(prodID, userID, ratingnumber, comment,date) VALUES(?,?,?,?,?)", [review.prodID, review.userID, review.ratingnumber, review.comment, review.date])
         }
         return res;
     } catch (error) {
@@ -669,7 +669,17 @@ const searchBar = async(search) => {
 }
 
 
-
+const getProductsDeal = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const products = await dbConnection.all("SELECT * FROM product WHERE deal > 0");
+        let res = await generateListOfProductTypes(products);
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+};
 
 
 
@@ -698,8 +708,8 @@ module.exports = {
     getAllCategories: getAllCategories,
     deleteReview: deleteReview,
     updateReview: updateReview,
-    searchBar: searchBar
-
+    searchBar: searchBar,
+    getProductsDeal: getProductsDeal
 
 
 }
