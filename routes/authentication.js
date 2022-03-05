@@ -102,7 +102,6 @@ routes.post('/pushToShoppingCart', async (req, res) => {
                     let parseval = parseInt(req.body.price)
                     current_session.user.totalInCart += parseval;
                }
-               console.log(current_session.user)
 
           }
           res.send("OK")
@@ -111,6 +110,39 @@ routes.post('/pushToShoppingCart', async (req, res) => {
           res.sendStatus(400, "Something went wrong")
      }
 })
+
+routes.post('/removeFromShoppingCart', async (req,res) => {
+     try{
+          console.log(req.body.prodID)
+          const cart = current_session.user.shoppingcart;
+          let keys = Object.keys(cart)
+          for(let i = 0; i < keys.length; i++){
+               if(keys[i].toString() === req.body.prodID.toString()){
+                    current_session.user.totalInCart -= cart[req.body.prodID].price * cart[req.body.prodID].amount
+                    delete cart[req.body.prodID]
+                    res.send("OK")
+               }
+          }
+
+
+
+     }
+     catch(error){
+          res.sendStatus(400, "something went wrong")
+     }
+}),
+
+routes.post('/updateAmount', async (req,res) => {
+     try{
+          console.log("BAHS")
+          res.send("OK")
+          
+     }
+     
+     catch(error){
+          res.sendStatus(400, "Something went wrong")
+     }
+}),
 
 
 routes.get('/loggedInUser', async (req, res) => {
@@ -124,7 +156,6 @@ routes.get('/loggedInUser', async (req, res) => {
           else if (current_session.user) {
                user = current_session.user;
                user['status'] = true;
-               console.log(user, "bajs")
                res.json(user)
           }
           else {

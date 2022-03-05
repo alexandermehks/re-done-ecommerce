@@ -33,13 +33,51 @@ const checkoutvm = new Vue({
                     this.loggedin = result;
                     
                    
-                    console.log(this.loggedin)
                     
 
 
                 }
             })
         },
+
+        removeFromCart(id) {
+            let obj = {
+                "prodID": id
+            }
+            $.ajax({
+                url:'/auth//removeFromShoppingCart',
+                type:'POST',
+                data: obj, 
+                success: (result) => {
+                    this.getLoggedInUser()
+                    navbarvm.getLoggedInUser()
+                }
+            })
+
+        },
+
+
+
+
+        
+
+
+        updateAmount(value, propID) {
+           let val = value.target.value
+           let obj = {
+                "value": val,
+                "propID":propID
+           }
+            $.ajax({
+                url:'/auth/updateAmount',
+                type: 'POST',
+                data: obj,
+                success: (result) => {
+                    this.getLoggedInUser()
+                    navbarvm.getLoggedInUser()
+                }
+            })
+        }
         
     }
 });
