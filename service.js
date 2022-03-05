@@ -7,12 +7,25 @@ var session = require('express-session');
 const fs = require('fs');
 const upload = require('express-fileupload')
 
+
 const app = express();
 const port = 3000;
 
 const user_routes = require('./routes/user_routes')
 const prod_routes = require('./routes/product_routes')
 const auth_routes = require('./routes/authentication')
+
+
+app.use(session({
+     secret: process.env.SECRET,
+     resave: true,
+     saveUninitialized: true,
+     cookie: { secure: true },
+     httpOnly: false,
+}))
+
+
+
 
 //Setting statick folder and removing the .html in the end of the file. 
 app.use(express.static(path.join(__dirname, 'public/index'), { extensions: ['html'] }));
@@ -24,13 +37,7 @@ app.use(express.static('uploads'));
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(session({
-     secret: process.env.SECRET,
-     resave: true,
-     saveUninitialized: true,
-     cookie: { secure: true },
-     httpOnly: false,
-}))
+
 app.use(upload())
 
 //Default routing for user routes will be /user
@@ -38,10 +45,6 @@ app.use('/user', user_routes);
 app.use('/products', prod_routes);
 app.use('/auth', auth_routes);
 
-//app.get('/', function (req, res) {
-//res.send('HomePage')
-//    res.sendFile(homepage, { root: __dirname });
-//});
 
 /**
  * Listening to port!
