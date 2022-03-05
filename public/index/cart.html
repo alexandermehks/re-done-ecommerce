@@ -35,7 +35,6 @@
                                     <th scope="col">Product</th>
                                     <th scope="col" width="120">Quantity</th>
                                     <th scope="col" width="120">Price</th>
-                                    <th scope="col" class="text-right d-none d-md-block" width="200"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,14 +47,16 @@
                                             </figcaption>
                                         </figure>
                                     </td>
-                                    <td> <select class="form-control">
-                                            <option>{{ l.amount }}</option>
+                                    <td> <select id="value-table" v-on:change="updateAmount($event, l.propID)"class="form-control">
+                                            <option id="change-val" v-on:change="updateAmount()" value="-1">{{ l.amount - 1}}</option>
+                                            <option id="change-val1" v-on:change="updateAmount()" value="0" selected>{{ l.amount }}</option>
+                                            <option id="change-val2" v-on:change="updateAmount()" value="1">{{ l.amount + 1  }}</option>
                                             
                                         </select> </td>
                                     <td>
                                         <div class="price-wrap"> <var class="price"> {{ l.price }}</var>  </div>
                                     </td>
-                                    <td class="text-right d-none d-md-block"> <a href="" class="btn btn-light" data-abc="true"> Remove</a> </td>
+                                    <td class="text-right d-none d-md-block"> <button class="btn btn-light" v-on:click="removeFromCart(l.propID)"data-abc="true"> Remove</button> </td>
                                 </tr>
                                
                                 
@@ -71,6 +72,7 @@
                         <dl class="dlist-align">
                             <dt>Total price:</dt>
                             <dd class="text-right ml-3"> <b>{{loggedin.totalInCart}}</b></dd>
+
                         </dl>
                         <dl class="dlist-align">
                             <dt><b>Discount: WHAT TO PUT HERE</b></dt>
