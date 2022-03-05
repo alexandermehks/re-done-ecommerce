@@ -109,9 +109,26 @@ const vm = new Vue({
         choosenShoeSize: "",
         color: {},
         maxValuee: "",
+        newPricee: {},
 
     },
     methods: {
+        newPrice() {
+            for (var i = 0; i < this.products.length; i++) {
+                let product = this.products[i]
+                    // console.log(product.price)
+                    //  console.log(product.deal)
+                let currentPrice = product.price;
+                let proc = 1 - product.deal;
+                var newPrices = Math.round(currentPrice * proc);
+                // console.log("new price", product.price, newPrice)
+                // console.log(newPrice)
+                product['newPrice'] = newPrices;
+                console.log(product)
+                this.updateAllFilter()
+            }
+
+        },
 
         updateProd: function(e, size) {
 
@@ -156,7 +173,7 @@ const vm = new Vue({
             const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4];
             for (var i = 0; i < this.products.length; i++) {
                 let product = this.products[i]
-                console.log(this.maxValuee)
+                console.log(product)
                 if (product.type === this.choosenCategory || this.choosenCategory === "") {
                     // console.log(this.choosenShoeSize)
 
@@ -169,6 +186,7 @@ const vm = new Vue({
                                 if (product.price > this.minValuee && product.price < this.maxValuee || this.maxValuee === "") {
                                     // console.log(minValue)
                                     //console.log(product)
+
                                     this.currentShow.push(product)
                                 }
                             }
@@ -273,6 +291,7 @@ const vm = new Vue({
 
             self.products = res;
             this.updateAllFilter()
+            this.newPrice()
                 // console.log(this.currentShow)
 
 
