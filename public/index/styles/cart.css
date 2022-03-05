@@ -117,3 +117,8 @@ a {
     font-size: 11px
 }
 
+.amount-changer{
+    display: flex;
+    justify-content: space-evenly;
+}
+

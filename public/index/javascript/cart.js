@@ -63,9 +63,8 @@ const checkoutvm = new Vue({
 
 
         updateAmount(value, propID) {
-           let val = value.target.value
            let obj = {
-                "value": val,
+                "value": value,
                 "propID":propID
            }
             $.ajax({
