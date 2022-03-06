@@ -14,7 +14,7 @@
             </div>
             <div class="right nav-side">
                 <a href="#">About</a>
-                <a v-if="loggedin.role === 1"href="/handleProducts">Admin</a>
+                <a v-if="loggedin.role === 1" href="/handleProducts">Admin</a>
                 <a href="/register"> Register </a>
                 <a href="#" class="a-icon" id="search-icon">
                     <span class="bi bi-search"></span>
@@ -102,11 +102,11 @@
         <div class="navigation-categories " style="display: none; ">
 
             <div class="categories" v-for="(category, key) in categories">
-                <a href="#">
+                <a :href="'/designproduct?catID='+category.catID">
                     <div class="category_name">{{category.category_name}}</div>
                 </a>
                 <hr>
-                <a href="#" v-for="sub_category in category.sub">
+                <a :href="'/designproduct?catID='+sub_category.catID" v-for="sub_category in category.sub">
                     <div class="aholder">
                         {{sub_category.category_name}}
                     </div>
@@ -159,8 +159,8 @@
                                         <div class="prod-hr "></div>
                                     </div>
                                     <div class="prod-categories ">
-                                        <a class="prod-categories-item " href="">{{key[0].categoryObject.parent_name}}</a>
-                                        <a class="prod-categories-item " v-if="key[0].categoryObject.isParentCategory==0 " href="# ">{{key[0].categoryObject.category_name}}</a>
+                                        <a class="prod-categories-item " :href="'/designproduct?catID='+key[0].categoryObject.parentCategory">{{key[0].categoryObject.parent_name}}</a>
+                                        <a class="prod-categories-item " v-if="key[0].categoryObject.isParentCategory==0 " :href="'/designproduct?catID='+key[0].categoryObject.catID">{{key[0].categoryObject.category_name}}</a>
                                     </div>
                                     <div class="prod-title ">
                                         {{key[0].name}}
