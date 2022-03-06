@@ -29,9 +29,23 @@ $(document).ready(function() {
 
         }
     });
+    $("#slider-range2").slider({
+        range: true,
+        min: 30,
+        max: 49,
+        values: [30, 49],
+        slide: function(event, ui) {
+            $("#shoesize").val("Size " + ui.values[0] + " - Size " + ui.values[1]);
+
+            const minValue = ui.values[0];
+            const maxValue = ui.values[1];
+            vm.getShoeValueRange(minValue, maxValue)
+
+        }
+    });
     $("#amount").val("SEK " + $("#slider-range").slider("values", 0) +
         " - SEK " + $("#slider-range").slider("values", 1));
-
+    $("#shoesize").val("Size " + 30 + " - Size " + 49);
 
     $(".selector").slider({
         start: function(event, ui) {
@@ -39,7 +53,6 @@ $(document).ready(function() {
         }
     });
 
-    console.log();
 
 
     $(function() {
@@ -105,10 +118,13 @@ const vm = new Vue({
             3: false,
             4: false,
         },
-        choosenCategory: "",
+        choosenCategory: 0,
         choosenShoeSize: "",
         color: {},
         maxValuee: "",
+        categories: {},
+        shoeMinValue: 30,
+        shoeMaxValue: 49
 
     },
     methods: {
@@ -117,7 +133,8 @@ const vm = new Vue({
 
             //  this.currentShow.push(this.products[0])
             const buttonValues = e.target.value;
-            this.choosenCategory = buttonValues;
+            console.log(e.target.value)
+            this.choosenCategory = parseInt(buttonValues);
             this.updateAllFilter()
 
         },
@@ -130,8 +147,22 @@ const vm = new Vue({
 
         },
         clearAllFilter() {
-            location.reload()
-
+            this.choosenCategory = 0;
+            this.choosenSizes = {
+                1: false,
+                2: false,
+                3: false,
+                4: false,
+                5: false,
+            }
+            this.choosenColor = {
+                1: false,
+                2: false,
+                3: false,
+                4: false,
+            }
+            this.choosenShoeSize = ""
+            this.updateAllFilter()
         },
 
         getValueRange(minValue, maxValue) {
@@ -139,28 +170,26 @@ const vm = new Vue({
             this.minValuee = minValue;
             this.maxValuee = maxValue;
             this.updateAllFilter()
-                //  const products = this.products;
-                // for (let i = 0; i < products.length; i++) {
-                //     if (products[i].price > minValue && products[i].price < maxValue) {
-                //    this.currentShow.push(products[i])
-                //Lägger till där det ska visas
-                //  }
-                //   }
         },
-
+        getShoeValueRange(minValue, maxValue) {
+            // this.currentShow = []
+            this.shoeMinValue = minValue;
+            this.shoeMaxValue = maxValue;
+            this.updateAllFilter()
+        },
 
 
         updateAllFilter() {
             this.currentShow = []
             const allProd = !this.choosenSizes[1] && !this.choosenSizes[2] && !this.choosenSizes[3] && !this.choosenSizes[4] && !this.choosenSizes[5];
-            const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4];
+            const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4] && !this.choosenColor[5];
             for (var i = 0; i < this.products.length; i++) {
                 let product = this.products[i]
                 console.log(this.maxValuee)
-                if (product.type === this.choosenCategory || this.choosenCategory === "") {
+                if (product.categoryObject.catID === this.choosenCategory || product.categoryObject.parentCategory === this.choosenCategory || this.choosenCategory === 0) {
                     // console.log(this.choosenShoeSize)
 
-                    if (product.size.toString() === this.choosenShoeSize.toString() || this.choosenShoeSize === "") {
+                    if (product.size >= this.shoeMinValue && product.size <= this.shoeMaxValue || this.getParentCategory(product.catID) != 1) {
 
                         if (this.choosenSizes[product.size] || allProd) {
 
@@ -221,16 +250,84 @@ const vm = new Vue({
 
         addToShoppingCart() {
             alert("Functionality not yet created")
-        }
+        },
+
+        getAllCategories() {
+            $.ajax({
+                url: '/products/allCategories',
+                type: 'GET',
+                success: (result) => {
+                    this.categories = result;
+
+                    let res = []
+
+                    for (let i in result) {
+                        let cat = result[i];
+                        cat.htmltext = cat.category_name
+                        res.push(cat)
+                        for (let c in cat.sub) {
+                            let cat2 = cat.sub[c];
+                            cat2.htmltext = "- &nbsp;&nbsp;&nbsp;&nbsp;" + cat2.category_name
+                            res.push(cat2);
+                        }
+                    }
+                    this.categories = res;
+
+                    let catID = new URL(location.href).searchParams.get('catID')
+
+                    if (catID) {
+                        let cID = parseInt(catID)
+                        if (!isNaN(catID)) {
+                            console.log("here?", catID)
+                            for (i in this.categories) {
+                                let category = this.categories[i];
+                                if (category.catID == cID) {
+                                    console.log("HERE? :(")
+                                    this.choosenCategory = cID
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+
+
+                }
+            })
+        },
+        getParentCategory(catID) {
+            for (i in this.categories) {
+                let category = this.categories[i];
+                if (category.catID == catID)
+                    return category.parentCategory;
+            }
+            return 0
+        },
+        getColors() {
+            $.ajax({
+                url: '/products/allColors',
+                type: 'GET',
+                success: (result) => {
+                    this.productColor = result;
+                }
+            })
+        },
 
 
 
 
     },
 
+
     mounted() {
         //method to get all products
         var self = this;
+        this.getAllCategories();
+        this.getColors();
+
+
+
+
         $.getJSON("products/all/", function(jsondata) {
             //  console.log(JSON.stringify(jsondata));
 

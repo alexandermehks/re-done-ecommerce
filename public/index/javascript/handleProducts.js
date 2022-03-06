@@ -681,7 +681,7 @@ const vm = new Vue({
         },
 
 
-        addDeal(submitEvent){
+        addDeal(submitEvent) {
             const propID = submitEvent.target.elements.dealAmountPropID.value
             const dealAmount = submitEvent.target.elements.dealAmount.value
 

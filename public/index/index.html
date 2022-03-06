@@ -76,8 +76,8 @@
                                 <div class="prod-hr "></div>
                             </div>
                             <div class="prod-categories ">
-                                <a class="prod-categories-item ">{{product.categoryObject.parent_name}}</a>
-                                <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0">{{product.categoryObject.category_name}}</a>
+                                <a class="prod-categories-item " :href="'/designproduct?catID='+product.categoryObject.parentCategory">{{product.categoryObject.parent_name}}</a>
+                                <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0 " :href="'/designproduct?catID='+product.categoryObject.catID">{{product.categoryObject.category_name}}</a>
                             </div>
                             <div class="prod-title ">
                                 {{product.name}}
@@ -187,8 +187,8 @@
                                 <div class="prod-hr "></div>
                             </div>
                             <div class="prod-categories ">
-                                <a class="prod-categories-item " href="# ">{{product.categoryObject.parent_name}}</a>
-                                <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0 " href="# ">{{product.categoryObject.category_name}}</a>
+                                <a class="prod-categories-item " :href="'/designproduct?catID='+product.categoryObject.parentCategory">{{product.categoryObject.parent_name}}</a>
+                                <a class="prod-categories-item " v-if="product.categoryObject.isParentCategory==0 " :href="'/designproduct?catID='+product.categoryObject.catID">{{product.categoryObject.category_name}}</a>
                             </div>
                             <div class="prod-title ">
                                 {{product.name}}
