@@ -191,7 +191,7 @@ const vm = new Vue({
 
                     if (product.size >= this.shoeMinValue && product.size <= this.shoeMaxValue || this.getParentCategory(product.catID) != 1) {
 
-                        if (this.choosenSizes[product.size] || allProd) {
+                        if (this.choosenSizes[product.size] || allProd || this.getParentCategory(product.catID) == 1) {
 
                             if (this.choosenColor[product.colorID] || allColor) {
 
