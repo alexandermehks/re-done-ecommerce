@@ -367,6 +367,15 @@
                             <input type="text" class="form-control" id="addTag" placeholder="Add tag">
                         </form>
                     </div>
+
+                    <div>
+                        <form @submit.prevent="addDeal">
+                            <input required min="0" max="100" id="dealAmount" type="number" class="form-control"  v-bind:value="handleProduct.deal">
+                            <input id="dealAmountPropID" type="hidden" class="form-control" v-bind:value="handleProduct.prodID">
+                            <button type="submit" class="btn btn-primary">Add Deal</button>
+                        </form>
+                    </div>
+
                     <div style="margin-top: 40px;"></div>
                     <h4 style="text-align: center;">Product Pictures</h4>
                     <div class="row">

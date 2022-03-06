@@ -678,6 +678,27 @@ const vm = new Vue({
             if (index < this.addTags.length && index >= 0) {
                 this.addTags.splice(index, 1);
             }
+        },
+
+
+        addDeal(submitEvent){
+            const propID = submitEvent.target.elements.dealAmountPropID.value
+            const dealAmount = submitEvent.target.elements.dealAmount.value
+
+            let obj = {
+                "prodID": propID,
+                "dealAmount": dealAmount
+            }
+
+            $.ajax({
+                url: '/products/updateDeal',
+                type: 'POST',
+                data: obj,
+                success: (result) => {
+                    console.log("OK")
+                }
+            })
+
         }
 
 
