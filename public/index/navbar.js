@@ -1,17 +1,16 @@
 const navbarvm = new Vue({
     el: "#navbarapp",
+   
     data: {
         loggedin: {},
         searched: [],
         shoppingitem: 0,
+        totalPrice: 0,
         categories: {}
     },
 
 
     methods: {
-
-
-
         logIn() {
             let valid = true;
             let typed_data = {
@@ -109,16 +108,26 @@ const navbarvm = new Vue({
         },
 
 
+       
+
+
+
+
     },
+
+   
     mounted() {
         this.getCategories();
+
+
+       
+        
+        
     }
 
 });
-
 navbarvm.getLoggedInUser();
 navbarvm.search("");
-
 function onSignIn(googleUser) {
     let user = {}
     user['status'] = true;
@@ -162,3 +171,4 @@ $(document).ready(function() {
     });
 
 });
+

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="styles/singelproduct.css">
     <link rel="stylesheet" href="styles/card.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 
 
 </head>
@@ -50,7 +51,7 @@
                 <div class="piccontainer">
                     <div class="smallpicscontainer item1">
                         <div v-for="pic in product[0].url">
-                            <img class="card-img-top picsmall_left" v-bind:src="pic" v-on:click="updatePicture(pic)" alt="Card image cap">
+                            <img class="card-img-top picsmall_left1" v-bind:src="pic" v-on:click="updatePicture(pic)" alt="Card image cap">
                         </div>
 
                     </div>
@@ -61,15 +62,15 @@
                     <div class="item3">
                         <div class="buysection">
                             <div class="titlecontainer">
-                                <h3>{{test}}</h3>
+                                <h3>{{product[0].name}}</h3>
                                 <h2><b>{{product[0].price}} Kr</b></h2>
                             </div>
                             <div class="reviewstars" style="justify-content: left;">
                                 <div v-for="stars in 5 ">
                                     <span class="fa fa-star checked" v-if="stars <= rating"></span>
                                     <span class="fa fa-star" v-if="stars > rating"></span>
-
                                 </div>
+                             
                                 <span>({{reviews.length}})</span>
                             </div>
 
@@ -103,7 +104,7 @@
                             <div class="choosesize" style="display: None;">Please choose a size</div>
                             <div class="loginpopup" id="loginpopup">Please log in to add a product</div>
                             <div class="loginpopup" id="choosesize">Please choose a size first</div>
-                            <button class="buybutton" v-on:click="addToCart()">Add To Cart</button>
+                            <button class="add-cart-buttons" v-on:click="addToCart()">Add To Cart</button>
                             <div>
 
                                 <h4>Choose in different colors</h4>
@@ -162,8 +163,11 @@
                         </div>
 
                         <h4>{{rating}}/5</h4>
-                        <button class="reviewbutton" id="reviewbutton" v-if="loggedin.id" v-on:click="openReviewContainer()">Write
+                        <button class="review_button" id="reviewbutton" v-if="loggedin.id && loggedinreview === 0" v-on:click="openReviewContainer()">Write
                                    Review</button>
+                                   <h4  v-if="!loggedin.id">Please log in to post reviews</h4>
+                                   <h4  v-if="loggedinreview === 1">You have already posted a review</h4>
+
                         <div class="reviewform" id="reviewform" style="display: none;">
                             <form>
                                 <div class="form-group">
@@ -186,13 +190,13 @@
                                 </div>
 
                             </form>
-                            <button v-on:click="postReview(), openReviewContainer()">Publish Review</button>
+                            <button class = "review_button" v-on:click="postReview(), openReviewContainer()">Publish Review</button>
                         </div>
                     </div>
                     <div class="reviewcontainer" id="reviewcontainer">
                         <div v-for="review in reviews">
                             <div class="reviewcard" id="reviewcard">
-                                <div class="review1"><b>Name: </b>{{review.name}}<br><b>Date: </b>2022-02-02
+                                <div class="review1"><b>Name: </b>{{review.name}}<br><b>Date: </b>{{review.date}}
                                 </div>
                                 <div class="review2">{{review.comment}}</div>
                                 <div class="review3">
@@ -201,9 +205,9 @@
                                         <span class="fa fa-star" v-if="stars > review.ratingnumber"></span>
 
                                     </div>
-                                    <span style="margin-left: 5px;">{{review.ratingnumber}}/5</span>
-                                    <button class="editreviewbutton" style="background-color: green;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
-                                    <button class="editreviewbutton" style="background-color: red;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="deleteReview(review.reviewID)">Delete</button>
+                                    <span style="margin-left: 5px; margin-right: 5px;">{{review.ratingnumber}}/5</span>
+                                    <button class="review_edit_button" style="background-color: green;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
+                                    <button class="review_delete_button" style="background-color: red;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="deleteReview(review.reviewID)">Delete</button>
                                 </div>
 
 

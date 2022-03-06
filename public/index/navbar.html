@@ -4,7 +4,7 @@
         <nav>
             <div class="left nav-side">
                 <a href="designproduct" id="category-home">Products</a>
-                <a href="#" id="category-new">Deals</a>
+                <a href="dealsProducts" id="category-new">Deals</a>
                 <a href="#" id="category-categories">Categories</a>
                 <a href="#" id="category-sale">News</a>
             </div>
@@ -14,14 +14,14 @@
             </div>
             <div class="right nav-side">
                 <a href="#">About</a>
-                <a href="/handleProducts">Admin</a>
+                <a v-if="loggedin.role === 1"href="/handleProducts">Admin</a>
                 <a href="/register"> Register </a>
                 <a href="#" class="a-icon" id="search-icon">
                     <span class="bi bi-search"></span>
                     <input type="text" id="searchbar" style="display:none" value="TEST SEARCH">
                 </a>
                 <a href="#" class="a-icon" id="cart-icon">
-                    <span class="bi bi-cart cart-icon"><div class="num-items">{{ shoppingitem}}</div></span>
+                    <span class="bi bi-cart cart-icon"><div class="num-items">{{ shoppingitem }}</div></span>
                 </a>
                 <a href="#" class="a-icon" id="profile-icon">
                     <span v-if="!loggedin.name" class="bi bi-person-circle"></span>
@@ -39,10 +39,8 @@
             <form>
                 <input type="text" id="login" name="login" placeholder="Login">
                 <input type="password" id="password" name="login" placeholder="Password">
-                <div>
-                    <input type="submit" id="button-login" value="Log In" v-on:click="logIn()">
-                </div>
             </form>
+            <button class="btn btn-primary" v-on:click="logIn()">Login</button>
 
 
             <div>
@@ -81,21 +79,24 @@
 
 
 
-        <div class="navigation-cart" id="navigation-cart" style="display: none;">
-            <h2>SHOPPING CART</h2>
+        <div v-if="loggedin.status && loggedin.shoppingcart.total != 0" class="navigation-cart" id="navigation-cart" style="display: none;">
 
             <div v-for="l in loggedin.shoppingcart">
-                <div style="display: flex;">
-                    <img class="card-img-top picsmall_left" v-bind:src="l.picURL" alt="Card image cap">
-                    <div style="margin-left: 5px;">
+                <div class="nav_cart_dropdown">
+                    <img class=" picsmall_left cart_item_1" v-bind:src="l.picURL" alt="Card image cap">
+                    <div style="margin-left: 5px;" class="cart_item_2">
                         <p>{{l.name}}</p>
                         <p>Amount: {{l.amount}}</p>
                     </div>
-                    <div>
+                    <div class="cart_item_3">
                         <p><b>Price: {{l.price}}</b></p>
                         <p>Size: {{l.size}}</p>
                     </div>
                 </div>
+            </div>
+            <div v-if="loggedin.status === true" class="checkout-flexbox">
+                <a href="cart"><button id="checkout-button" class="btn btn-primary">Checkout</button></a>
+                <h3>Total: {{ loggedin.totalInCart }}</h3>
             </div>
         </div>
         <div class="navigation-categories " style="display: none; ">

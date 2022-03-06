@@ -99,6 +99,8 @@
 }
 
 .navigation-cart {
+    max-height: 700px;
+    overflow: scroll;
     position: absolute;
     background-color: rgb(255, 255, 255);
     background-image: linear-gradient(rgb(255, 255, 255), rgb(224, 231, 240));
@@ -337,4 +339,27 @@ nav {
     align-items: center;
     top: -10px;
     right: -10px;
+}
+.nav_cart_dropdown{
+    display: flex;
+    height: 100px;
+    margin-bottom: 5px;
+}
+.cart_item_1{
+    flex-basis: 25%;
+}
+.cart_item_2{
+    flex-basis: 55%;
+}
+.cart_item_3{
+    flex-basis: 30%;
+}
+
+
+
+
+.checkout-flexbox{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
 }

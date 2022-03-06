@@ -18,6 +18,7 @@ const vm = new Vue({
     data: {
         loggedin: {},
         product: [],
+        loggedinreview:  0,
         test: 0,
         reviews: [],
         rating: 0,
@@ -133,6 +134,9 @@ const vm = new Vue({
                         totalrating += this.reviews[i].ratingnumber
                     }
                     this.rating = (totalrating / this.reviews.length).toFixed(2)
+                    if(this.reviews.length == 0){
+                        this.rating = 0
+                    }
 
                 },
                 error: (data) => {
@@ -412,12 +416,14 @@ const vm = new Vue({
                                 console.log("Product added")
 
                                 navbarvm.getLoggedInUser()
+                               
                                 vm.shoptoggle()
                             }
                         })
                     }
-                } else if (this.loggedin.type) {
+                } else{
                     vm.notloggedinpopup()
+                    
 
                 }
             } else {
@@ -432,9 +438,22 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.loggedin = result;
+                    
+                    for (var i = 0; i < this.reviews.length; i++) {
+                        
+                        if(this.loggedin.id === this.reviews[i].userID){
+                            this.loggedinreview = 1
+                        }
+
+                    }
+                    console.log(this.reviews)
+                    console.log(this.loggedinreview)
+
 
                 }
             })
         },
+        
     }
 });
+vm.getLoggedInUser()

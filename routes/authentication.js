@@ -61,6 +61,7 @@ routes.post('/doLogIn', async (req, res) => {
                current_session.user.name = req.body.name;
                current_session.user.type = "GOOGLE";
                current_session.user.shoppingcart = {};
+               current_session.user.totalInCart = 0;
          }
           const match = await dbService.comparePassword(req.body.email, req.body.password);
           if (match) {
@@ -72,6 +73,7 @@ routes.post('/doLogIn', async (req, res) => {
                current_session.user.name = user.name;
                current_session.user.role = user.role;
                current_session.user.shoppingcart = {};
+               current_session.user.totalInCart = 0;
                res.json(current_session.user)
           }
           else {
@@ -92,9 +94,13 @@ routes.post('/pushToShoppingCart', async (req, res) => {
                
                if(propID in cart){
                     cart[propID].amount = cart[propID].amount + 1
+                    let parseval = parseInt(req.body.price)
+                    current_session.user.totalInCart += parseval;
                }else{
                     cart[propID] = req.body
                     cart[propID]["amount"] = 1
+                    let parseval = parseInt(req.body.price)
+                    current_session.user.totalInCart += parseval;
                }
 
           }
@@ -104,6 +110,58 @@ routes.post('/pushToShoppingCart', async (req, res) => {
           res.sendStatus(400, "Something went wrong")
      }
 })
+
+routes.post('/removeFromShoppingCart', async (req,res) => {
+     try{
+          const cart = current_session.user.shoppingcart;
+          let keys = Object.keys(cart)
+          for(let i = 0; i < keys.length; i++){
+               if(keys[i].toString() === req.body.prodID.toString()){
+                    current_session.user.totalInCart -= cart[req.body.prodID].price * cart[req.body.prodID].amount
+                    delete cart[req.body.prodID]
+                    res.send("OK")
+               }
+          }
+
+
+
+     }
+     catch(error){
+          res.sendStatus(400, "something went wrong")
+     }
+}),
+
+routes.post('/updateAmount', async (req,res) => {
+     try{
+          const propID = req.body.propID;
+          const value = req.body.value;
+          let cart = current_session.user.shoppingcart;
+          let totalInCart = current_session.user.totalInCart;
+          let keys = Object.keys(cart)
+
+          for(let i = 0; i < keys.length; i++){
+               if(keys[i].toString() === propID.toString()){
+                    //FOR DECREMENT OF AMOUNT
+                    if(cart[propID].amount != 0 && value === "-1"){
+                         cart[propID].amount += -1;
+                         current_session.user.totalInCart -= parseInt(cart[propID].price)
+                    }
+                    else if(value === "1" && cart[propID].amount != 10){
+                         cart[propID].amount += 1;
+                         current_session.user.totalInCart += parseInt(cart[propID].price)
+                    }
+
+               }
+          }
+
+          res.send("OK")
+          
+     }
+     
+     catch(error){
+          res.sendStatus(400, "Something went wrong")
+     }
+}),
 
 
 routes.get('/loggedInUser', async (req, res) => {
@@ -117,7 +175,6 @@ routes.get('/loggedInUser', async (req, res) => {
           else if (current_session.user) {
                user = current_session.user;
                user['status'] = true;
-               console.log(user, "bajs")
                res.json(user)
           }
           else {
@@ -147,6 +204,9 @@ routes.get('/logout', async (req, res) => {
           res.send("No logged in user")
      }
 })
+
+
+
 
 
 
