@@ -119,11 +119,13 @@ const vm = new Vue({
                     // console.log(product.price)
                     //  console.log(product.deal)
                 let currentPrice = product.price;
-                let proc = 1 - product.deal;
+                let parsed = product.deal / 100
+                let proc = parsed
                 var newPrices = Math.round(currentPrice * proc);
+                console.log(newPrices)
                 // console.log("new price", product.price, newPrice)
                 // console.log(newPrice)
-                product['newPrice'] = newPrices;
+                product['newPrice'] = product.price - newPrices 
                 console.log(product)
                 this.updateAllFilter()
             }
