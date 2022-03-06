@@ -337,6 +337,18 @@ routes.post('/search', async(req, res) => {
 
 
 
+    routes.post('/updateDeal', async (req,res) => {
+        try{
+            let deal = await dbService.updateDeal(req.body)
+            res.send("OK")
+        } catch(error) {
+            res.sendStatus(400, "Something went wrong")
+        }
+
+    })
+
+
+
 
 
 

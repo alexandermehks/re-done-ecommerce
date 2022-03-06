@@ -682,6 +682,18 @@ const getProductsDeal = async() => {
 };
 
 
+const updateDeal = async(data) => {
+    try{
+        console.log(data)
+        const dbConnection = await dbPromise;
+        const deals = await dbConnection.run(`UPDATE product set deal = ? WHERE prodID = ?`, [data.dealAmount, data.prodID])
+        return deals;
+    }
+    catch(error) {
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
 
 
 
@@ -709,7 +721,8 @@ module.exports = {
     deleteReview: deleteReview,
     updateReview: updateReview,
     searchBar: searchBar,
-    getProductsDeal: getProductsDeal
+    getProductsDeal: getProductsDeal,
+    updateDeal: updateDeal
 
 
 }
