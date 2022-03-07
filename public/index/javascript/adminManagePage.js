@@ -7,18 +7,33 @@ const vm = new Vue({
     },
 
     mounted() {
-        $(function () {
+        $(function() {
             $("#navbar").load("navbar.html");
             $("#footer").load("footer.html");
         });
-        var self = this;
-        $.getJSON("admin/users/", function (jsondata) {
-            self.users = jsondata;
-        });
+        this.loadUsers()
 
     },
     methods: {
-        changeManage: function () {
+
+        loadUsers() {
+            console.log("hej")
+            $.ajax({
+                url: 'admin/users/',
+                type: 'GET',
+                success: (data) => {
+                    this.users = data;
+                    console.log(data)
+
+                },
+                error: (data) => {
+                    console.log(data)
+
+                }
+            });
+
+        },
+        changeManage: function() {
             var element = document.getElementById("accountinfo");
             var element1 = document.getElementById("orders");
             if (element) {
@@ -29,7 +44,7 @@ const vm = new Vue({
                 }
             }
         },
-        changeManage2: function () {
+        changeManage2: function() {
             var element = document.getElementById("orders");
             var element1 = document.getElementById("accountinfo");
             if (element) {
@@ -43,31 +58,31 @@ const vm = new Vue({
 
 
         },
-        toggleEditAccount: function (userID) {
-            $('#form'+userID).toggle();
-            $('#formsub'+userID).toggle();
+        toggleEditAccount: function(userID) {
+            $('#form' + userID).toggle();
+            $('#formsub' + userID).toggle();
         },
-        toggleShowOrderProducts: function () {
+        toggleShowOrderProducts: function() {
             $("#ShowProductsContainer").toggle();
 
 
         },
 
-        updateAccount: function (userID, name, email, role) {
-            let nam,ema,rol;
-            if($('#role' + userID).val() === ""){
+        updateAccount: function(userID, name, email, role) {
+            let nam, ema, rol;
+            if ($('#role' + userID).val() === "") {
                 rol = role;
-            }else{
+            } else {
                 rol = $('#role' + userID).val()
             }
-            if($('#email' + userID).val() === ""){
+            if ($('#email' + userID).val() === "") {
                 ema = email;
-            }else{
+            } else {
                 ema = $('#email' + userID).val()
             }
-            if($('#name' + userID).val() === ""){
+            if ($('#name' + userID).val() === "") {
                 nam = name;
-            }else{
+            } else {
                 nam = $('#name' + userID).val()
             }
             let data = {
@@ -81,17 +96,23 @@ const vm = new Vue({
                 method: "PUT",
                 data: data,
                 success: () => {
-                    $.getJSON("/admin/users/", function (jsondata) {
+                    $.getJSON("/admin/users/", function(jsondata) {
+                        console.log(jsondata)
                         this.users = jsondata;
+                        $('#form' + userID).hide();
+
+                        //  $("#accountcontainer").load(window.location.href + " #accountcontainer");
+
                     });
-                    this.toggleEditAccount(data.userID)
-                    $("#accountcontainer").load(window.location.href + " #accountcontainer");
-                    console.log(this.users)
+                    //   this.toggleEditAccount(data.userID)
+
+                    // console.log(this.users)
 
                 }
             });
+
         },
-        deleteUser: function (userID) {
+        deleteUser: function(userID) {
             let data = { "userID": userID }
             $.ajax({
                 url: '/admin/deleteUser',
@@ -99,7 +120,7 @@ const vm = new Vue({
                 data: data,
                 success: () => {
                     var self = this;
-                    $.getJSON("/admin/users/", function (jsondata) {
+                    $.getJSON("/admin/users/", function(jsondata) {
                         console.log(JSON.stringify(jsondata));
                         self.users = jsondata;
 
@@ -124,7 +145,7 @@ const vm = new Vue({
             //update questions
         },
 
-        updateUser: function () {
+        updateUser: function() {
 
 
         },
