@@ -733,7 +733,7 @@ const fillOrderProducts = async(orders) => {
         order.totalPrice = 0;
         order.totalItems = 0;
         await asyncForEach(order.products, async(product) => {
-            console.log(product.propID, product.type)
+            //console.log(product.propID, product.type)
             order.totalItems += product.amount;
             let property = await getCategoryWithPropId(product.type, product.propID);
             if (property.length > 0) {

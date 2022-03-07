@@ -41,7 +41,7 @@
                     <div>
                         <p><b>Username: </b>{{user.name}}</p>
                         <p><b>Email: </b>{{user.email}}</p>
-                        
+
                         <p><b>Role: </b>{{user.role}}</p>
 
                     </div>
@@ -54,7 +54,7 @@
                         <input type="text" v-bind:id="'role'+user.userID" name="role" :placeholder="user.role">
 
                     </form>
-                    
+
                     <button class="AdminManageButtons" v-bind:id="'formsub'+user.userID" v-on:click="updateAccount(user.userID,user.name,user.email,user.role)" style="display: none;">Submit</button>
                     <div class="manageButtons">
                         <button class="AdminManageButtons" v-on:click="toggleEditAccount(user.userID)">Edit</button>
@@ -68,15 +68,59 @@
                 <h5>Orders</h5>
                 <div class="manageOrders">
                     <div class="manageOrdersflex">
-                        <div style="margin-right: 20px">
-                            <p><b>OrderID: </b>HALAÅLÅALÅDALÅWLÅDAWLÅ</p>
-                            <p><b>UserID: </b>awdawdawdawdawdawda</p>
-                        </div>
-                        <div>
-                            <p><b>Date: </b>2022/12/12</p>
+                        <div style="padding-right: 100px; padding-left: 100px;">
 
-                            <p><b>Status: </b>Payed</p>
+                            <div id="orderHistory">
+                                <div class="container-fluid">
+
+                                    <div v-for="order in orders">
+                                        <p><b>OrderID:</b> {{order.orderID}}</p>
+                                        <p><b>Date:</b> {{order.date}}</p>
+                                        <p><b>Status:</b> {{order.status}}</p>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Amount</th>
+                                                    <th scope="col">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="product in order.products">
+                                                    <th scope="row">
+                                                        <img :src="product.productObject.picURL" style="height: 50px; width:50px; border-radius: 50px; border: 1px solid rgba(0, 0, 0, 0.199);">
+                                                    </th>
+                                                    <td>
+                                                        <strong>{{product.productObject.name}}</strong>
+                                                        <br> {{product.productObject.categoryObject.category_name}}
+                                                    </td>
+
+                                                    <td>{{product.productObject.newPrice}} kr</td>
+                                                    <td>{{product.amount}}</td>
+                                                    <td>{{product.productObject.newPrice * product.amount}} kr</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                    </th>
+                                                    <td>
+
+                                                    </td>
+                                                    <td></td>
+                                                    <td>{{order.totalItems}}</td>
+                                                    <td>{{order.totalPrice}} kr</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                     <button class="showAllProdButton" v-on:click="toggleShowOrderProducts()">Show all products</button>
                     <div class="ShowProductsContainer" id="ShowProductsContainer" style="display: none;">
