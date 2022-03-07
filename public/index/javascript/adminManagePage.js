@@ -1,20 +1,24 @@
 const vm = new Vue({
     el: "#app",
     data: {
-        testAccount: "luca123"
+        testAccount: "luca123",
+        users: []
 
     },
 
     mounted() {
-        $(function () {
+        $(function() {
             $("#navbar").load("navbar.html");
             $("#footer").load("footer.html");
         });
-
+        var self = this;
+        $.getJSON("admin/users/", function(jsondata) {
+            self.users = jsondata;
+        });
 
     },
     methods: {
-        changeManage: function () {
+        changeManage: function() {
             var element = document.getElementById("accountinfo");
             var element1 = document.getElementById("orders");
             if (element) {
@@ -25,7 +29,7 @@ const vm = new Vue({
                 }
             }
         },
-        changeManage2: function () {
+        changeManage2: function() {
             var element = document.getElementById("orders");
             var element1 = document.getElementById("accountinfo");
             if (element) {
@@ -39,7 +43,7 @@ const vm = new Vue({
 
 
         },
-        toggleEditAccount: function () {
+        toggleEditAccount: function() {
             $("#editAccount").toggle();
             $("#editAccountSubmit").toggle();
 
@@ -51,17 +55,38 @@ const vm = new Vue({
 
         },
 
-        updateAccount: function () {
+        updateAccount: function() {
             var username = document.getElementById("username").value;
             var email = document.getElementById("email").value;
             console.log(username)
             console.log(email)
 
+        },
+        deleteUser: function(userID) {
+            let data = { "userID": userID }
+            $.ajax({
+                url: '/admin/deleteUser',
+                method: "POST",
+                data: data,
+                success: () => {
+                    var self = this;
+                    $.getJSON("/admin/users/", function(jsondata) {
+                        console.log(JSON.stringify(jsondata));
+                        self.users = jsondata;
+
+                    });
+                }
+            });
+        },
+
+        updateUser: function() {
 
 
-        }
+        },
 
 
-    }
+    },
+
+
 
 });
