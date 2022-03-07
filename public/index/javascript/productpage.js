@@ -162,7 +162,12 @@ const vm = new Vue({
                 4: false,
             }
             this.choosenShoeSize = ""
+
+            this.shoeMinValue = 30
+            this.shoeMaxValue = 49
+
             this.updateAllFilter()
+
         },
 
         getValueRange(minValue, maxValue) {
