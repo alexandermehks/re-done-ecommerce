@@ -158,7 +158,7 @@
                                     <div class="prod-hr-body ">
                                         <div class="prod-hr "></div>
                                     </div>
-                                    <div class="prod-categories ">
+                                    <div class="prod-categories">
                                         <a class="prod-categories-item " :href="'/designproduct?catID='+key[0].categoryObject.parentCategory">{{key[0].categoryObject.parent_name}}</a>
                                         <a class="prod-categories-item " v-if="key[0].categoryObject.isParentCategory==0 " :href="'/designproduct?catID='+key[0].categoryObject.catID">{{key[0].categoryObject.category_name}}</a>
                                     </div>
