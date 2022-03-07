@@ -67,7 +67,7 @@ $(document).ready(function() {
         }
     );
 
-    $("#cart-icon").hover(
+    $("#cart-icon").click(
         function() {
             $(".navigation-categories").hide();
             $(".navigation-profile").hide();
