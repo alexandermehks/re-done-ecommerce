@@ -72,7 +72,7 @@ const vm = new Vue({
                 url: 'products/byProdId/' + id,
                 type: 'GET',
                 success: (data) => {
-
+                    console.log(data)
                     //IF valid id, get product
                     if (data.length > 0) {
 

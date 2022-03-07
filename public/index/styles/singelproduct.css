@@ -420,3 +420,7 @@
     background-color: #00bcd4;
     color: white;
 }
+
+.titlecontainer h4 {
+    padding-top: 16px;
+}

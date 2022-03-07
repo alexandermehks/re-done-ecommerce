@@ -112,8 +112,16 @@
                         <div class="prod-title ">
                             {{product.name}}
                         </div>
-                        <div class="prod-price ">
+                        <div class="prod-price " style="text-decoration: line-through;" v-if="product.deal > 0 ">
                             {{product.price}}kr
+                        </div>
+
+                        <div class="prod-price " v-if="product.deal == null">
+                            {{product.price}}kr
+                        </div>
+
+                        <div class="prod-priceNew " v-if="product.deal > 0 ">
+                            {{product.newPrice}}kr
                         </div>
 
                         <div class="button-holder ">
