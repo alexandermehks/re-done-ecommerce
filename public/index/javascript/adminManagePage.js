@@ -17,7 +17,6 @@ const vm = new Vue({
     methods: {
 
         loadUsers() {
-            console.log("hej")
             $.ajax({
                 url: 'admin/users/',
                 type: 'GET',
@@ -99,14 +98,10 @@ const vm = new Vue({
                     $.getJSON("/admin/users/", function(jsondata) {
                         console.log(jsondata)
                         this.users = jsondata;
-                        $('#form' + userID).hide();
+                        this.toggleEditAccount(userID)
 
-                        //  $("#accountcontainer").load(window.location.href + " #accountcontainer");
+                    }.bind(this));
 
-                    });
-                    //   this.toggleEditAccount(data.userID)
-
-                    // console.log(this.users)
 
                 }
             });
