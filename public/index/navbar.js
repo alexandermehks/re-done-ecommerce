@@ -1,6 +1,6 @@
 const navbarvm = new Vue({
     el: "#navbarapp",
-   
+
     data: {
         loggedin: {},
         searched: [],
@@ -35,6 +35,45 @@ const navbarvm = new Vue({
                 })
             }
         },
+        checkout() {
+            $.ajax({
+                url: '/products/addOrder',
+                type: 'POST',
+                data: { "loggedin": this.loggedin },
+                success: (result) => {
+
+                    console.log(result)
+
+                }
+            })
+        },
+        getOrders(orderID) {
+            const dat = {
+                "orderID": orderID,
+                "userID": "0bb42ac4-9f3b-4d8e-a73b-77e99993fce4"
+            }
+            $.ajax({
+                url: '/products/getOrdersById',
+                type: 'POST',
+                data: dat,
+                success: (result) => {
+                    console.log(result)
+                }
+            })
+        },
+        getOrdersByUserID(userID) {
+            const dat = {
+                "userID": userID
+            }
+            $.ajax({
+                url: '/products/getOrdersByUserID',
+                type: 'POST',
+                data: dat,
+                success: (result) => {
+                    console.log(result)
+                }
+            })
+        },
 
         getLoggedInUser() {
             $.ajax({
@@ -43,7 +82,7 @@ const navbarvm = new Vue({
                 success: (result) => {
                     this.loggedin = result;
                     this.shoppingitem = 0;
-                    for(let item in this.loggedin.shoppingcart){
+                    for (let item in this.loggedin.shoppingcart) {
                         this.shoppingitem += this.loggedin.shoppingcart[item].amount
                     }
                     console.log(this.shoppingitem)
@@ -108,26 +147,27 @@ const navbarvm = new Vue({
         },
 
 
-       
+
 
 
 
 
     },
 
-   
+
     mounted() {
         this.getCategories();
 
 
-       
-        
-        
+
+
+
     }
 
 });
 navbarvm.getLoggedInUser();
 navbarvm.search("");
+
 function onSignIn(googleUser) {
     let user = {}
     user['status'] = true;
@@ -171,4 +211,3 @@ $(document).ready(function() {
     });
 
 });
-
