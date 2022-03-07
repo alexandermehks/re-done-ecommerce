@@ -35,23 +35,32 @@
 
 
 
-        <div v-if="!loggedin.status" class="navigation-profile" id="navigation-profile" style="display: none;">
-            <h2>Log In</h2>
-            <form>
-                <input type="text" id="login" name="login" placeholder="Login">
-                <input type="password" id="password" name="login" placeholder="Password">
-            </form>
-            <button class="btn btn-primary" v-on:click="logIn()">Login</button>
+        <div class="navigation-profile" id="navigation-profile" style="display: none;">
+            <div v-if="!loggedin.status">
+                <h2>Log In</h2>
+                <form>
+                    <input type="text" id="login" name="login" placeholder="Login">
+                    <input type="password" id="password" name="login" placeholder="Password">
+                </form>
+                <button class="btn btn-primary" v-on:click="logIn()">Login</button>
 
 
-            <div>
-                <p>Log in using Google:</p>
-                <div class="g-signin2" id="google-sign-in-button" data-onsuccess="onSignIn"></div>
+                <div>
+                    <p>Log in using Google:</p>
+                    <div class="g-signin2" id="google-sign-in-button" data-onsuccess="onSignIn"></div>
+                </div>
             </div>
+            <div v-else class="profile-loggedin">
 
+                <span>Welcome! {{ loggedin.name}}</span>
+                <a href="#"><span>asd</span></a>
+                <a href="#"><span>asd</span></a>
+                <a href="#" v-on:click="logOut()"><span>Log Out</span></a>
+
+            </div>
         </div>
 
-
+        <!--
         <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
             <h3>Hope you have a good day {{ loggedin.name}}!</h3>
             <div>
@@ -63,13 +72,13 @@
             <button class="btn btn-primary" v-on:click="logOut()">LOG OUT</button>
 
 
-            <!--
+            
             <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
-                         out</button></a> -->
+                         out</button></a> 
 
 
         </div>
-
+        -->
 
 
 
