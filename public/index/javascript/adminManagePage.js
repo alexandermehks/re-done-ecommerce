@@ -11,13 +11,28 @@ const vm = new Vue({
             $("#navbar").load("navbar.html");
             $("#footer").load("footer.html");
         });
-        var self = this;
-        $.getJSON("admin/users/", function(jsondata) {
-            self.users = jsondata;
-        });
+        this.loadUsers()
 
     },
     methods: {
+
+        loadUsers() {
+            console.log("hej")
+            $.ajax({
+                url: 'admin/users/',
+                type: 'GET',
+                success: (data) => {
+                    this.users = data;
+                    console.log(data)
+
+                },
+                error: (data) => {
+                    console.log(data)
+
+                }
+            });
+
+        },
         changeManage: function() {
             var element = document.getElementById("accountinfo");
             var element1 = document.getElementById("orders");
@@ -43,23 +58,58 @@ const vm = new Vue({
 
 
         },
-        toggleEditAccount: function() {
-            $("#editAccount").toggle();
-            $("#editAccountSubmit").toggle();
-
-
+        toggleEditAccount: function(userID) {
+            $('#form' + userID).toggle();
+            $('#formsub' + userID).toggle();
         },
-        toggleShowOrderProducts: function () {
+        toggleShowOrderProducts: function() {
             $("#ShowProductsContainer").toggle();
 
 
         },
 
-        updateAccount: function() {
-            var username = document.getElementById("username").value;
-            var email = document.getElementById("email").value;
-            console.log(username)
-            console.log(email)
+        updateAccount: function(userID, name, email, role) {
+            let nam, ema, rol;
+            if ($('#role' + userID).val() === "") {
+                rol = role;
+            } else {
+                rol = $('#role' + userID).val()
+            }
+            if ($('#email' + userID).val() === "") {
+                ema = email;
+            } else {
+                ema = $('#email' + userID).val()
+            }
+            if ($('#name' + userID).val() === "") {
+                nam = name;
+            } else {
+                nam = $('#name' + userID).val()
+            }
+            let data = {
+                "userID": userID,
+                "name": nam,
+                "email": ema,
+                "role": rol,
+            }
+            $.ajax({
+                url: '/admin/editUser',
+                method: "PUT",
+                data: data,
+                success: () => {
+                    $.getJSON("/admin/users/", function(jsondata) {
+                        console.log(jsondata)
+                        this.users = jsondata;
+                        $('#form' + userID).hide();
+
+                        //  $("#accountcontainer").load(window.location.href + " #accountcontainer");
+
+                    });
+                    //   this.toggleEditAccount(data.userID)
+
+                    // console.log(this.users)
+
+                }
+            });
 
         },
         deleteUser: function(userID) {
@@ -84,12 +134,12 @@ const vm = new Vue({
                 url: 'products/getAllOrders',
                 type: 'GET',
                 success: (data) => {
-                   console.log(data)
-                  
+                    console.log(data)
+
 
                 },
                 error: (data) => {
-                    
+
                 }
             });
             //update questions
