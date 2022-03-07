@@ -2,7 +2,9 @@ const vm = new Vue({
     el: "#app",
     data: {
         testAccount: "luca123",
-        order: ["asd", "asd"]
+        order: ["asd", "asd"],
+        loggedin: {},
+        orders: []
 
     },
 
@@ -13,10 +15,39 @@ const vm = new Vue({
         });
 
 
+        this.getLoggedInUser();
+
     },
     methods: {
         do_test() {
             console.log("test")
+        },
+        getLoggedInUser() {
+            $.ajax({
+                url: '/auth/loggedInUser',
+                type: 'GET',
+                success: (result) => {
+                    this.loggedin = result;
+                    this.getOrdersByUserID(this.loggedin.id)
+                }
+            })
+        },
+        getOrdersByUserID(userID) {
+            const dat = {
+                "userID": userID
+            }
+            $.ajax({
+                url: '/products/getOrdersByUserID',
+                type: 'POST',
+                data: dat,
+                success: (result) => {
+                    this.orders = result;
+
+                    for (i in this.orders)
+                        console.log(this.orders[i]);
+
+                }
+            })
         },
 
     }

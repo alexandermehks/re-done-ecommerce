@@ -43,47 +43,125 @@
             </div>
         </nav>
         <!--Table for orderHistory-->
-        <div id="orderHistory">
-            <div class="container-fluid">
-                <div class="row">
-                    <aside class="col-lg-12">
-                        <div class="card">
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
-                                    <thead class="text-muted">
-                                        <tr class="small text-uppercase">
-                                            <th scope="col" width="30">OrderID</th>
-                                            <th scope="col" width="30">Date</th>
-                                            <th scope="col" width="30">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="orderID">
-                                                    <p> order id</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="date">
-                                                    <p> ldate</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status">
-                                                    <p> status</p>
-                                                </div>
-                                            </td>
-
-                                        </tr>
 
 
-                                    </tbody>
-                                </table>
-                                {{testAccount}}
-                            </div>
+        <div v-if="!loggedin.status">
+
+            <h1>PLEASE LOG IN</h1>
+
+        </div>
+        <div v-if="loggedin.status">
+            <div style="padding-right: 100px; padding-left: 100px;">
+
+                <div id="orderHistory">
+                    <div class="container-fluid">
+
+                        <div v-for="order in orders">
+                            <p><b>OrderID:</b> {{order.orderID}}</p>
+                            <p><b>Date:</b> {{order.date}}</p>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="product in order.products">
+                                        <th scope="row">
+                                            <img :src="product.productObject.picURL" style="height: 50px; width:50px; border-radius: 50px; border: 1px solid rgba(0, 0, 0, 0.199);">
+                                        </th>
+                                        <td>
+                                            <strong>{{product.productObject.name}}</strong>
+                                            <br> {{product.productObject.categoryObject.category_name}}
+                                        </td>
+
+                                        <td>{{product.productObject.newPrice}} kr</td>
+                                        <td>{{product.amount}}</td>
+                                        <td>{{product.productObject.newPrice * product.amount}} kr</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td>
+
+                                        </td>
+                                        <td></td>
+                                        <td>{{order.totalItems}}</td>
+                                        <td>{{order.totalPrice}} kr</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+
+
                         </div>
-                    </aside>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!--<div class="row">
+                        <aside class="col-lg-12">
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead class="text-muted">
+                                            <tr class="small text-uppercase">
+                                                <th scope="col" width="30">OrderID</th>
+                                                <th scope="col" width="30">Date</th>
+                                                <th scope="col" width="30">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="orderID">
+                                                        <p> order id</p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="date">
+                                                        <p> ldate</p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="status">
+                                                        <p> status</p>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                    {{testAccount}}
+                                </div>
+                            </div>
+                        </aside>
+                    </div>-->
+                    </div>
                 </div>
             </div>
         </div>

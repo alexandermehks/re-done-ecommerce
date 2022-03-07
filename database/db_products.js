@@ -730,9 +730,11 @@ const fillOrderProducts = async(orders) => {
     await asyncForEach(orders, async(order) => {
         let orderProducts = await dbConnection.all(`SELECT * from orderproducts WHERE orderID = ?`, [order.orderID])
         order.products = orderProducts;
+        order.totalPrice = 0;
+        order.totalItems = 0;
         await asyncForEach(order.products, async(product) => {
             console.log(product.propID, product.type)
-
+            order.totalItems += product.amount;
             let property = await getCategoryWithPropId(product.type, product.propID);
             if (property.length > 0) {
                 let prop = property[0];
@@ -740,6 +742,8 @@ const fillOrderProducts = async(orders) => {
                 //console.log(prod)
                 if (prod.length > 0) {
                     product.productObject = prod[0]
+
+                    order.totalPrice += product.productObject.newPrice * product.amount;
                 }
             }
         });
@@ -761,7 +765,7 @@ const getOrdersByUserID = async(userID) => {
         console.log("Orders: ", userID)
 
         const dbConnection = await dbPromise;
-        let orders = await dbConnection.all(`SELECT * from orders WHERE userID = ?`, [userID])
+        let orders = await dbConnection.all(`SELECT * from orders WHERE userID = ? ORDER BY date DESC`, [userID])
         orders = await fillOrderProducts(orders);
         return orders;
     } catch (error) {
@@ -777,7 +781,7 @@ const getOrdersByOrderID = async(orderID) => {
         console.log("Orders: ", orderID)
 
         const dbConnection = await dbPromise;
-        let orders = await dbConnection.all(`SELECT * from orders WHERE orderID = ?`, [orderID])
+        let orders = await dbConnection.all(`SELECT * from orders WHERE orderID = ? ORDER BY date DESC`, [orderID])
         orders = await fillOrderProducts(orders);
         return orders;
     } catch (error) {
