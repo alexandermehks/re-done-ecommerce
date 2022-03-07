@@ -41,15 +41,19 @@
                     <div>
                         <p><b>Username: </b>{{user.name}}</p>
                         <p><b>Email: </b>{{user.email}}</p>
-                        <p><b>password: </b>{{user.password}}</p>
+                        
+                        <p><b>Role: </b>{{user.role}}</p>
+
                     </div>
                     <form id="editAccount" style="display: none;">
                         <label for="fname">Username:</label><br>
                         <input type="text" id="username" name="fname"><br>
                         <label for="lname">Email:</label><br>
                         <input type="text" id="email" name="lname">
+                        <label for="role">Role:</label><br>
+                        <input type="text" id="role" name="role">
                     </form>
-
+                    
                     <button class="AdminManageButtons" id="editAccountSubmit" v-on:click="updateAccount()" style="display: none;">Submit</button>
                     <div class="manageButtons">
                         <button class="AdminManageButtons" v-on:click="toggleEditAccount()">Edit</button>

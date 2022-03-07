@@ -106,6 +106,14 @@ routes.post('/getOrdersById', async(req, res) => {
         res.sendStatus(400, "Something went wrong");
     }
 });
+routes.get('/getAllOrders', async(req, res) => {
+    try {
+        const users = await dbService.getOrders();
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
 
 
 routes.post('/getOrdersByUserID', async(req, res) => {
