@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="styles/singelproduct.css">
     <link rel="stylesheet" href="styles/card.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+
 
 
 </head>
@@ -63,14 +63,16 @@
                         <div class="buysection">
                             <div class="titlecontainer">
                                 <h3>{{product[0].name}}</h3>
-                                <h2><b>{{product[0].price}} Kr</b></h2>
+                                <h4 style="color: red;" v-if="product[0].deal > 0"><b>{{product[0].newPrice}} Kr</b></h4>
+                                <h4 style="text-decoration: line-through;" v-if="product[0].deal > 0 "><b>{{product[0].price}} Kr</b></h4>
+                                <h4 v-if="product[0].deal == null "><b>{{product[0].price}} Kr</b></h4>
                             </div>
                             <div class="reviewstars" style="justify-content: left;">
                                 <div v-for="stars in 5 ">
                                     <span class="fa fa-star checked" v-if="stars <= rating"></span>
                                     <span class="fa fa-star" v-if="stars > rating"></span>
                                 </div>
-                             
+
                                 <span>({{reviews.length}})</span>
                             </div>
 
@@ -165,8 +167,8 @@
                         <h4>{{rating}}/5</h4>
                         <button class="review_button" id="reviewbutton" v-if="loggedin.id && loggedinreview === 0" v-on:click="openReviewContainer()">Write
                                    Review</button>
-                                   <h4  v-if="!loggedin.id">Please log in to post reviews</h4>
-                                   <h4  v-if="loggedinreview === 1">You have already posted a review</h4>
+                        <h4 v-if="!loggedin.id">Please log in to post reviews</h4>
+                        <h4 v-if="loggedinreview === 1">You have already posted a review</h4>
 
                         <div class="reviewform" id="reviewform" style="display: none;">
                             <form>
@@ -190,7 +192,7 @@
                                 </div>
 
                             </form>
-                            <button class = "review_button" v-on:click="postReview(), openReviewContainer()">Publish Review</button>
+                            <button class="review_button" v-on:click="postReview(), openReviewContainer()">Publish Review</button>
                         </div>
                     </div>
                     <div class="reviewcontainer" id="reviewcontainer">
