@@ -45,18 +45,19 @@
                         <p><b>Role: </b>{{user.role}}</p>
 
                     </div>
-                    <form id="editAccount" style="display: none;">
+                    <form v-bind:id="'form'+user.userID" style="display: none; margin-bottom: 5px;">
                         <label for="fname">Username:</label><br>
-                        <input type="text" id="username" name="fname"><br>
+                        <input type="text" v-bind:id="'name'+user.userID" name="fname" :placeholder="user.name"><br>
                         <label for="lname">Email:</label><br>
-                        <input type="text" id="email" name="lname">
+                        <input type="text" v-bind:id="'email'+user.userID" name="lname" :placeholder="user.email"><br>
                         <label for="role">Role:</label><br>
-                        <input type="text" id="role" name="role">
+                        <input type="text" v-bind:id="'role'+user.userID" name="role" :placeholder="user.role">
+
                     </form>
                     
-                    <button class="AdminManageButtons" id="editAccountSubmit" v-on:click="updateAccount()" style="display: none;">Submit</button>
+                    <button class="AdminManageButtons" v-bind:id="'formsub'+user.userID" v-on:click="updateAccount(user.userID,user.name,user.email,user.role)" style="display: none;">Submit</button>
                     <div class="manageButtons">
-                        <button class="AdminManageButtons" v-on:click="toggleEditAccount()">Edit</button>
+                        <button class="AdminManageButtons" v-on:click="toggleEditAccount(user.userID)">Edit</button>
                         <button class="AdminManageButtons" v-on:click="deleteUser(user.userID)">Delete</button>
 
                     </div>
