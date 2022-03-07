@@ -56,15 +56,23 @@
             </div>
             <div class="orders" id="orders" style="display: none">
                 <h5>Orders</h5>
-                <div>
+                <div class="manageOrders">
+                    <div class="manageOrdersflex">
+                        <div style="margin-right: 20px">
+                            <p><b>OrderID: </b>awdawdawdawdawdawdaw</p>
+                            <p><b>UserID: </b>awdawdawdawdawdawda</p>
+                        </div>
+                        <div>
+                            <p><b>Date: </b>2022/12/12</p>
 
+                            <p><b>Status: </b>Payed</p>
+                        </div>
+                    </div>
+                    <button class="showAllProdButton" v-on:click="toggleShowOrderProducts()">Show all products</button>
+                    <div class="ShowProductsContainer" id="ShowProductsContainer" style="display: none;">
+                        <p>Product Info Here</p>
 
-                    <p>OrderID</p>
-                    <p>HEHEHEHEHE</p>
-
-                    <p>HEHEHEHEHE</p>
-
-                    <p>HEHEHEHEHE</p>
+                    </div>
 
 
                 </div>
