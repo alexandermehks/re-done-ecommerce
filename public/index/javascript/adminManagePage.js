@@ -78,6 +78,22 @@ const vm = new Vue({
                 }
             });
         },
+        loadOrders() {
+            //Load  questions
+            $.ajax({
+                url: 'products/getAllOrders',
+                type: 'GET',
+                success: (data) => {
+                   console.log(data)
+                  
+
+                },
+                error: (data) => {
+                    
+                }
+            });
+            //update questions
+        },
 
         updateUser: function() {
 
@@ -88,5 +104,5 @@ const vm = new Vue({
     },
 
 
-
 });
+vm.loadOrders()

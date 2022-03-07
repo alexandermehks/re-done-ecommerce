@@ -786,6 +786,19 @@ const getOrdersByOrderID = async(orderID) => {
     }
 }
 
+const getOrders = async() => {
+    try {
+
+        const dbConnection = await dbPromise;
+        let orders = await dbConnection.all(`SELECT * from orders`)
+        orders = await fillOrderProducts(orders);
+        return orders;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
 const addOrders = async(loggedin) => {
     //status -> recieved, packing,sent
     try {
@@ -838,6 +851,7 @@ const editOrderStatus = async(orderID, status) => {
 }
 
 
+
 const deleteOrder = async(orderID) => {
 
     try {
@@ -888,7 +902,8 @@ module.exports = {
     getOrdersByOrderID: getOrdersByOrderID,
     addOrders: addOrders,
     editOrderStatus: editOrderStatus,
-    deleteOrder: deleteOrder
+    deleteOrder: deleteOrder,
+    getOrders: getOrders
 
 
 }
