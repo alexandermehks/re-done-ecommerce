@@ -14,6 +14,28 @@ const vm = new Vue({
 
     },
     methods: {
+        changeManage: function() {
+            $("#accountinfo").toggle();
+            $("#orders").toggle();
+
+        },
+        toggleEditAccount: function() {
+            $("#editAccount").toggle();
+            $("#editAccountSubmit").toggle();
+
+            
+        },
+
+        updateAccount: function() {
+            var username = document.getElementById("username").value;
+            var email = document.getElementById("email").value;
+            console.log(username)
+            console.log(email)
+
+
+            
+        }
+
        
     }
 
