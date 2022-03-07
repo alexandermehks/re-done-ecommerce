@@ -45,6 +45,11 @@ const vm = new Vue({
 
 
         },
+        toggleShowOrderProducts: function () {
+            $("#ShowProductsContainer").toggle();
+
+
+        },
 
         updateAccount: function () {
             var username = document.getElementById("username").value;

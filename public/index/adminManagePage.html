@@ -29,8 +29,10 @@
         <div class="adminManageContainer">
 
             <div class="manageoptions">
-                <button class="manageOptionItems" id = "manageOptionItems1" v-on:click="changeManage()">Account Information</button>
-                <button class="manageOptionItems" id = "manageOptionItems2" v-on:click="changeManage2()">Manage Orders</button>
+                <button class="manageOptionItems" id="manageOptionItems1" v-on:click="changeManage()">Account
+                    Information</button>
+                <button class="manageOptionItems" id="manageOptionItems2" v-on:click="changeManage2()">Manage
+                    Orders</button>
 
             </div>
             <div class="accountinfo" id="accountinfo">
@@ -41,33 +43,40 @@
                         <p><b>Email: </b>användarnamn@gmail.com</p>
                         <p><b>password: </b>1234</p>
                     </div>
-                    <form id = "editAccount" style="display: none;">
+                    <form id="editAccount" style="display: none;">
                         <label for="fname">Username:</label><br>
                         <input type="text" id="username" name="fname"><br>
                         <label for="lname">Email:</label><br>
                         <input type="text" id="email" name="lname">
-                      </form>
-                      <button class="AdminManageButtons" id = "editAccountSubmit" v-on:click="updateAccount()" style="display: none;">Submit</button>
+                    </form>
+                    <button class="AdminManageButtons" id="editAccountSubmit" v-on:click="updateAccount()"
+                        style="display: none;">Submit</button>
                     <div class="manageButtons">
-                        <button class = "AdminManageButtons" v-on:click="toggleEditAccount()">Edit</button>
-                        <button class = "AdminManageButtons">Delete</button>
+                        <button class="AdminManageButtons" v-on:click="toggleEditAccount()">Edit</button>
+                        <button class="AdminManageButtons">Delete</button>
                     </div>
-               
+
                 </div>
             </div>
             <div class="orders" id="orders" style="display: none">
                 <h5>Orders</h5>
-                <div>
+                <div class="manageOrders">
+                    <div class="manageOrdersflex">
+                    <div style="margin-right: 20px">
+                        <p><b>OrderID: </b>awdawdawdawdawdawdaw</p>
+                        <p><b>UserID: </b>awdawdawdawdawdawda</p>
+                    </div>
+                    <div>
+                        <p><b>Date: </b>2022/12/12</p>
 
+                        <p><b>Status: </b>Payed</p>
+                    </div>
+                </div>
+                <button class="showAllProdButton" v-on:click="toggleShowOrderProducts()">Show all products</button>
+                <div class="ShowProductsContainer" id = "ShowProductsContainer" style="display: none;">
+                    <p>Product Info Here</p>
 
-                    <p>OrderID</p>
-                    <p>HEHEHEHEHE</p>
-
-                    <p>HEHEHEHEHE</p>
-
-                    <p>HEHEHEHEHE</p>
-
-
+                </div>
                 </div>
             </div>
 
@@ -82,8 +91,8 @@
 
 
         </div>
-            <div id="footer"></div>
-        
+        <div id="footer"></div>
+
         <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js "
