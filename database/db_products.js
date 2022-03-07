@@ -88,6 +88,11 @@ const getOnlyProducts = async() => {
             products[i]["url"] = url;
             products[i]["pictures"] = pictures
 
+            products[i].newPrice = products[i].price
+            if (products[i].deal) {
+                products[i].newPrice = products[i].price - products[i].price * (products[i].deal / 100);
+            }
+
 
             //Add placeholder img if no pictures
             if (pictures.length == 0)
@@ -256,7 +261,10 @@ const generateListOfProductTypes = async(products) => {
                     url.push(pic.pictureURL)
                 });
 
-
+                newprod.newPrice = newprod.price
+                if (newprod.deal) {
+                    newprod.newPrice = newprod.price - newprod.price * (newprod.deal / 100);
+                }
 
 
 
@@ -683,13 +691,12 @@ const getProductsDeal = async() => {
 
 
 const updateDeal = async(data) => {
-    try{
+    try {
         console.log(data)
         const dbConnection = await dbPromise;
         const deals = await dbConnection.run(`UPDATE product set deal = ? WHERE prodID = ?`, [data.dealAmount, data.prodID])
         return deals;
-    }
-    catch(error) {
+    } catch (error) {
         res.sendStatus(400, "Something went wrong")
     }
 }
