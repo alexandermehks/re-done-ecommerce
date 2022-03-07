@@ -26,7 +26,7 @@
                 </a>
                 <a href="#" class="a-icon" id="profile-icon">
                     <span v-if="!loggedin.name" class="bi bi-person-circle"></span>
-                    <span v-else class="bi bi-person-circle" style="color:green;"></span>
+                    <span v-else class="bi bi-person-circle" style="color:rgb(140, 186, 230);"></span>
                 </a>
 
 
@@ -36,15 +36,24 @@
 
 
         <div class="navigation-profile" id="navigation-profile" style="display: none;">
-            <div v-if="!loggedin.status">
-                <h2>Log In</h2>
+            <div v-if="!loggedin.status" class="profile-login">
+                <span class="login-form-title">Welcome</span>
                 <form>
-                    <input type="text" id="login" name="login" placeholder="Login">
-                    <input type="password" id="password" name="login" placeholder="Password">
+                    <div class="wrap-input100">
+                        <input class="input100" type="text" id="login" name="login">
+                        <div class="focus-input100">Email</div>
+                    </div>
+                    <div class="wrap-input100">
+                        <input class="input100" type="password" id="password" name="login">
+                        <div class="focus-input100">Password</div>
+                    </div>
                 </form>
-                <button class="btn btn-primary" v-on:click="logIn()">Login</button>
-
-
+                <div class="buttonWrap0">
+                    <div class="buttonWrap">
+                        <div class="buttonWrap2"></div>
+                        <button class="loginbtn" v-on:click="logIn()">Login</button>
+                    </div>
+                </div>
                 <div>
                     <p>Log in using Google:</p>
                     <div class="g-signin2" id="google-sign-in-button" data-onsuccess="onSignIn"></div>
@@ -52,10 +61,25 @@
             </div>
             <div v-else class="profile-loggedin">
 
-                <span>Welcome! {{ loggedin.name}}</span>
-                <a href="#"><span>asd</span></a>
-                <a href="#"><span>asd</span></a>
-                <a href="#" v-on:click="logOut()"><span>Log Out</span></a>
+                <div class="item">
+                    Welcome! {{ loggedin.name}}
+                </div>
+
+                <a href="/myOrder">
+                    <div class="item">
+                        <span class="bi bi-list-ul"></span> Orders
+
+                    </div>
+                </a>
+                <a href="/customerPage">
+                    <div class="item"><span class="bi bi-person-fill"></span> Profile</div>
+                </a>
+                <a href="#" v-on:click="logOut()">
+                    <div class="item"><span class="bi bi-door-open-fill"></span> Log Out</div>
+                </a>
+
+
+
 
             </div>
         </div>

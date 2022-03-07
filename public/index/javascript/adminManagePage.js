@@ -103,7 +103,6 @@ const vm = new Vue({
 
                     }.bind(this));
 
-
                 }
             });
 
