@@ -86,6 +86,10 @@
     color: white;
 }
 
+.manageOrdersflex {
+    display: flex;
+}
+
 .showAllProdButton {
     font-family: 'Source Sans Pro';
     font-style: normal;
@@ -116,8 +120,4 @@
 .showAllProdButton:hover {
     background-color: #00bcd4;
     color: white;
-}
-
-.manageOrdersflex {
-    display: flex;
 }
