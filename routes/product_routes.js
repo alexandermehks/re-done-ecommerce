@@ -80,6 +80,105 @@ routes.post('/getProductPropertiesByProdAndColorID', async(req, res) => {
     }
 });
 
+routes.post('/addOrder', async(req, res) => {
+    try {
+        console.log(req.body.loggedin)
+        let mes = await dbService.addOrders(req.body.loggedin);
+        if (mes) {
+
+            console.log(mes)
+            res.send(mes)
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
+routes.post('/getOrdersById', async(req, res) => {
+    try {
+        console.log(req.body)
+        const orderID = req.body.orderID;
+        const orders = await dbService.getOrdersByOrderID(orderID);
+        res.send(orders);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
+
+
+routes.post('/getOrdersByUserID', async(req, res) => {
+    try {
+        const orders = await dbService.getOrdersByUserID(req.body.userID);
+        res.send(orders);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
+
+routes.put('/editOrderStatus', async(req, res) => {
+    /* 
+        Example send data
+        {
+            "orderID": 9,
+            "status": "recieved"
+        }
+
+    */
+    try {
+        let status = req.body.status;
+        let orderID = req.body.orderID;
+
+        const mes = await dbService.editOrderStatus(orderID, status);
+
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
+routes.delete('/deleteOrder', async(req, res) => {
+    try {
+        let orderID = req.body.orderID;
+
+
+        const mes = await dbService.deleteOrder(orderID);
+
+        if (mes) {
+            res.send("Order was removed")
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
+
+
+
+
+routes.put('/edit', async(req, res) => {
+    try {
+
+
+        let mes = await dbService.editProduct(req.body);
+
+        if (mes) {
+            res.send("Success")
+        }
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
+
+
 
 
 routes.post('/add', async(req, res) => {
@@ -337,15 +436,15 @@ routes.post('/search', async(req, res) => {
 
 
 
-    routes.post('/updateDeal', async (req,res) => {
-        try{
-            let deal = await dbService.updateDeal(req.body)
-            res.send("OK")
-        } catch(error) {
-            res.sendStatus(400, "Something went wrong")
-        }
+routes.post('/updateDeal', async(req, res) => {
+    try {
+        let deal = await dbService.updateDeal(req.body)
+        res.send("OK")
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
 
-    })
+})
 
 
 
