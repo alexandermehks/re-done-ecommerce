@@ -1,8 +1,9 @@
-.manageoptions{
+.manageoptions {
     display: flex;
     margin-top: 5rem;
 }
-.adminManageContainer{
+
+.adminManageContainer {
     margin-left: 20%;
     margin-right: 20%;
 }
@@ -40,18 +41,19 @@
     background-color: #00bcd4;
     color: white;
 }
-.accountcontainer{
+
+.accountcontainer {
     border-top: 1px black solid;
     border-bottom: 1px black solid;
     display: flex;
     justify-content: space-between;
-    
 }
-.manageButtons{
+
+.manageButtons {
     margin-top: auto;
     margin-bottom: auto;
-    
 }
+
 .AdminManageButtons {
     font-family: 'Source Sans Pro';
     font-style: normal;
@@ -77,16 +79,17 @@
     transition: all .3s;
     padding: 5px 15px 6px;
     flex-direction: row;
-    
 }
 
 .AdminManageButtons:hover {
     background-color: #00bcd4;
     color: white;
 }
-.manageOrdersflex{
-display: flex;
+
+.manageOrdersflex {
+    display: flex;
 }
+
 .showAllProdButton {
     font-family: 'Source Sans Pro';
     font-style: normal;
@@ -112,7 +115,6 @@ display: flex;
     transition: all .3s;
     padding: 5px 15px 6px;
     flex-direction: row;
-    
 }
 
 .showAllProdButton:hover {
