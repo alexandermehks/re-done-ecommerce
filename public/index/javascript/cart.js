@@ -102,11 +102,15 @@ const checkoutvm = new Vue({
 
 
         makeKlarnaOrder(){
-            console.log(this.loggedin.shoppingcart)
+            let obj = {
+                "shoppingcart": this.loggedin.shoppingcart,
+                "total": this.loggedin.totalInCart
+            }
+            
             $.ajax({
                 url: '/klarna/generateKlarnaOrderId',
                 type: 'POST',
-                data: this.loggedin.shoppingcart,
+                data: obj,
                 success: (result) => {
                     console.log("OK")
                 }
