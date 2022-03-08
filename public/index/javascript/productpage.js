@@ -242,8 +242,8 @@ const vm = new Vue({
             }
 
             if (this.currentPage >= 1 && this.currentPage <= this.paginationObject.numPages) {
-                console.log("Pagination", this.currentPage, this.paginationObject)
-                    //Calculate start index and end-index
+                //console.log("Pagination", this.currentPage, this.paginationObject)
+                //Calculate start index and end-index
                 let startIndex = (this.currentPage - 1) * this.num_rows;
                 let endIndex = startIndex + this.num_rows;
 
@@ -265,6 +265,7 @@ const vm = new Vue({
             if (page >= this.paginationObject.firstPage && page <= this.paginationObject.lastPage) {
                 this.currentPage = page;
                 this.loadAllProducts();
+                window.scrollTo(0, 0);
             }
         },
         resetPagination() {
