@@ -103,6 +103,42 @@ const addEmailToSub = async(email) => {
 }
 
 
+const deleteUsers = async(data) => {
+
+    try {
+        const dbConnection = await dbPromise;
+        if (data) {
+
+            const res = await dbConnection.run(`DELETE FROM user WHERE userID = ?`, [data.userID])
+            console.log(data)
+            return res;
+        }
+
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "something went wrong")
+    }
+}
+
+const updateUser = async(data) => {
+
+    try {
+        const dbConnection = await dbPromise;
+        if (data) {
+            const res = await dbConnection.run(`UPDATE user SET role = ?, name = ?, email = ? WHERE userID = ?`, [data.role, data.name, data.email, data.userID])
+            console.log(data)
+            return res;
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "something went wrontt")
+    }
+}
+
+
+
 module.exports = {
     getUsers: getUsers,
     addUser: addUser,
@@ -110,4 +146,6 @@ module.exports = {
     getUser: getUser,
     getEmailFromEmailSub: getEmailFromEmailSub,
     addEmailToSub: addEmailToSub,
+    deleteUsers: deleteUsers,
+    updateUser: updateUser,
 }
