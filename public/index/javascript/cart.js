@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 const checkoutvm = new Vue({
 
     el: "#appcheckout",
@@ -104,6 +96,22 @@ const checkoutvm = new Vue({
             })
 
            
+        },
+
+
+
+
+        makeKlarnaOrder(){
+            console.log(this.loggedin.shoppingcart)
+            $.ajax({
+                url: '/klarna/generateKlarnaOrderId',
+                type: 'POST',
+                data: this.loggedin.shoppingcart,
+                success: (result) => {
+                    console.log("OK")
+                }
+
+            })
         }
         
     }

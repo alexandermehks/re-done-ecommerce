@@ -24,6 +24,7 @@
           "express-session": "^1.17.2",
           "js-bbcode-parser": "^4.0.0",
           "node-env-file": "^0.1.8",
+          "node-fetch": "^3.2.2",
           "nodemailer": "^6.7.2",
           "sqlite": "^4.0.23",
           "sqlite3": "^5.0.2",
