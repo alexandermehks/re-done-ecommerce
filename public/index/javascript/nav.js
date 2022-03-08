@@ -125,6 +125,30 @@ $(document).ready(function() {
     });
 
     let height = $(window).height() - $('nav').height() - $('#search-input').height() - 7;
+
+    //Add has-val class if input contains chars
+
+    $(".input100").change(function() {
+        let val = $(this).val()
+        if (val.length > 0) {
+            $(this).addClass('has-val');
+        } else {
+            $(this).removeClass('has-val');
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Set height of search window
     //$('.navigation-search-content').height(height);
 
