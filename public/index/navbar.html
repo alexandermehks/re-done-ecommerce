@@ -12,10 +12,10 @@
             <div class="logo">
                 <a href="/"><img src="images/logo2.png"></a>
             </div>
+            <!--- NEAJ-->
             <div class="right nav-side">
-               <a v-if="loggedin.role === 1" href="/adminManagePage">Customers & Orders</a>
+                <a v-if="loggedin.role === 1" href="/adminManagePage">Customers & Orders</a>
                 <a v-if="loggedin.role === 1" href="/handleProducts">Admin</a>
-                <a href="/register"> Register </a>
                 <a href="#" class="a-icon" id="search-icon">
                     <span class="bi bi-search"></span>
                     <input type="text" id="searchbar" style="display:none" value="TEST SEARCH">
@@ -25,7 +25,7 @@
                 </a>
                 <a href="#" class="a-icon" id="profile-icon">
                     <span v-if="!loggedin.name" class="bi bi-person-circle"></span>
-                    <span v-else class="bi bi-person-circle" style="color:green;"></span>
+                    <span v-else class="bi bi-person-circle" style="color:rgb(140, 186, 230);"></span>
                 </a>
 
 
@@ -34,42 +34,61 @@
 
 
 
-        <div v-if="!loggedin.status" class="navigation-profile" id="navigation-profile" style="display: none;">
-            <h2>Log In</h2>
-            <form>
-                <input type="text" id="login" name="login" placeholder="Login">
-                <input type="password" id="password" name="login" placeholder="Password">
-            </form>
-            <button class="btn btn-primary" v-on:click="logIn()">Login</button>
-
-
-            <div>
-                <p>Log in using Google:</p>
-                <div class="g-signin2" id="google-sign-in-button" data-onsuccess="onSignIn"></div>
+        <div class="navigation-profile" id="navigation-profile" style="display: none;">
+            <div v-if="!loggedin.status" class="profile-login">
+                <span class="login-form-title">Welcome</span>
+                <div style="margin-bottom:30px;">
+                    <center><img src="images/logo3.png"></center>
+                </div>
+                <form>
+                    <div class="wrap-input100">
+                        <input class="input100" type="text" id="login" name="login">
+                        <span class="focus-input100" data-placeholder="Email"></span>
+                    </div>
+                    <div class="wrap-input100">
+                        <input class="input100" type="password" id="password" name="login">
+                        <span class="focus-input100" data-placeholder="Password"></span>
+                    </div>
+                </form>
+                <div class="buttonWrap0">
+                    <div class="buttonWrap">
+                        <div class="buttonWrap2"></div>
+                        <button class="loginbtn" v-on:click="logIn()">Login</button>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="signup" style="display: flex; justify-content: center;">
+                    <div class="g-signin2" id="google-sign-in-button" data-onsuccess="onSignIn"></div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="signup">
+                    Don't have an account? <a href="/register">Sign up</a>
+                </div>
             </div>
+            <div v-else class="profile-loggedin">
 
-        </div>
+                <div class="item" style="font-style: italic; border-bottom: 1px solid rgb(233, 233, 233);">
+                    <strong>Welcome in {{ loggedin.name}}!</strong>
+                </div>
+
+                <a href="/myOrder">
+                    <div class="item">
+                        <span class="bi bi-list-ul"></span> Orders
+
+                    </div>
+                </a>
+                <a href="/customerPage">
+                    <div class="item"><span class="bi bi-person-fill"></span> Profile</div>
+                </a>
+                <a href="#" v-on:click="logOut()">
+                    <div class="item last"><span class="bi bi-door-open-fill"></span> Log Out</div>
+                </a>
 
 
-        <div v-else class="navigation-profile" id="navigation-profile" style="display: none;">
-            <h3>Hope you have a good day {{ loggedin.name}}!</h3>
-            <div>
-                <p> Name: {{ loggedin.name}} </p>
-                <p> Email: {{ loggedin.email }}</p>
+
+
             </div>
-
-
-            <button class="btn btn-primary" v-on:click="logOut()">LOG OUT</button>
-
-
-            <!--
-            <a v-else href="#" onclick="signOut();" style="text-decoration: none; color: inherit;"><button>Sign
-                         out</button></a> -->
-
-
         </div>
-
-
 
 
 
@@ -80,27 +99,61 @@
 
 
         <div v-if="loggedin.status && loggedin.shoppingcart.total != 0" class="navigation-cart" id="navigation-cart" style="display: none;">
-
+            <div class="nav-cart-title">Shopping cart</div>
             <div v-for="l in loggedin.shoppingcart">
+
                 <div class="nav_cart_dropdown">
-                    <img class=" picsmall_left cart_item_1" v-bind:src="l.picURL" alt="Card image cap">
-                    <div style="margin-left: 5px;" class="cart_item_2">
-                        <p>{{l.name}}</p>
-                        <p>Amount: {{l.amount}}</p>
+                    <div class="cart_item_1 pic-small" :style="'background: url('+l.picURL+')'"></div>
+                    <div class="cart_item_2">
+                        <p style="margin:0" style="overflow-y: hidden;"><strong>{{l.name}}</strong></p>
+                        <p style="margin:0">Size: {{l.size}}</p>
+                        <p style="margin:0">Amount: {{l.amount}}</p>
+
                     </div>
                     <div class="cart_item_3">
-                        <p><b>Price: {{l.price}}</b></p>
-                        <p>Size: {{l.size}}</p>
+                        <div v-if="parseInt(l.deal) > 0">
+                            <p><b>Price: <span style="color: rgb(230, 69, 69)">{{l.newPrice * l.amount}} kr</span></b></p>
+                            <p style="text-decoration: line-through;">{{l.price * l.amount}} kr</p>
+                            <div class="cart-bottom">
+                                <button type="button" class="btn btn-outline-danger btn-sm" v-on:click="removeFromCart(l.propID)">Remove item</button>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <p><b>Price: {{l.newPrice * l.amount}}</b></p>
+                            <div class="cart-bottom">
+                                <button type="button" class="btn btn-outline-danger btn-sm" v-on:click="removeFromCart(l.propID)">Remove item</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div style="height:1px; width:100%; background-color: rgb(224, 224, 224); margin-bottom:10px"></div>
+            </div>
+            <div v-if="loggedin.status === true" style="width: 100%">
+
+                <div v-if="totalRealPrice != totalPrice">
+                    <div class="nav-cart-total">Total: <span style="color: rgb(230, 69, 69)">{{ totalRealPrice }} kr</span></div>
+                    <div style="text-decoration: line-through; text-align: right; font-size: 18px">{{totalPrice}} kr</div>
+                </div>
+                <div v-else>
+                    <div class="nav-cart-total">Total: {{ totalRealPrice }} kr</div>
+                </div>
+
+
+            </div>
+            <div v-if="loggedin.status === true" class="profile-login">
+                <div class="buttonWrap0">
+                    <div class="buttonWrap">
+                        <div class="buttonWrap2"></div>
+                        <a href="/cart" style="text-decoration: none;"><button class="loginbtn">Checkout</button></a>
                     </div>
                 </div>
             </div>
-            <div v-if="loggedin.status === true" class="checkout-flexbox">
-                <a href="cart"><button id="checkout-button" class="btn btn-primary">Checkout</button></a>
-                <h3>Total: {{ loggedin.totalInCart }}</h3>
-            </div>
+            <!--<a href="cart"><button id="checkout-button" class="btn btn-primary">Checkout</button></a>-->
         </div>
-        <div class="navigation-categories " style="display: none; ">
 
+        <div class="navigation-categories " style="display: none; ">
             <div class="categories" v-for="(category, key) in categories">
                 <a :href="'/designproduct?catID='+category.catID">
                     <div class="category_name">{{category.category_name}}</div>
@@ -188,8 +241,8 @@
             </div>
             <div class="over-search"></div>
         </div>
-
     </div>
+</div>
 </div>
 </div>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>

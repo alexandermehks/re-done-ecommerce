@@ -1,14 +1,17 @@
 const navbarvm = new Vue({
     el: "#navbarapp",
-   
+
     data: {
         loggedin: {},
         searched: [],
         shoppingitem: 0,
         totalPrice: 0,
+        totalRealPrice: 0,
         categories: {}
     },
-
+    mounted() {
+        this.getCategories();
+    },
 
     methods: {
         logIn() {
@@ -35,18 +38,64 @@ const navbarvm = new Vue({
                 })
             }
         },
+        checkout() {
+            $.ajax({
+                url: '/products/addOrder',
+                type: 'POST',
+                data: { "loggedin": this.loggedin },
+                success: (result) => {
+
+                    console.log(result)
+
+                }
+            })
+        },
+        getOrders(orderID) {
+            const dat = {
+                "orderID": orderID,
+                "userID": "0bb42ac4-9f3b-4d8e-a73b-77e99993fce4"
+            }
+            $.ajax({
+                url: '/products/getOrdersById',
+                type: 'POST',
+                data: dat,
+                success: (result) => {
+                    console.log(result)
+                }
+            })
+        },
+        getOrdersByUserID(userID) {
+            const dat = {
+                "userID": userID
+            }
+            $.ajax({
+                url: '/products/getOrdersByUserID',
+                type: 'POST',
+                data: dat,
+                success: (result) => {
+                    console.log(result)
+                }
+            })
+        },
 
         getLoggedInUser() {
+
+            this.shoppingitem = 0;
+            this.totalPrice = 0;
+            this.totalRealPrice = 0;
+
+
             $.ajax({
                 url: '/auth/loggedInUser',
                 type: 'GET',
                 success: (result) => {
                     this.loggedin = result;
                     this.shoppingitem = 0;
-                    for(let item in this.loggedin.shoppingcart){
+                    for (let item in this.loggedin.shoppingcart) {
                         this.shoppingitem += this.loggedin.shoppingcart[item].amount
+                        this.totalPrice += this.loggedin.shoppingcart[item].price * this.loggedin.shoppingcart[item].amount
+                        this.totalRealPrice += this.loggedin.shoppingcart[item].newPrice * this.loggedin.shoppingcart[item].amount;
                     }
-                    console.log(this.shoppingitem)
 
                 }
             })
@@ -98,7 +147,6 @@ const navbarvm = new Vue({
                 success: (result) => {
                     this.categories = result;
 
-                    console.log(this.categories)
                 }
             })
         },
@@ -106,28 +154,37 @@ const navbarvm = new Vue({
         updateGoogleUserCart(cart) {
             this.loggedin.shoppingcart = cart;
         },
+        removeFromCart(id) {
+            console.log("remove", id)
+            let obj = {
+                "prodID": id
+            }
+            $.ajax({
+                url: '/auth/removeFromShoppingCart',
+                type: 'POST',
+                data: obj,
+                success: (result) => {
+                    this.getLoggedInUser()
+                }
+            })
+
+        },
 
 
-       
+
 
 
 
 
     },
 
-   
-    mounted() {
-        this.getCategories();
 
 
-       
-        
-        
-    }
 
 });
 navbarvm.getLoggedInUser();
 navbarvm.search("");
+
 function onSignIn(googleUser) {
     let user = {}
     user['status'] = true;
@@ -171,4 +228,3 @@ $(document).ready(function() {
     });
 
 });
-
