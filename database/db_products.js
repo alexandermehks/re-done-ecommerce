@@ -171,7 +171,20 @@ const getProducts = async() => {
     }
 };
 
-const getProductsByProdID = async(prodID) => {
+const getProductsByProdID = async(prodID, propID = -1) => {
+    try {
+        const dbConnection = await dbPromise;
+        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?)`, [prodID]);
+        let res = await generateListOfProductTypes(products, propID);
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
+
+const getPropertyProductByPropID = async(propID) => {
+
     try {
         const dbConnection = await dbPromise;
         const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?)`, [prodID]);
@@ -181,7 +194,15 @@ const getProductsByProdID = async(prodID) => {
         console.log(error)
         res.sendStatus(400, "SOmething went wrong")
     }
+
+
+
+
+
+
 }
+
+
 
 const getAllProductsWithPropertiesByIdAndColor = async(prodID, colorID, type) => {
     try {
@@ -238,7 +259,7 @@ const getProductPropertiesByProdAndColorID = async(prodID, colorID, type) => {
     }
 }
 
-const generateListOfProductTypes = async(products) => {
+const generateListOfProductTypes = async(products, proppID = -1) => {
 
     let res = [];
 
@@ -274,16 +295,8 @@ const generateListOfProductTypes = async(products) => {
                 newprod["pictures"] = pictures
 
                 newprod.categoryObject = await getCategoryWithId(catID);
-
-                /*
-                url = [newprod.picURL, "https://img01.ztat.net/article/spp-media-p1/c4004b7903d8445bad554014ee9e7c3d/c57641fc1ae447baa8bde94d06264369.jpg?imwidth=1800",
-                    "https://img01.ztat.net/article/spp-media-p1/fc586e33b65340f7a7105c61c12f775d/bea3bb549a434e68b8f35798ef3ed647.jpg?imwidth=1800&filter=packshot",
-                    "https://img01.ztat.net/article/spp-media-p1/cf9fed4fe4554ccfa488da8316a403c1/967dbf8a0962480cb251112e9f839f8f.jpg?imwidth=1800",
-                    "https://img01.ztat.net/article/spp-media-p1/1b9b29b7abe548c493c4d8f67b096961/82d6b4ce6f0d494ab99751a208f8aa31.jpg?imwidth=1800"
-                ]
-                newprod["url"] = url;
-                newprod["allColors"] = allColors*/
-                res.push(newprod);
+                if (proppID == -1 || proppID == newprod.propID)
+                    res.push(newprod);
             });
         }
     })
@@ -563,6 +576,16 @@ const getCategoryWithProdId = async(type, prodID) => {
     return response
 }
 
+const getCategoryWithPropId = async(type, propID) => {
+    const dbConnection = await dbPromise;
+    const response = await dbConnection.all(`SELECT * FROM ${type} WHERE propID = (?)`, [propID])
+
+
+
+
+    return response
+}
+
 
 const addPicture = async(propID, file) => {
     try {
@@ -701,6 +724,155 @@ const updateDeal = async(data) => {
     }
 }
 
+const fillOrderProducts = async(orders) => {
+
+    const dbConnection = await dbPromise;
+    await asyncForEach(orders, async(order) => {
+        let orderProducts = await dbConnection.all(`SELECT * from orderproducts WHERE orderID = ?`, [order.orderID])
+        order.products = orderProducts;
+        order.totalPrice = 0;
+        order.totalItems = 0;
+        await asyncForEach(order.products, async(product) => {
+            //console.log(product.propID, product.type)
+            order.totalItems += product.amount;
+            let property = await getCategoryWithPropId(product.type, product.propID);
+            if (property.length > 0) {
+                let prop = property[0];
+                let prod = await getProductsByProdID(prop.prodID, product.propID);
+                //console.log(prod)
+                if (prod.length > 0) {
+                    product.productObject = prod[0]
+
+                    order.totalPrice += product.productObject.newPrice * product.amount;
+                }
+            }
+        });
+
+    });
+    return orders;
+}
+
+
+
+
+
+
+
+const getOrdersByUserID = async(userID) => {
+
+    try {
+
+        console.log("Orders: ", userID)
+
+        const dbConnection = await dbPromise;
+        let orders = await dbConnection.all(`SELECT * from orders WHERE userID = ? ORDER BY date DESC`, [userID])
+        orders = await fillOrderProducts(orders);
+        return orders;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+
+}
+
+const getOrdersByOrderID = async(orderID) => {
+    try {
+
+        console.log("Orders: ", orderID)
+
+        const dbConnection = await dbPromise;
+        let orders = await dbConnection.all(`SELECT * from orders WHERE orderID = ? ORDER BY date DESC`, [orderID])
+        orders = await fillOrderProducts(orders);
+        return orders;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
+const getOrders = async() => {
+    try {
+
+        const dbConnection = await dbPromise;
+        let orders = await dbConnection.all(`SELECT * from orders`)
+        orders = await fillOrderProducts(orders);
+        return orders;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "Something went wrong")
+    }
+}
+
+const addOrders = async(loggedin) => {
+    //status -> recieved, packing,sent
+    try {
+        const dbConnection = await dbPromise;
+        //const orders = await dbConnection.run(`SELECT * from orders WHERE orderID = ?`, [orderID])
+
+        let userID = loggedin.id;
+        let shoppingcart = loggedin.shoppingcart;
+        if (shoppingcart) {
+            if (Object.keys(shoppingcart).length > 0) {
+                console.log(shoppingcart)
+
+                const response = await dbConnection.run(`INSERT INTO orders (userID, status) VALUES (?,?)`, [userID, "recieved"])
+
+                const orderID = response.lastID;
+
+                //Loop through every item in cart and add
+                for (let propID in shoppingcart) {
+                    let prod = shoppingcart[propID];
+                    let propIDD = prod.propID;
+                    let amount = prod.amount;
+                    const type = prod.type;
+
+                    const response2 = await dbConnection.run(`INSERT INTO orderproducts (propID, orderID, amount, type) VALUES (?,?,?,?)`, [propIDD, orderID, amount, type])
+                }
+                return response;
+            }
+        }
+        return "You can't checkout without any items in cart"
+    } catch (error) {
+        console.log(error)
+        return error;
+    }
+}
+
+const editOrderStatus = async(orderID, status) => {
+    try {
+        const dbConnection = await dbPromise;
+
+
+        const response = await dbConnection.run(`UPDATE orders SET status = ? WHERE orderID = ?`, [status, orderID])
+        console.log(response)
+
+        return response;
+    } catch (error) {
+        console.log(error)
+        return error;
+
+    }
+}
+
+
+
+const deleteOrder = async(orderID) => {
+
+    try {
+        const dbConnection = await dbPromise;
+
+
+        const res = await dbConnection.run(`DELETE FROM orderProducts WHERE orderID = ?`, [orderID])
+        const res2 = await dbConnection.run(`DELETE FROM orders WHERE orderID = ?`, [orderID])
+
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "something went wrontt")
+    }
+}
+
+
 
 
 
@@ -729,7 +901,13 @@ module.exports = {
     updateReview: updateReview,
     searchBar: searchBar,
     getProductsDeal: getProductsDeal,
-    updateDeal: updateDeal
+    updateDeal: updateDeal,
+    getOrdersByUserID: getOrdersByUserID,
+    getOrdersByOrderID: getOrdersByOrderID,
+    addOrders: addOrders,
+    editOrderStatus: editOrderStatus,
+    deleteOrder: deleteOrder,
+    getOrders: getOrders
 
 
 }
