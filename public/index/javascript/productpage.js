@@ -154,8 +154,27 @@ const vm = new Vue({
         },
         updateProd: function(e, size) {
 
-            //  this.currentShow.push(this.products[0])
-            const buttonValues = e.target.value;
+            let buttonValues = e.target.value;
+
+            //Check if go back to 0 categories, or parent value
+
+            if (parseInt(buttonValues) == this.choosenCategory) {
+
+                for (i in this.categories) {
+                    let category = this.categories[i];
+                    if (category.catID == buttonValues) {
+                        console.log("We found", category)
+                        if (category.isParentCategory == 0) {
+                            buttonValues = category.parentCategory;
+                        } else {
+                            buttonValues = 0;
+                        }
+                        break;
+                    }
+                }
+            }
+
+
             this.choosenCategory = parseInt(buttonValues);
             this.resetPagination()
 
@@ -210,7 +229,6 @@ const vm = new Vue({
             }.bind(this));
         },
         pagination() {
-            console.log("Lets go pagination")
 
             let n = this.currentShow.length;
 
@@ -223,10 +241,6 @@ const vm = new Vue({
                 "lastPage": numPages + 1
             }
 
-            console.log(this.paginationObject)
-
-            console.log(this.currentPage, this.paginationObject.numPages)
-
             if (this.currentPage >= 1 && this.currentPage <= this.paginationObject.numPages) {
                 console.log("Pagination", this.currentPage, this.paginationObject)
                     //Calculate start index and end-index
@@ -237,9 +251,7 @@ const vm = new Vue({
                     startIndex = 0
                 if (endIndex >= this.currentShow.length)
                     endIndex = this.currentShow.length - 1
-                console.log("startIndex", startIndex)
-                console.log("endIndex", endIndex)
-                console.log(this.currentShow.length)
+
                 this.currentShow = this.currentShow.splice(startIndex, this.num_rows)
 
             } else {
