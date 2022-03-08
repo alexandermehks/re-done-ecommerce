@@ -35,7 +35,7 @@
                 <button class="btn btn-1" v-on:click="updateProd($event)" value="4" :class="{activeBtn : choosenCategory == 4 || getParentCategory(choosenCategory) == 4}">Sweater</button>
                 <button class="btn btn-1" v-on:click="updateProd($event)" value="3" :class="{activeBtn : choosenCategory == 3 || getParentCategory(choosenCategory) == 3}">T-shirt</button>
                 <button class="btn btn-1" v-on:click="updateProd($event)" value="8" :class="{activeBtn : choosenCategory == 8 || getParentCategory(choosenCategory) == 8}">Accesoaries</button>
-
+                <button class="btn btn-1" v-on:click="toggleShowOnlyDeals()" :class="{activeBtn : showOnlyDeals}">Deals</button>
             </div>
         </div>
 
@@ -52,8 +52,13 @@
         </div>
         <div class="container">
             <button class="btn btn-1 filter-btn" id="filter-dropdown">Filter</button>
-
-
+            <div style="margin-top: 4px;"></div>
+            <div style="display: flex; justify-content: end;">
+                <div class="pagination-holder">
+                    Page:
+                    <a class="pagination-obj" :class="{active: page == currentPage}" v-on:click="changePage(page)" v-for="page in (paginationObject.lastPage)">{{page}}</a>
+                </div>
+            </div>
 
             <!-- koppla knappar till cardsen, aktiv knapp-->
 
@@ -135,7 +140,13 @@
                     </div>
                 </div>
             </div>
-
+            <div style="margin-top: 4px;"></div>
+            <div style="display: flex; justify-content: end;">
+                <div class="pagination-holder">
+                    Page:
+                    <a class="pagination-obj" :class="{active: page == currentPage}" v-on:click="changePage(page)" v-for="page in (paginationObject.lastPage)">{{page}}</a>
+                </div>
+            </div>
 
             <!--- sektion 2 
         <div class="section-3-container section-container productUpd ">

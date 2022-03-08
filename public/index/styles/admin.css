@@ -218,7 +218,7 @@
 
 .colorsFlex {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: left;
 }
 
 .byColors {
@@ -226,6 +226,7 @@
     border-top: 1px solid black;
     width: 100%;
     padding: 5px;
+    max-width: 230px;
 }
 
 .no-drag {

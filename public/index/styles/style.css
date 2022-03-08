@@ -407,3 +407,33 @@ body {
  ::-webkit-scrollbar-thumb:hover {
     background-color: #a8bbbf;
 }
+
+.pagination-holder {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid rgb(180, 180, 180);
+    background-color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.pagination-obj {
+    cursor: pointer;
+    padding: 5px;
+    color: rgb(164 168 199);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    padding-right: 7px;
+    padding-left: 7px;
+}
+
+.pagination-obj:hover {
+    color: rgb(129, 133, 165);
+    background-color: rgba(105, 156, 207, 0.247);
+}
+
+.pagination-obj.active {
+    background-color: rgb(49 148 247);
+    color: white;
+}

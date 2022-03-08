@@ -124,26 +124,148 @@ const vm = new Vue({
         maxValuee: "",
         categories: {},
         shoeMinValue: 30,
-        shoeMaxValue: 49
+        shoeMaxValue: 49,
+        currentPage: 1,
+        num_rows: 2 * 10,
+        paginationObject: {},
+        showOnlyDeals: false
+
+    },
+    mounted() {
+        //get deals in url
+        let deals = new URL(location.href).searchParams.get('deals')
+        console.log(deals)
+        if (deals != null)
+            this.showOnlyDeals = true;
+
+
+        this.getAllCategories();
+        this.getColors();
+
+
+        this.loadAllProducts();
+
 
     },
     methods: {
-
+        toggleShowOnlyDeals() {
+            this.showOnlyDeals = !this.showOnlyDeals;
+            this.resetPagination();
+        },
         updateProd: function(e, size) {
 
             //  this.currentShow.push(this.products[0])
             const buttonValues = e.target.value;
-            console.log(e.target.value)
             this.choosenCategory = parseInt(buttonValues);
-            this.updateAllFilter()
+            this.resetPagination()
 
+        },
+        loadAllProducts() {
+            var self = this;
+            $.getJSON("products/all/", function(jsondata) {
+                //  console.log(JSON.stringify(jsondata));
+
+                let filter = {}
+
+                for (i in jsondata) {
+                    let prod = jsondata[i];
+                    if (!(filter.hasOwnProperty(prod.prodID))) {
+                        filter[prod.prodID] = []
+                    }
+
+
+                    if (filter[prod.prodID].length == 0) {
+                        filter[prod.prodID].push(prod)
+                    } else {
+                        let found = false;
+                        for (j in filter[prod.prodID]) {
+                            let prod2 = filter[prod.prodID][j];
+                            //  console.log(prod2)
+                            if (prod.colorID === prod2.colorID) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                            filter[prod.prodID].push(prod)
+                    }
+                }
+
+
+                let res = []
+                for (id in filter) {
+                    for (id2 in filter[id]) {
+                        let prod = filter[id][id2];
+                        //    console.log(prod.prodID, prod.colorID)
+                        res.push(prod)
+                    }
+                }
+
+
+                self.products = res;
+                this.updateAllFilter()
+                this.pagination();
+
+
+            }.bind(this));
+        },
+        pagination() {
+            console.log("Lets go pagination")
+
+            let n = this.currentShow.length;
+
+            let numPages = parseInt(n / this.num_rows)
+
+            this.paginationObject = {
+                "numProducts": n,
+                "numPages": numPages + 1,
+                "firstPage": 1,
+                "lastPage": numPages + 1
+            }
+
+            console.log(this.paginationObject)
+
+            console.log(this.currentPage, this.paginationObject.numPages)
+
+            if (this.currentPage >= 1 && this.currentPage <= this.paginationObject.numPages) {
+                console.log("Pagination", this.currentPage, this.paginationObject)
+                    //Calculate start index and end-index
+                let startIndex = (this.currentPage - 1) * this.num_rows;
+                let endIndex = startIndex + this.num_rows;
+
+                if (startIndex < 0)
+                    startIndex = 0
+                if (endIndex >= this.currentShow.length)
+                    endIndex = this.currentShow.length - 1
+                console.log("startIndex", startIndex)
+                console.log("endIndex", endIndex)
+                console.log(this.currentShow.length)
+                this.currentShow = this.currentShow.splice(startIndex, this.num_rows)
+
+            } else {
+                this.currentShow = []
+            }
+
+
+
+        },
+        changePage(page) {
+            if (page >= this.paginationObject.firstPage && page <= this.paginationObject.lastPage) {
+                this.currentPage = page;
+                this.loadAllProducts();
+            }
+        },
+        resetPagination() {
+            this.currentPage = 1;
+            this.loadAllProducts();
         },
 
         updShoeSize(e) {
 
             let sizeValue = e.target.value;
             this.choosenShoeSize = sizeValue;
-            this.updateAllFilter()
+            this.resetPagination()
+
 
         },
         clearAllFilter() {
@@ -165,8 +287,8 @@ const vm = new Vue({
 
             this.shoeMinValue = 30
             this.shoeMaxValue = 49
+            this.resetPagination()
 
-            this.updateAllFilter()
 
         },
 
@@ -174,13 +296,15 @@ const vm = new Vue({
             // this.currentShow = []
             this.minValuee = minValue;
             this.maxValuee = maxValue;
+            this.resetPagination()
             this.updateAllFilter()
         },
         getShoeValueRange(minValue, maxValue) {
             // this.currentShow = []
             this.shoeMinValue = minValue;
             this.shoeMaxValue = maxValue;
-            this.updateAllFilter()
+            this.resetPagination()
+
         },
 
 
@@ -190,9 +314,7 @@ const vm = new Vue({
             const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4] && !this.choosenColor[5];
             for (var i = 0; i < this.products.length; i++) {
                 let product = this.products[i]
-                console.log(this.maxValuee)
                 if (product.categoryObject.catID === this.choosenCategory || product.categoryObject.parentCategory === this.choosenCategory || this.choosenCategory === 0) {
-                    // console.log(this.choosenShoeSize)
 
                     if (product.size >= this.shoeMinValue && product.size <= this.shoeMaxValue || this.getParentCategory(product.catID) != 1) {
 
@@ -200,10 +322,9 @@ const vm = new Vue({
 
                             if (this.choosenColor[product.colorID] || allColor) {
 
-                                if (product.price > this.minValuee && product.price < this.maxValuee || this.maxValuee === "") {
-                                    // console.log(minValue)
-                                    //console.log(product)
-                                    this.currentShow.push(product)
+                                if (product.newPrice > this.minValuee && product.newPrice < this.maxValuee || this.maxValuee === "") {
+                                    if (!this.showOnlyDeals || this.showOnlyDeals && product.deal > 0)
+                                        this.currentShow.push(product)
                                 }
                             }
 
@@ -219,13 +340,15 @@ const vm = new Vue({
         },
         updColorFilter(color) {
             this.choosenColor[color] = !this.choosenColor[color]
-            this.updateAllFilter()
-                //  console.log(this.choosenColor[color])
+            this.resetPagination()
+
+            //  console.log(this.choosenColor[color])
         },
 
         updSizeFilter(size) {
             this.choosenSizes[size] = !this.choosenSizes[size]
-            this.updateAllFilter()
+            this.resetPagination()
+
 
             //  console.log()
         },
@@ -287,7 +410,6 @@ const vm = new Vue({
                             for (i in this.categories) {
                                 let category = this.categories[i];
                                 if (category.catID == cID) {
-                                    console.log("HERE? :(")
                                     this.choosenCategory = cID
                                     break;
                                 }
@@ -324,62 +446,7 @@ const vm = new Vue({
     },
 
 
-    mounted() {
-        //method to get all products
-        var self = this;
-        this.getAllCategories();
-        this.getColors();
 
-
-
-
-        $.getJSON("products/all/", function(jsondata) {
-            //  console.log(JSON.stringify(jsondata));
-
-            let filter = {}
-
-            for (i in jsondata) {
-                let prod = jsondata[i];
-                if (!(filter.hasOwnProperty(prod.prodID))) {
-                    filter[prod.prodID] = []
-                }
-
-
-                if (filter[prod.prodID].length == 0) {
-                    filter[prod.prodID].push(prod)
-                } else {
-                    let found = false;
-                    for (j in filter[prod.prodID]) {
-                        let prod2 = filter[prod.prodID][j];
-                        //  console.log(prod2)
-                        if (prod.colorID === prod2.colorID) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                        filter[prod.prodID].push(prod)
-                }
-            }
-
-
-            let res = []
-            for (id in filter) {
-                for (id2 in filter[id]) {
-                    let prod = filter[id][id2];
-                    //    console.log(prod.prodID, prod.colorID)
-                    res.push(prod)
-                }
-            }
-
-
-            self.products = res;
-            this.updateAllFilter()
-                // console.log(this.currentShow)
-
-
-        }.bind(this));
-    }
 
 
 
