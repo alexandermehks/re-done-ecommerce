@@ -6,9 +6,12 @@ const navbarvm = new Vue({
         searched: [],
         shoppingitem: 0,
         totalPrice: 0,
+        totalRealPrice: 0,
         categories: {}
     },
-
+    mounted() {
+        this.getCategories();
+    },
 
     methods: {
         logIn() {
@@ -76,6 +79,12 @@ const navbarvm = new Vue({
         },
 
         getLoggedInUser() {
+
+            this.shoppingitem = 0;
+            this.totalPrice = 0;
+            this.totalRealPrice = 0;
+
+
             $.ajax({
                 url: '/auth/loggedInUser',
                 type: 'GET',
@@ -84,8 +93,9 @@ const navbarvm = new Vue({
                     this.shoppingitem = 0;
                     for (let item in this.loggedin.shoppingcart) {
                         this.shoppingitem += this.loggedin.shoppingcart[item].amount
+                        this.totalPrice += this.loggedin.shoppingcart[item].price * this.loggedin.shoppingcart[item].amount
+                        this.totalRealPrice += this.loggedin.shoppingcart[item].newPrice * this.loggedin.shoppingcart[item].amount;
                     }
-                    console.log(this.shoppingitem)
 
                 }
             })
@@ -137,13 +147,27 @@ const navbarvm = new Vue({
                 success: (result) => {
                     this.categories = result;
 
-                    console.log(this.categories)
                 }
             })
         },
 
         updateGoogleUserCart(cart) {
             this.loggedin.shoppingcart = cart;
+        },
+        removeFromCart(id) {
+            console.log("remove", id)
+            let obj = {
+                "prodID": id
+            }
+            $.ajax({
+                url: '/auth/removeFromShoppingCart',
+                type: 'POST',
+                data: obj,
+                success: (result) => {
+                    this.getLoggedInUser()
+                }
+            })
+
         },
 
 
@@ -155,14 +179,7 @@ const navbarvm = new Vue({
     },
 
 
-    mounted() {
-        this.getCategories();
 
-
-
-
-
-    }
 
 });
 navbarvm.getLoggedInUser();
