@@ -2,7 +2,8 @@ const vm = new Vue({
     el: "#app",
     data: {
         testAccount: "luca123",
-        users: []
+        users: [],
+        orders: [],
 
     },
 
@@ -128,11 +129,13 @@ const vm = new Vue({
                 url: 'products/getAllOrders',
                 type: 'GET',
                 success: (data) => {
-                    console.log(data)
+                    this.orders = data;
+                    console.log("bajs", orders)
 
 
                 },
                 error: (data) => {
+                    console.log(data)
 
                 }
             });
