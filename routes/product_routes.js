@@ -34,6 +34,43 @@ routes.get('/allOnlyProduct', async(req, res) => {
     }
 });
 
+
+routes.post('/paginationObjectOnlyProducts', async(req, res) => {
+    try {
+        let pagination = false;
+        let num_rows = 10
+        if (req.body.num_rows) {
+            num_rows = req.body.num_rows;
+        }
+        //getPaginationObjectOnlyProducts
+
+
+        const users = await dbService.getPaginationObjectOnlyProducts(num_rows);
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
+
+routes.post('/allOnlyProductPagination', async(req, res) => {
+    try {
+        let pagination = false;
+        let num_rows = 10
+        let page_num = 1;
+        if (req.body.num_rows && req.body.page_num) {
+            pagination = true;
+            num_rows = req.body.num_rows;
+            page_num = req.body.page_num
+        }
+
+
+        const users = await dbService.getOnlyProducts(pagination, num_rows, page_num);
+        res.send(users);
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+});
+
 routes.get('/byProdId/:id', async(req, res) => {
     try {
 
@@ -284,11 +321,8 @@ routes.post('/uploadpicture', async(req, res) => {
                 console.error(err);
             }
 
-            if (!req.files.length) {
-                console.log("HÄR")
-            }
-            for (let i = 0; i < req.files.file.length; i++) {
-                var file = req.files.file[i]
+            if (!req.files.file.length) {
+                var file = req.files.file
                 var filename = file.name
                 const p = folder_path
                 file.mv(p + "/" + filename, function(err) {
@@ -299,6 +333,21 @@ routes.post('/uploadpicture', async(req, res) => {
                 const query = folder_path_ + "/" + filename;
 
                 const addtoDatabase = await dbService.addPicture(req.body.id, query)
+            } else {
+
+                for (let i = 0; i < req.files.file.length; i++) {
+                    var file = req.files.file[i]
+                    var filename = file.name
+                    const p = folder_path
+                    file.mv(p + "/" + filename, function(err) {
+                        if (err) {
+                            res.send("Upload failed");
+                        }
+                    });
+                    const query = folder_path_ + "/" + filename;
+
+                    const addtoDatabase = await dbService.addPicture(req.body.id, query)
+                }
             }
             res.send("OK")
         } else {

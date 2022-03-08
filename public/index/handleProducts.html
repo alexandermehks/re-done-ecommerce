@@ -25,6 +25,12 @@
                     <div class="button-holder">
                         <button id="openAddNew" class="btn btn-primary">Add New</button>
                     </div>
+                    <div class="button-holder">
+                        <div class="pagination-holder">
+                            Page:
+                            <a class="pagination-obj" :class="{active: page == currentPage}" v-on:click="changePage(page)" v-for="page in (paginationObject.lastPage)">{{page}}</a>
+                        </div>
+                    </div>
                     <div class="search-table">
                         <div class="row">
                             <div class="col">
@@ -367,10 +373,10 @@
                             <input type="text" class="form-control" id="addTag" placeholder="Add tag">
                         </form>
                     </div>
-
+                    <div style="margin-top: 40px;"></div>
                     <div>
                         <form @submit.prevent="addDeal">
-                            <input required min="0" max="100" id="dealAmount" type="number" class="form-control"  v-bind:value="handleProduct.deal">
+                            <input required min="0" max="100" id="dealAmount" type="number" class="form-control" v-bind:value="handleProduct.deal">
                             <input id="dealAmountPropID" type="hidden" class="form-control" v-bind:value="handleProduct.prodID">
                             <button type="submit" class="btn btn-primary">Add Deal</button>
                         </form>
@@ -459,7 +465,7 @@
                     </div>
                     <div style="margin-top: 10px;"></div>
                     <div class="colorsFlex">
-                        <div class="byColors" v-for="(color, id) in colors">
+                        <div class="byColors" v-for="(color, id) in colors" v-if="getInnerForLoop(handleProduct.prodID, id).length > 0">
                             <div style="display: flex;">
                                 <div style="width: 20px; height: 20px; border: 1px solid black; border-radius: 20px; margin-right: 5px;" :style="{'background-color':color}"></div>
                                 ColorId: {{id}}
