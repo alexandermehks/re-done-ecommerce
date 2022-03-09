@@ -35,10 +35,36 @@ const vm = new Vue({
 
                 "id": this.loggedin.id,
                 "name": this.loggedin.name,
+                "role": this.loggedin.role,
                 "email": $('#InputEmail').val(),
                 
 
             }
+            console.log(user);
+            $.ajax({
+                url: '/admin/editUser',
+                method: "put",
+                data: user,
+                success: (result) => { 
+                    //$.getJSON("/admin/users/", function(jsondata) {
+                    //    console.log(jsondata);
+                    // }.bind(this));
+                    console.log("email changed", result);
+                },
+            })
+        },
+        updatePassword() {
+            const user = {
+
+                "id": this.loggedin.id,
+                "name": this.loggedin.name,
+                "email": this.loggedin.email,
+                "role": this.loggedin.role, 
+                "password": $('#InputPassword').val(),
+                
+
+            }
+            console.log(user);
             $.ajax({
                 url: '/admin/editUser',
                 method: "put",
