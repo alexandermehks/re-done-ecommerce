@@ -206,7 +206,7 @@
 
                         <div class="prod-container">
                             <div class="prod-card" v-for="(key, value) in searched">
-                                <a href="/singleproduct" class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + key[0].pictures[0].pictureURL + ')' } "></a>
+                                <a :href=" '/singleproduct?prodID='+key[0].prodID+'&propID='+key[0].propID" class="prod-card-img " v-bind:style="{ backgroundImage: 'url(' + key[0].pictures[0].pictureURL + ')' } "></a>
                                 <div class="prod-card-body ">
                                     <div class="prod-hr-body ">
                                         <div class="prod-hr "></div>
@@ -224,7 +224,7 @@
 
                                     <div class="button-holder">
                                         <div style="margin-top: 5px">
-                                            <a class="add-cart-button " href="/singleproduct">Read more</a>
+                                            <a class="add-cart-button " :href=" '/singleproduct?prodID='+key[0].prodID+'&propID='+key[0].propID">Read more</a>
                                         </div>
                                         <div style="margin-top: 10px">
                                             <a class="add-cart-button " href="# ">Add to cart</a>

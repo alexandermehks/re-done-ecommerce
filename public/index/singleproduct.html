@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kingnation</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/footer.css">
@@ -28,7 +27,7 @@
 
     <div id="navbar" class="navbar"></div>
 
-    <div id="appsingleprod">
+    <div id="app">
 
 
 
@@ -37,35 +36,38 @@
 
         <div class="wrapper">
 
-
             <div class="hero1">
-                <div>
+                <div v-if="choosenProduct.categoryObject">
 
-                    <a href="#">Home</a> / <a v-bind:href="''"> {{ product[0].type }} </a> / <a v-bind:href="''">
-                              {{ product[0].name }} </a>
-
+                    <a href="/index">Home</a> /
+                    <a :href="'/designproduct?catID='+category.catID" v-for="(category, key) in categories" v-if="choosenProduct.categoryObject.parentCategory == category.catID">{{category.category_name}}</a> /
+                    <a :href="'/designproduct?catID='+choosenProduct.catID"> {{ choosenProduct.categoryObject.category_name }} </a> /
+                    <a v-bind:href="''">
+                        {{ choosenProduct.name }} </a>
                 </div>
 
             </div>
             <div class="card1 card1">
                 <div class="piccontainer">
                     <div class="smallpicscontainer item1">
-                        <div v-for="pic in product[0].url">
-                            <img class="card-img-top picsmall_left1" v-bind:src="pic" v-on:click="updatePicture(pic)" alt="Card image cap">
+                        <div v-for="(pic, index) in choosenProduct.url" v-if="choosenProduct">
+                            <center><img class="card-img-top picsmall_left1" :class="{active : index == currImg}" :src="pic" v-on:click="updatePicture(pic, index)" alt="Card image cap"></center>
                         </div>
 
                     </div>
                     <div class="bigpiccontainer item2">
-                        <img class="card-img-top picbig" id="picbig" v-bind:src="product[0].picURL">
+                        <div>
 
+                            <img class="card-img-top picbig" id="picbig" v-bind:src="choosenProduct.picURL">
+                        </div>
                     </div>
                     <div class="item3">
                         <div class="buysection">
                             <div class="titlecontainer">
-                                <h3>{{product[0].name}}</h3>
-                                <h4 style="color: red;" v-if="product[0].deal > 0"><b>{{product[0].newPrice}} Kr</b></h4>
-                                <h4 style="text-decoration: line-through;" v-if="product[0].deal > 0 "><b>{{product[0].price}} Kr</b></h4>
-                                <h4 v-if="product[0].deal == null "><b>{{product[0].price}} Kr</b></h4>
+                                <h3>{{choosenProduct.name}}</h3>
+                                <h4 style="color: red;" v-if="choosenProduct.deal > 0"><b>{{choosenProduct.newPrice}} Kr</b></h4>
+                                <h4 style="text-decoration: line-through;" v-if="choosenProduct.deal > 0 "><b>{{choosenProduct.price}} Kr</b></h4>
+                                <h4 v-if="choosenProduct.deal == null "><b>{{choosenProduct.price}} Kr</b></h4>
                             </div>
                             <div class="reviewstars" style="justify-content: left;">
                                 <div v-for="stars in 5 ">
@@ -96,7 +98,8 @@
 
                             <div class="sizecontainer">
                                 <div v-for="(key,value) in colors1">
-                                    <div class="sizes" v-on:click="changeColor(key), updateOrder(value)" v-bind:id="key">{{key}}
+                                    <div class="sizes" v-on:click="changeColor(key), updateOrder(key)" v-bind:id="key.size">
+                                        {{key.size}}
                                     </div>
 
                                 </div>
@@ -106,14 +109,22 @@
                             <div class="choosesize" style="display: None;">Please choose a size</div>
                             <div class="loginpopup" id="loginpopup">Please log in to add a product</div>
                             <div class="loginpopup" id="choosesize">Please choose a size first</div>
-                            <button class="add-cart-buttons" v-on:click="addToCart()">Add To Cart</button>
+                            <div style="margin-top: 10px;"></div>
+                            <div class="profile-login" style="padding: 0!important; padding-right: 50px;">
+                                <div class="buttonWrap0">
+                                    <div class="buttonWrap">
+                                        <div class="buttonWrap2"></div>
+                                        <button class="loginbtn" v-on:click="addToCart()">Add To Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;"></div>
                             <div>
 
                                 <h4>Choose in different colors</h4>
                                 <div class="colorcontainer">
                                     <div style="margin-right: 4px " v-for="pic in colors">
-                                        <img class="card-img-top picsmall choscol" v-bind:id="pic.propID" v-bind:src="pic.picURL" v-on:click="updatePicturePick(pic.propID), updatePictureColor(pic.picURL), updateCorrectSizes(pic.colorID)">
-
+                                        <img class="card-img-top picsmall choscol" v-bind:id="pic.propID" v-bind:src="pic.picURL" v-on:click="updatePicturePick(pic), updatePictureColor(pic), updateCorrectSizes(pic)">
                                     </div>
 
 
@@ -139,11 +150,11 @@
                     <div class="infoborder"></div>
                 </div>
                 <div class="card-body infocontainer">
-                    <div class="textborder" v-html="getBBHTML(product[0].description)">
+                    <div class="textborder" v-html="getBBHTML(choosenProduct.description)" v-if="choosenProduct.description">
 
                     </div>
 
-                    <div class="textborder" v-html="getBBHTML(product[0].specification)">
+                    <div class="textborder" v-html="getBBHTML(choosenProduct.specification)" v-if="choosenProduct.specification">
 
                     </div>
                 </div>
@@ -165,12 +176,12 @@
                         </div>
 
                         <h4>{{rating}}/5</h4>
-                        <button class="review_button" id="reviewbutton" v-if="loggedin.id && loggedinreview === 0" v-on:click="openReviewContainer()">Write
+                        <button class="review_button" id="reviewbutton" v-if="loggedin.status && loggedin.review === 0" v-on:click="openReviewContainer()">Write
                                    Review</button>
-                        <h4 v-if="!loggedin.id">Please log in to post reviews</h4>
-                        <h4 v-if="loggedinreview === 1">You have already posted a review</h4>
+                        <h4 v-if="!loggedin.status">Please log in to post reviews</h4>
+                        <h4 v-if="loggedin.status && loggedin.review === 1">You have already posted a review</h4>
 
-                        <div class="reviewform" id="reviewform" style="display: none;">
+                        <div class="reviewform" id="reviewform" style="display: none;" v-if="loggedin.status">
                             <form>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Email address</label>
@@ -208,8 +219,8 @@
 
                                     </div>
                                     <span style="margin-left: 5px; margin-right: 5px;">{{review.ratingnumber}}/5</span>
-                                    <button class="review_edit_button" style="background-color: green;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
-                                    <button class="review_delete_button" style="background-color: red;" v-if="loggedin.id == review.userID || loggedin.role == 1" v-on:click="deleteReview(review.reviewID)">Delete</button>
+                                    <button class="review_edit_button" style="background-color: green;" v-if="loggedin.status && (loggedin.id == review.userID || loggedin.role == 1)" v-on:click="updateReview(review.reviewID,review.comment,2022-02-02,review.userID,review.ratingnumber)">Edit</button>
+                                    <button class="review_delete_button" style="background-color: red;" v-if="loggedin.status && (loggedin.id == review.userID || loggedin.role == 1)" v-on:click="deleteReview(review.reviewID)">Delete</button>
                                 </div>
 
 
@@ -218,9 +229,9 @@
                                 <form>
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">Name</label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly :placeholder="review.name">
+                                        <input type="email" class="form-control" readonly :placeholder="review.name">
                                         <label for="exampleFormControlInput1">Date</label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" readonly placeholder="2022-02-02">
+                                        <input type="email" class="form-control" readonly placeholder="2022-02-02">
                                     </div>
                                     <p>Rate the product</p>
                                     <div class="starscontainer writereviewstars">
@@ -280,7 +291,7 @@
     <div id="footer"></div>
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="javascript/nav.js "></script>
     <script src="javascript/singleproduct.js "></script>
