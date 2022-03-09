@@ -129,8 +129,7 @@ const getOnlyProducts = async(pagination = false, num_rows = 10, page_num = 1) =
         //Pagination
         if (pagination) {
             if (page_num >= 1 && page_num <= paginationObject.numPages) {
-                console.log("Pagination", page_num, paginationObject)
-                    //Calculate start index and end-index
+                //Calculate start index and end-index
                 let startIndex = (page_num - 1) * num_rows;
                 let endIndex = startIndex + num_rows;
 
@@ -138,14 +137,12 @@ const getOnlyProducts = async(pagination = false, num_rows = 10, page_num = 1) =
                     startIndex = 0
                 if (endIndex >= products.length)
                     endIndex = products.length - 1
-                console.log("startIndex", startIndex)
-                console.log("endIndex", endIndex)
-                console.log(products.length)
+
                 products = products.splice(startIndex, num_rows)
-                console.log(products.length)
                 return products;
             } else {
                 //Return 0 prods? Out of punds
+                return []
             }
         } else {
             return products;

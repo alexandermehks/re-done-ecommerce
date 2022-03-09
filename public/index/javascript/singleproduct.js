@@ -1,24 +1,11 @@
-function emptysizes() {
-    document.getElementById('S').setAttribute("class", "style1");
-}
-
-function changeStarColor(id) {
-    document.getElementById(id).style.color = "orange";
-}
-
-
-
-
-
-
-
 const vm = new Vue({
 
-    el: "#appsingleprod",
+    el: "#app",
     data: {
         loggedin: {},
+        choosenProduct: {},
         product: [],
-        loggedinreview:  0,
+        loggedinreview: 0,
         test: 0,
         reviews: [],
         rating: 0,
@@ -41,24 +28,41 @@ const vm = new Vue({
 
 
         }],
+        currImg: 0,
+        categories: [],
+        initPropID: "",
+        initPropColor: 0,
+        initPropUrl: "",
+
+
+
     },
     mounted() {
         $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
-        
 
-        
-    },
-    beforeMount() {
         //Get page id
         let prodID = new URL(location.href).searchParams.get('prodID')
-        console.log(prodID)
         if (!prodID) {
             prodID = "57984369-c562-45de-b33c-1a011b372810";
         }
+
+
+
+
         this.loadProduct(prodID)
         this.loadReviews(prodID)
+        this.getAllCategories();
         this.getLoggedInUser();
+
+
+
+
+    },
+    beforeMount() {
+
+
+
     },
     methods: {
         getBBHTML(bbcode) {
@@ -72,7 +76,7 @@ const vm = new Vue({
                 url: 'products/byProdId/' + id,
                 type: 'GET',
                 success: (data) => {
-                    console.log(data)
+                    //console.log(data)
                     //IF valid id, get product
                     if (data.length > 0) {
 
@@ -81,8 +85,20 @@ const vm = new Vue({
                         this.order.prodID = data[0].prodID
                         var checker = []
                         this.colors1 = {}
-                        for (var i = 0; i < data.length; i++) {
 
+                        let propID = new URL(location.href).searchParams.get('propID')
+                        let propPicUrl = ""
+                        let propColorId = 0
+
+                        //this.updatePicturePick(prod.propID);
+                        //this.updatePictureColor(prod.picURL)
+                        //this.updateCorrectSizes(prod.colorID)
+                        this.choosenProduct = this.product[0]
+                        for (var i = 0; i < data.length; i++) {
+                            let prod = this.product[i];
+                            if (prod.propID == propID) {
+                                this.choosenProduct = prod;
+                            }
 
                             if (jQuery.inArray(this.product[i].colorID, checker) == -1) {
 
@@ -92,17 +108,20 @@ const vm = new Vue({
                             }
 
 
-                            if (this.product[i].colorID === this.product[0].colorID) {
+                            if (this.product[i].colorID === this.choosenProduct.colorID) {
                                 if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
 
                                 } else {
                                     this.sizes.push(this.product[i].size)
-                                    this.colors1[this.product[i].propID] = this.product[i].size
+                                    this.colors1[this.product[i].propID] = this.product[i]
                                 }
 
                             }
                         }
                         this.order.propID = 0
+                        this.updateCorrectSizes(this.choosenProduct)
+
+
                     } else {
                         //IF invalid id, return default product
                         if (id != "57984369-c562-45de-b33c-1a011b372810") {
@@ -134,7 +153,7 @@ const vm = new Vue({
                         totalrating += this.reviews[i].ratingnumber
                     }
                     this.rating = (totalrating / this.reviews.length).toFixed(2)
-                    if(this.reviews.length == 0){
+                    if (this.reviews.length == 0) {
                         this.rating = 0
                     }
 
@@ -200,7 +219,11 @@ const vm = new Vue({
 
 
 
-        updatePicturePick: function(id) {
+        updatePicturePick: function(property) {
+
+            //call this
+
+
             for (var i = 0; i < this.product.length; i++) {
 
                 $('#' + this.product[i].propID).css({
@@ -208,7 +231,7 @@ const vm = new Vue({
                 });
             }
 
-            $('#' + id).css({
+            $('#' + property.propID).css({
                 'border': '1px solid black'
             });
 
@@ -225,13 +248,16 @@ const vm = new Vue({
 
 
         },
-        updatePicture: function(url) {
+        updatePicture: function(url, index) {
             $("#picbig").attr('src', url);
-
+            this.currImg = index
 
         },
-        updatePictureColor: function(url) {
-            $("#picbig").attr('src', url);
+        updatePictureColor: function(property) {
+
+
+
+            $("#picbig").attr('src', property.picURL);
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].size).css({
                     'background-color': 'white'
@@ -245,31 +271,31 @@ const vm = new Vue({
 
 
 
-        changeColor: function(id) {
+        changeColor: function(property) {
             for (var i = 0; i < this.product.length; i++) {
                 $('#' + this.product[i].size).css({
                     'background-color': 'white'
                 });
 
             }
-            $('#' + id).css({
+            $('#' + property.size).css({
                 'background-color': 'lightgrey'
             });
 
         },
-        updateCorrectSizes: function(colorID) {
+        updateCorrectSizes: function(property) {
             this.colors1 = {}
 
             this.sizes = []
             for (var i = 0; i < this.product.length; i++) {
 
-                if (this.product[i].colorID === colorID) {
+                if (this.product[i].colorID === property.colorID) {
                     if (jQuery.inArray(this.product[i].size, this.sizes) != -1) {
 
                     } else {
 
                         this.sizes.push(this.product[i].size)
-                        this.colors1[this.product[i].propID] = this.product[i].size
+                        this.colors1[this.product[i].propID] = this.product[i]
 
                     }
 
@@ -317,7 +343,7 @@ const vm = new Vue({
 
             const data = {
                 "userID": this.loggedin.id,
-                "prodID": this.product[0].prodID,
+                "prodID": this.choosenProduct.prodID,
                 "ratingnumber": this.reviewrating,
                 "comment": $('#comment').val(),
                 "date": date
@@ -354,8 +380,8 @@ const vm = new Vue({
             })
         },
 
-        updateOrder: function(propID) {
-            this.order.propID = propID
+        updateOrder: function(property) {
+            this.order.propID = property.propID
 
 
         },
@@ -381,6 +407,29 @@ const vm = new Vue({
                 $('#navigation-cart').fadeOut('fast');
             }, 3000);
         },
+        getAllCategories() {
+            $.ajax({
+                url: '/products/allCategories',
+                type: 'GET',
+                success: (result) => {
+                    this.categories = result;
+
+                    let res = []
+
+                    for (let i in result) {
+                        let cat = result[i];
+                        cat.htmltext = cat.category_name
+                        res.push(cat)
+                        for (let c in cat.sub) {
+                            let cat2 = cat.sub[c];
+                            cat2.htmltext = "- &nbsp;&nbsp;&nbsp;&nbsp;" + cat2.category_name
+                            res.push(cat2);
+                        }
+                    }
+                    this.categories = res;
+                }
+            })
+        },
 
 
 
@@ -394,7 +443,7 @@ const vm = new Vue({
 
 
         addToCart: function() {
-            this.order.prodID = this.product[0].prodID
+            this.order.prodID = this.choosenProduct.prodID
             if (this.order.propID != 0) {
                 console.log("BAJS")
 
@@ -416,14 +465,14 @@ const vm = new Vue({
                                 console.log("Product added")
 
                                 navbarvm.getLoggedInUser()
-                               
+
                                 vm.shoptoggle()
                             }
                         })
                     }
-                } else{
+                } else {
                     vm.notloggedinpopup()
-                    
+
 
                 }
             } else {
@@ -438,22 +487,30 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.loggedin = result;
-                    
+
                     for (var i = 0; i < this.reviews.length; i++) {
-                        
-                        if(this.loggedin.id === this.reviews[i].userID){
+
+                        if (this.loggedin.id === this.reviews[i].userID) {
                             this.loggedinreview = 1
                         }
 
                     }
-                    console.log(this.reviews)
-                    console.log(this.loggedinreview)
+                    //console.log(this.reviews)
+                    //console.log(this.loggedinreview)
 
 
                 }
             })
         },
-        
+
     }
 });
-vm.getLoggedInUser()
+
+
+function emptysizes() {
+    document.getElementById('S').setAttribute("class", "style1");
+}
+
+function changeStarColor(id) {
+    document.getElementById(id).style.color = "orange";
+}

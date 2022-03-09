@@ -94,19 +94,7 @@ const vm = new Vue({
                             res.push(cat2);
                         }
                     }
-
-
-
                     this.categories = res;
-
-
-
-
-
-
-
-
-
                 }
             })
         },
