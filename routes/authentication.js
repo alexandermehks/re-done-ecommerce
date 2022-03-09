@@ -52,160 +52,167 @@ const req = require('express/lib/request');
                })
           }
  */
-routes.post('/doLogIn', async (req, res) => {
-     try {
-          if(req.body.type === "GOOGLE") {
-               current_session = req.session;
-               current_session.user = {};
-               current_session.user.email = req.body.email;
-               current_session.user.name = req.body.name;
-               current_session.user.type = "GOOGLE";
-               current_session.user.shoppingcart = {};
-               current_session.user.totalInCart = 0;
-         }
-          const match = await dbService.comparePassword(req.body.email, req.body.password);
-          if (match) {
-               const user = await dbService.getUser(req.body.email);
-               current_session = req.session;
-               current_session.user = {};
-               current_session.user.id = user.userID;
-               current_session.user.email = user.email;
-               current_session.user.name = user.name;
-               current_session.user.role = user.role;
-               current_session.user.shoppingcart = {};
-               current_session.user.totalInCart = 0;
-               res.json(current_session.user)
-          }
-          else {
-               res.send("Cant log you in")
-          }
-     }
-     catch (error) {
-          res.sendStatus(400, "Cant log in");
-     }
+routes.post('/doLogIn', async(req, res) => {
+    try {
+        if (req.body.type === "GOOGLE") {
+            current_session = req.session;
+            current_session.user = {};
+            current_session.user.email = req.body.email;
+            current_session.user.name = req.body.name;
+            current_session.user.type = "GOOGLE";
+            current_session.user.shoppingcart = {};
+            current_session.user.totalInCart = 0;
+        }
+        const match = await dbService.comparePassword(req.body.email, req.body.password);
+        if (match) {
+            const user = await dbService.getUser(req.body.email);
+            current_session = req.session;
+            current_session.user = {};
+            current_session.user.id = user.userID;
+            current_session.user.email = user.email;
+            current_session.user.name = user.name;
+            current_session.user.role = user.role;
+            current_session.user.shoppingcart = {};
+            current_session.user.totalInCart = 0;
+            res.json(current_session.user)
+        } else {
+            res.send("Cant log you in")
+        }
+    } catch (error) {
+        res.sendStatus(400, "Cant log in");
+    }
 })
 
-routes.post('/pushToShoppingCart', async (req, res) => {
-     try {
-          if(current_session.user){
-               const cart = current_session.user.shoppingcart;
-               const propID = req.body.propID;
-               const prodID = req.body.prodID;
-               
-               if(propID in cart){
-                    cart[propID].amount = cart[propID].amount + 1
-                    let parseval = parseInt(req.body.price)
-                    current_session.user.totalInCart += parseval;
-               }else{
-                    cart[propID] = req.body
-                    cart[propID]["amount"] = 1
-                    let parseval = parseInt(req.body.price)
-                    current_session.user.totalInCart += parseval;
-               }
+routes.post('/pushToShoppingCart', async(req, res) => {
+    try {
+        if (current_session.user) {
+            console.log(current_session.user)
+            const cart = current_session.user.shoppingcart;
+            const propID = req.body.propID;
+            const prodID = req.body.prodID;
 
-          }
-          res.send("OK")
-     }
-     catch(error){
-          res.sendStatus(400, "Something went wrong")
-     }
+            if (propID in cart) {
+                cart[propID].amount = cart[propID].amount + 1
+                let parseval = parseInt(req.body.price)
+                current_session.user.totalInCart += parseval;
+            } else {
+                cart[propID] = req.body
+                cart[propID]["amount"] = 1
+                let parseval = parseInt(req.body.price)
+                current_session.user.totalInCart += parseval;
+            }
+
+        }
+        res.send("OK")
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
 })
 
-routes.post('/removeFromShoppingCart', async (req,res) => {
-     try{
-          const cart = current_session.user.shoppingcart;
-          let keys = Object.keys(cart)
-          for(let i = 0; i < keys.length; i++){
-               if(keys[i].toString() === req.body.prodID.toString()){
+routes.post('/removeFromShoppingCart', async(req, res) => {
+        try {
+            const cart = current_session.user.shoppingcart;
+            let keys = Object.keys(cart)
+            for (let i = 0; i < keys.length; i++) {
+                if (keys[i].toString() === req.body.prodID.toString()) {
                     current_session.user.totalInCart -= cart[req.body.prodID].price * cart[req.body.prodID].amount
                     delete cart[req.body.prodID]
                     res.send("OK")
-               }
-          }
+                }
+            }
 
 
 
-     }
-     catch(error){
-          res.sendStatus(400, "something went wrong")
-     }
-}),
+        } catch (error) {
+            res.sendStatus(400, "something went wrong")
+        }
+    }),
 
-routes.post('/updateAmount', async (req,res) => {
-     try{
-          const propID = req.body.propID;
-          const value = req.body.value;
-          let cart = current_session.user.shoppingcart;
-          let totalInCart = current_session.user.totalInCart;
-          let keys = Object.keys(cart)
+    routes.post('/updateAmount', async(req, res) => {
+        try {
+            const propID = req.body.propID;
+            const value = req.body.value;
+            let cart = current_session.user.shoppingcart;
+            let totalInCart = current_session.user.totalInCart;
+            let keys = Object.keys(cart)
 
-          for(let i = 0; i < keys.length; i++){
-               if(keys[i].toString() === propID.toString()){
+            for (let i = 0; i < keys.length; i++) {
+                if (keys[i].toString() === propID.toString()) {
                     //FOR DECREMENT OF AMOUNT
-                    if(cart[propID].amount != 0 && value === "-1"){
-                         cart[propID].amount += -1;
-                         current_session.user.totalInCart -= parseInt(cart[propID].price)
+                    if (cart[propID].amount != 0 && value === "-1") {
+                        cart[propID].amount += -1;
+                        current_session.user.totalInCart -= parseInt(cart[propID].price)
+                    } else if (value === "1" && cart[propID].amount != 10) {
+                        cart[propID].amount += 1;
+                        current_session.user.totalInCart += parseInt(cart[propID].price)
                     }
-                    else if(value === "1" && cart[propID].amount != 10){
-                         cart[propID].amount += 1;
-                         current_session.user.totalInCart += parseInt(cart[propID].price)
-                    }
 
-               }
-          }
+                }
+            }
 
-          res.send("OK")
-          
-     }
-     
-     catch(error){
-          res.sendStatus(400, "Something went wrong")
-     }
-}),
+            res.send("OK")
+
+        } catch (error) {
+            res.sendStatus(400, "Something went wrong")
+        }
+    }),
 
 
-routes.get('/loggedInUser', async (req, res) => {
-     try {
-          let user = {}
-          user = req.session;
-          if (!current_session.user || !current_session) {
-               user['status'] = false;
-               res.json(user)
-          }
-          else if (current_session.user) {
-               user = current_session.user;
-               user['status'] = true;
-               res.json(user)
-          }
-          else {
-               user['status'] = false;
-               res.json(user)
-          }
-     }
-     catch (error) {
-          res.send("No user logged in.")
-     }
+    routes.get('/loggedInUser', async(req, res) => {
+        try {
+            let user = {}
+            user = req.session;
+
+            if (!current_session.user || !current_session) {
+                user['status'] = false;
+                res.json(user)
+            } else if (current_session.user) {
+                user = current_session.user;
+                user['status'] = true;
+                res.json(user)
+            } else {
+                user['status'] = false;
+                res.json(user)
+            }
+        } catch (error) {
+            res.send("No user logged in.")
+        }
+    })
+
+
+routes.get('/logout', async(req, res) => {
+    try {
+        current_session = req.session;
+        current_session.destroy();
+        if (!current_session) {
+            res.send("you are logged out")
+        } else {
+            res.send("you are logged out")
+        }
+
+    } catch (error) {
+        res.send("No logged in user")
+    }
 })
 
+routes.post('/updateEmail', async(req, res) => {
+    try {
+        if (current_session.user) {
+            console.log(current_session.user)
+            if (req.body.email) {
+                console.log("before", current_session.user)
+                current_session.user.email = req.body.email;
+                console.log("after", current_session.user)
+            } else {
+                console.log("no email exists in body")
+            }
 
-routes.get('/logout', async (req, res) => {
-     try {
-          current_session = req.session;
-          current_session.destroy();
-          if (!current_session) {
-               res.send("you are logged out")
-          }
-          else {
-               res.send("you are logged out")
-          }
-
-     }
-     catch (error) {
-          res.send("No logged in user")
-     }
+        }
+        res.send("Email updated")
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
 })
-
-
 
 
 

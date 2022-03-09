@@ -1,8 +1,7 @@
-
 const vm = new Vue({
     el: "#app",
     data: {
-        loggedin:{},
+        loggedin: {},
 
     },
 
@@ -26,42 +25,60 @@ const vm = new Vue({
                     console.log(result.id);
                     console.log(result.name);
                     console.log(result.email);
-                    console.log(result.password); 
+                    console.log(result.password);
                 }
             })
         },
         updateEmail() {
-            const user = {
 
-                "id": this.loggedin.id,
-                "name": this.loggedin.name,
-                "role": this.loggedin.role,
-                "email": $('#InputEmail').val(),
-                
+            if ($('#InputEmail').val() == $('#ConfirmInputEmail').val()) {
 
+
+                const user = {
+
+                    "userID": this.loggedin.id,
+                    "name": this.loggedin.name,
+                    "role": this.loggedin.role,
+                    "email": $('#InputEmail').val(),
+                }
+
+                console.log("email-user", user);
+                $.ajax({
+                    url: '/admin/editUser',
+                    method: "PUT",
+                    data: user,
+                    success: (result) => {
+                        console.log("email changed", result);
+
+                        $.ajax({
+                            url: '/auth/updateEmail',
+                            method: "POST",
+                            data: user,
+                            success: (result) => {
+                                console.log("Logged in user updated", result)
+                                this.getLoggedInUser();
+                            }
+
+                        });
+
+
+
+
+                    },
+                });
+            } else {
+                console.log("please enter same email")
             }
-            console.log(user);
-            $.ajax({
-                url: '/admin/editUser',
-                method: "put",
-                data: user,
-                success: (result) => { 
-                    //$.getJSON("/admin/users/", function(jsondata) {
-                    //    console.log(jsondata);
-                    // }.bind(this));
-                    console.log("email changed", result);
-                },
-            })
         },
         updatePassword() {
             const user = {
 
-                "id": this.loggedin.id,
+                "userID": this.loggedin.id,
                 "name": this.loggedin.name,
                 "email": this.loggedin.email,
-                "role": this.loggedin.role, 
+                "role": this.loggedin.role,
                 "password": $('#InputPassword').val(),
-                
+
 
             }
             console.log(user);
@@ -70,23 +87,18 @@ const vm = new Vue({
                 method: "put",
                 data: user,
                 success: () => {
-                    $.getJSON("/admin/users/", function(jsondata) {
-                        console.log(jsondata);
-
-                    }.bind(this));
-                    console.log("email changed");
-                    
+                    console.log("password changed")
 
                 },
-            })
+            });
         },
     }
 
-    
-    
+
+
 });
-       
-         
+
+
 
 
 
