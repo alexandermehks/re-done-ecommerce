@@ -28,6 +28,7 @@ routes.get('/users', async(req, res) => {
 routes.put('/editUser', async(req, res) => {
 
     try {
+        console.log(req.body)
 
         const salt = await bcrypt.genSalt();
         let user;
@@ -43,6 +44,7 @@ routes.put('/editUser', async(req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         res.sendStatus(400, "Something went wrong");
     }
 
