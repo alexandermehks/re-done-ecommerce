@@ -133,7 +133,6 @@ const updateUser = async(data, password = 0) => {
             return res;
         }
 
-        return res;
 
 
     } catch (error) {
