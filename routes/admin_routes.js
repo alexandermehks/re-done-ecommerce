@@ -20,10 +20,30 @@ routes.get('/users', async(req, res) => {
     }
 });
 
+
+routes.post('/register', async(req, res) => {
+    try {
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        const addUser = await dbService.addUser(req.body.email, hashedPassword, req.body.username)
+        res.send("OK")
+
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong");
+    }
+})
+
+
+
 routes.put('/editUser', async(req, res) => {
+
     try {
 
-        let user = await dbService.updateUser(req.body);
+        const salt = await bcrypt.genSalt();
+
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+        let user = await dbService.updateUser(req.body, hashedPassword);
 
         if (user) {
             res.send("Success")

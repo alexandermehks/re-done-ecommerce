@@ -51,11 +51,13 @@
                         <label for="lname">Email:</label><br>
                         <input type="text" v-bind:id="'email'+user.userID" name="lname" :placeholder="user.email"><br>
                         <label for="role">Role:</label><br>
-                        <input type="text" v-bind:id="'role'+user.userID" name="role" :placeholder="user.role">
+                        <input type="number" min="0" max="1" v-bind:id="'role'+user.userID" name="role" :placeholder="user.role"><br>
+                        <label for="role">Password:</label><br>
+                        <input type="password" v-bind:id="'password'+user.userID" name="pwd" placeholder="">
 
                     </form>
 
-                    <button class="AdminManageButtons" v-bind:id="'formsub'+user.userID" v-on:click="updateAccount(user.userID,user.name,user.email,user.role)" style="display: none;">Submit</button>
+                    <button class="AdminManageButtons" v-bind:id="'formsub'+user.userID" v-on:click="updateAccount(user.userID,user.name,user.email,user.role,user.password)" style="display: none;">Submit</button>
                     <div class="manageButtons">
                         <button class="AdminManageButtons" v-on:click="toggleEditAccount(user.userID)">Edit</button>
                         <button class="AdminManageButtons" v-on:click="deleteUser(user.userID)">Delete</button>
@@ -77,6 +79,28 @@
                                         <p><b>OrderID:</b> {{order.orderID}}</p>
                                         <p><b>Date:</b> {{order.date}}</p>
                                         <p><b>Status:</b> {{order.status}}</p>
+
+
+
+                                        <!----       testing            -->
+                                        <div class="radioB" v-on:click="updateOrderStatus(order.orderID)">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Delivered">
+                                                <label class="form-check-label" for="inlineRadio1">Delivered</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Packing">
+                                                <label class="form-check-label" for="inlineRadio2">Packing</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Recieved">
+                                                <label class="form-check-label">Recieved</label>
+                                            </div>
+                                        </div>
+                                        <!----             testing -->
+
+                                        <button class="AdminManageButtonsDelete" v-on:click="deleteOrder(order.orderID)">Delete Order</button>
+
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>

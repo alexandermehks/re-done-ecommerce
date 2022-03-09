@@ -68,8 +68,8 @@ const vm = new Vue({
 
         },
 
-        updateAccount: function(userID, name, email, role) {
-            let nam, ema, rol;
+        updateAccount: function(userID, name, email, role, password) {
+            let nam, ema, rol, pwd;
             if ($('#role' + userID).val() === "") {
                 rol = role;
             } else {
@@ -85,11 +85,18 @@ const vm = new Vue({
             } else {
                 nam = $('#name' + userID).val()
             }
+            if ($('password' + userID).val() === "") {
+                pwd = password;
+            } else {
+                pwd = $('#password' + userID).val()
+            }
+
             let data = {
                 "userID": userID,
                 "name": nam,
                 "email": ema,
                 "role": rol,
+                "password": pwd,
             }
             $.ajax({
                 url: '/admin/editUser',
@@ -97,7 +104,7 @@ const vm = new Vue({
                 data: data,
                 success: () => {
                     $.getJSON("/admin/users/", function(jsondata) {
-                        console.log(jsondata)
+                        //  console.log(jsondata)
                         this.users = jsondata;
                         this.toggleEditAccount(userID)
 
@@ -130,7 +137,7 @@ const vm = new Vue({
                 type: 'GET',
                 success: (data) => {
                     this.orders = data;
-                    console.log("bajs", orders)
+
 
 
                 },
@@ -141,9 +148,46 @@ const vm = new Vue({
             });
             //update questions
         },
+        deleteOrder(orderID) {
 
-        updateUser: function() {
+            let data = { "orderID": orderID }
+            $.ajax({
+                url: '/products/deleteOrder',
+                method: "DELETE",
+                data: data,
+                success: () => {
 
+                    $.getJSON("products/getAllOrders", function(jsondata) {
+                        // console.log(JSON.stringify(jsondata));
+                        this.orders = jsondata;
+
+                    }.bind(this));
+                }
+            });
+        },
+
+
+        updateOrderStatus(orderID) {
+            var t = document.querySelector('input[name="inlineRadioOptions"]:checked').value;
+
+
+            let data = {
+                "orderID": orderID,
+                "status": t,
+            }
+            $.ajax({
+                url: '/products/editOrderStatus',
+                method: "PUT",
+                data: data,
+                success: () => {
+                    $.getJSON("products/getAllOrders", function(jsondata) {
+                        // console.log(JSON.stringify(jsondata));
+                        this.orders = jsondata;
+
+                    }.bind(this));
+
+                }
+            });
 
         },
 

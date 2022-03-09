@@ -842,9 +842,7 @@ const editOrderStatus = async(orderID, status) => {
     try {
         const dbConnection = await dbPromise;
 
-
         const response = await dbConnection.run(`UPDATE orders SET status = ? WHERE orderID = ?`, [status, orderID])
-        console.log(response)
 
         return response;
     } catch (error) {
