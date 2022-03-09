@@ -45,7 +45,6 @@
         <!--Table for orderHistory-->
 
 
-
         <div v-if="!loggedin.status">
 
             <h1>PLEASE LOG IN</h1>
@@ -101,7 +100,45 @@
 
 
 
+        <div id="orderHistory">
+            <div class="container-fluid">
+                <div class="row">
+                    <aside class="col-lg-12">
+                        <div class="card">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <thead class="text-muted">
+                                        <tr class="small text-uppercase">
+                                            <th scope="col" width="30">OrderID</th>
+                                            <th scope="col" width="30">Date</th>
+                                            <th scope="col" width="30">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="orderID">
+                                                    <p> order id</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="date">
+                                                    <p> date</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="status">
+                                                    <p> status</p>
+                                                </div>
+                                            </td>
 
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                {{testAccount}}
+                            </div>
 
                         </div>
 
@@ -162,13 +199,13 @@
                                     {{testAccount}}
                                 </div>
                             </div>
-                        </aside>
-                    </div>-->
-                    </div>
+                        </div>
+                    </aside>
+
                 </div>
             </div>
         </div>
-        <!--END Table for orderHistory-->
+    -->
 
         <div id="footer"></div>
     </div>
