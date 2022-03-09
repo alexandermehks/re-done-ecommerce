@@ -42,12 +42,29 @@ const dbPromise = (async() => {
 const getColors = async() => {
     try {
         const dbConnection = await dbPromise;
-        const colors = await dbConnection.all("SELECT colorID, hexColor FROM Colors");
+        const colors = await dbConnection.all("SELECT * FROM Colors");
 
         const colorObj = {}
         for (const i in colors) {
             const c = colors[i];
             colorObj[c.colorID] = c.hexColor;
+        }
+        return colorObj;
+    } catch (error) {
+        console.log(error)
+
+    }
+};
+
+const getColorObject = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const colors = await dbConnection.all("SELECT * FROM Colors");
+
+        const colorObj = {}
+        for (const i in colors) {
+            const c = colors[i];
+            colorObj[c.colorID] = c;
         }
         return colorObj;
     } catch (error) {
@@ -939,6 +956,7 @@ module.exports = {
     getPicture: getPicture,
     removePicture: removePicture,
     getColors: getColors,
+    getColorObject: getColorObject,
     getProductPropertiesByProdAndColorID: getProductPropertiesByProdAndColorID,
     getAllProductsWithPropertiesByIdAndColor: getAllProductsWithPropertiesByIdAndColor,
     removeProduct: removeProduct,

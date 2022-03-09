@@ -446,36 +446,88 @@ routes.put('/editreview', async(req, res) => {
 
 routes.post('/search', async(req, res) => {
         try {
-            let obj = {
 
-            }
-
+            //Magic inefficient shit
+            let final_res = []
             let search_arg = req.body.searchString;
             const split_text = search_arg.split(" ");
+            let prods = await dbService.getProducts();
+            let filter = {}
+            for (i in prods) {
+                let prod = prods[i];
+                if (!(filter.hasOwnProperty(prod.prodID))) {
+                    filter[prod.prodID] = []
+                }
+                if (filter[prod.prodID].length == 0) {
+                    filter[prod.prodID].push(prod)
+                } else {
+                    let found = false;
+                    for (j in filter[prod.prodID]) {
+                        let prod2 = filter[prod.prodID][j];
+                        //  console.log(prod2)
+                        if (prod.colorID === prod2.colorID) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                        filter[prod.prodID].push(prod)
+                }
+            }
 
-            let ans = await dbService.getProducts();
 
-            // category name = ans[1].categoryObject.category_name
-            // description = ans[1].categoryObject.description
+            let products = []
+            for (id in filter) {
+                for (id2 in filter[id]) {
+                    let prod = filter[id][id2];
+                    products.push(prod)
+                }
+            }
 
-            for (let i = 0; i < ans.length; i++) {
-                for (let j = 0; j < split_text.length; j++) {
+            let colorObj = await dbService.getColorObject();
 
-                    //Easy to add more search arguments.
-                    let category_name = ans[i].categoryObject.category_name.toLowerCase().includes(split_text[j].toLowerCase());
-                    let category_description = ans[i].categoryObject.description.toLowerCase().includes(split_text[j].toLowerCase());
-                    let prod_name = ans[i].name.toLowerCase().includes(split_text[j].toLowerCase());
-                    let description = ans[i].description.toLowerCase().includes(split_text[j].toLowerCase());
+            for (i in split_text) {
+                let search_query = split_text[i].toLowerCase();
+                if (search_query.length == 0)
+                    break;
+                for (j in products) {
+                    let product = products[j];
+                    let color = colorObj[product.colorID].colorName.toLowerCase()
+                    let product_name = product.name.toLowerCase()
+                    let category_name = product.categoryObject.category_name.toLowerCase()
+                    let description = product.description.toLowerCase()
+                    let spec = product.specification.toLowerCase()
 
-                    if (category_name || category_description || prod_name || description) {
-                        obj[i] = ans[i];
+
+                    const isColor = color.includes(search_query);
+                    const isName = product_name.includes(search_query)
+                    const isCategoryName = category_name.includes(search_query)
+                    const isDescription = description.includes(search_query)
+                    const isSpec = spec.includes(search_query)
+                    let isTags = false;
+                    let tags = product.tags.split(',')
+                    for (t in tags) {
+                        let tag = tags[t];
+                        if (tag.includes(search_query)) {
+                            isTags = true
+                            break;
+                        }
+                    }
+
+                    if (isColor || isName || isCategoryName || isTags || isDescription || isSpec) {
+                        final_res.push(product)
                     }
                 }
 
+
+
             }
-            res.json(obj)
+
+
+            res.json(final_res)
 
         } catch (error) {
+            console.log(error)
             console.log("Something went wrong")
         }
 
