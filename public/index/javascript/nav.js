@@ -121,6 +121,7 @@ $(document).ready(function() {
     $(".top-search-button").click(function() {
         let searchValue = $(this).html();
         $("#search-input").val(searchValue);
+        navbarvm.search(searchValue)
 
     });
 
