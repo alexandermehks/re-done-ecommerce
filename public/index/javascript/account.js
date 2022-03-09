@@ -35,6 +35,7 @@ const vm = new Vue({
 
                 "id": this.loggedin.id,
                 "name": this.loggedin.name,
+                "role": this.loggedin.role,
                 "email": $('#InputEmail').val(),
                 
 
@@ -44,14 +45,11 @@ const vm = new Vue({
                 url: '/admin/editUser',
                 method: "put",
                 data: user,
-                success: () => {
-                    $.getJSON("/admin/users/", function(jsondata) {
-                        console.log(jsondata);
-
-                    }.bind(this));
-                    console.log("email changed");
-                    
-
+                success: (result) => { 
+                    //$.getJSON("/admin/users/", function(jsondata) {
+                    //    console.log(jsondata);
+                    // }.bind(this));
+                    console.log("email changed", result);
                 },
             })
         },
@@ -60,8 +58,9 @@ const vm = new Vue({
 
                 "id": this.loggedin.id,
                 "name": this.loggedin.name,
-                "email": this.loggedin.email
-                "password": $('#InputEmail').val(),
+                "email": this.loggedin.email,
+                "role": this.loggedin.role, 
+                "password": $('#InputPassword').val(),
                 
 
             }
