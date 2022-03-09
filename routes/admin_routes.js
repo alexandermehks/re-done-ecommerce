@@ -20,10 +20,21 @@ routes.get('/users', async(req, res) => {
     }
 });
 
-routes.put('/editUser', async(req, res) => {
-    try {
 
-        let user = await dbService.updateUser(req.body);
+
+
+
+
+routes.put('/editUser', async(req, res) => {
+
+    try {
+        console.log(req.body)
+
+        const salt = await bcrypt.genSalt();
+
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+        let user = await dbService.updateUser(req.body, hashedPassword);
 
         if (user) {
             res.send("Success")

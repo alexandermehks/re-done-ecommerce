@@ -121,15 +121,15 @@ const deleteUsers = async(data) => {
     }
 }
 
-const updateUser = async(data) => {
+const updateUser = async(data, password) => {
 
     try {
         const dbConnection = await dbPromise;
-        if (data) {
-            const res = await dbConnection.run(`UPDATE user SET role = ?, name = ?, email = ? WHERE userID = ?`, [data.role, data.name, data.email, data.userID])
-            console.log(data)
-            return res;
-        }
+
+        const res = await dbConnection.run(`UPDATE user SET role = ?, name = ?, email = ?, password=? WHERE userID = ?`, [data.role, data.name, data.email, password, data.userID, ])
+            //console.log(data)
+        return res;
+
 
     } catch (error) {
         console.log(error)

@@ -20,7 +20,7 @@
     color: black;
     background-color: white;
     border-color: #DFE5E8FF;
-    height: 3.5rem;
+    height: 2rem;
     font-size: 14px;
     line-height: 1.2;
     text-align: left;
@@ -66,7 +66,7 @@
     color: black;
     background-color: white;
     border-color: #DFE5E8FF;
-    height: 3rem;
+    height: 2rem;
     width: 5rem;
     font-size: 14px;
     line-height: 1.2;
@@ -118,6 +118,38 @@
 }
 
 .showAllProdButton:hover {
+    background-color: #00bcd4;
+    color: white;
+}
+
+.AdminManageButtonsDelete {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: top;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    color: black;
+    background-color: rgb(243, 243, 243);
+    border-color: #DFE5E8FF;
+    height: 2rem;
+    width: 12rem;
+    font-size: 14px;
+    line-height: 1.2;
+    text-align: left;
+    margin: 4px 0 4px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+    padding: 5px 15px 6px;
+    flex-direction: row;
+}
+
+.AdminManageButtonsDelete:hover {
     background-color: #00bcd4;
     color: white;
 }
