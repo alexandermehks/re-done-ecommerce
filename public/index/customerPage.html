@@ -40,7 +40,14 @@
 
             </div>
         </nav>
-        <!--Table for orderHistory-->
+        <div v-if="!loggedin.status">
+
+            <h1>PLEASE LOG IN</h1>
+
+        </div>
+
+
+        <!--Table for Accountinformation-->
         <div id="customerInformation">
             <div class="container-fluid">
                 <div class="row">
@@ -78,7 +85,7 @@
 
                                     </tbody>
                                 </table>
-                                {{test}}
+                                
                             </div>
                         </div>
                     </aside>
