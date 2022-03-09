@@ -45,15 +45,15 @@
                         <p><b>Role: </b>{{user.role}}</p>
 
                     </div>
-                    <form v-bind:id="'form'+user.userID" style="display: none; margin-bottom: 5px;">
+                    <form autocomplete="off" v-bind:id="'form'+user.userID" style="display: none; margin-bottom: 5px;">
                         <label for="fname">Username:</label><br>
-                        <input type="text" v-bind:id="'name'+user.userID" name="fname" :placeholder="user.name"><br>
+                        <input type="text" v-bind:id="'name'+user.userID" name="fname" :value="user.name"><br>
                         <label for="lname">Email:</label><br>
-                        <input type="text" v-bind:id="'email'+user.userID" name="lname" :placeholder="user.email"><br>
+                        <input type="text" v-bind:id="'email'+user.userID" name="lname" :value="user.email"><br>
                         <label for="role">Role:</label><br>
-                        <input type="number" min="0" max="1" v-bind:id="'role'+user.userID" name="role" :placeholder="user.role"><br>
+                        <input type="number" min="0" max="1" v-bind:id="'role'+user.userID" name="role" :value="user.role"><br>
                         <label for="role">Password:</label><br>
-                        <input type="password" v-bind:id="'password'+user.userID" name="pwd" placeholder="">
+                        <input type="password" autocomplete="off" v-bind:id="'password'+user.userID" name="pwd" placeholder="Enter password">
 
                     </form>
 
