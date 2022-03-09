@@ -42,7 +42,7 @@ const dbPromise = (async() => {
 const getColors = async() => {
     try {
         const dbConnection = await dbPromise;
-        const colors = await dbConnection.all("SELECT colorID, hexColor FROM Colors");
+        const colors = await dbConnection.all("SELECT * FROM Colors");
 
         const colorObj = {}
         for (const i in colors) {
@@ -56,51 +56,117 @@ const getColors = async() => {
     }
 };
 
+const getColorObject = async() => {
+    try {
+        const dbConnection = await dbPromise;
+        const colors = await dbConnection.all("SELECT * FROM Colors");
+
+        const colorObj = {}
+        for (const i in colors) {
+            const c = colors[i];
+            colorObj[c.colorID] = c;
+        }
+        return colorObj;
+    } catch (error) {
+        console.log(error)
+
+    }
+};
 
 
+const getPaginationObjectOnlyProducts = async(num_rows = 10) => {
+    try {
+        const dbConnection = await dbPromise;
+        const numProducts = await dbConnection.all("SELECT Count(orders) FROM product");
+
+        let n = 0;
+        if (numProducts.length > 0) {
+            n = numProducts[0]["Count(orders)"];
+        }
+
+        let numPages = parseInt(n / num_rows)
+
+        let res = {
+            "numProducts": n,
+            "numPages": numPages + 1,
+            "firstPage": 1,
+            "lastPage": numPages + 1
+        }
+        return res;
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400, "SOmething went wrong")
+    }
+}
 
 
 /**
  * 
  * @returns All products from the database, combined with their category, as well as faked picture urls
  */
-const getOnlyProducts = async() => {
+const getOnlyProducts = async(pagination = false, num_rows = 10, page_num = 1) => {
+
     try {
+
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT * FROM product");
+        let products = await dbConnection.all("SELECT * FROM product ORDER BY orders DESC");
         const allColors = await getColors();
-        for (i in products) {
-            products[i]["allColors"] = allColors
+        await asyncForEach(products, async(product) => {
+            product["allColors"] = allColors
 
             //Add category do object
-            products[i].categoryObject = await getCategoryWithId(products[i].catID);
+            product.categoryObject = await getCategoryWithId(product.catID);
 
 
             //Add pictures to product-object
             url = []
-            const pictures = await getPicture(products[i].prodID);
+            const pictures = await getPicture(product.prodID);
             await asyncForEach(pictures, async(pic) => {
                 url.push(pic.pictureURL)
             });
 
             if (url.length == 0)
                 url = ["images/producty-placeholder.jpg"]
-            products[i]["url"] = url;
-            products[i]["pictures"] = pictures
+            product["url"] = url;
+            product["pictures"] = pictures
 
-            products[i].newPrice = products[i].price
-            if (products[i].deal) {
-                products[i].newPrice = products[i].price - products[i].price * (products[i].deal / 100);
+            product.newPrice = product.price
+            if (product.deal) {
+                product.newPrice = product.price - product.price * (product.deal / 100);
             }
-
 
             //Add placeholder img if no pictures
             if (pictures.length == 0)
-                products[i]["pictures"] = [{ "picID": -1, "prodID": products[i].prodID, "pictureURL": "images/product-placeholder.jpg" }]
+                product["pictures"] = [{ "picID": -1, "prodID": product.prodID, "pictureURL": "images/product-placeholder.jpg" }]
 
+        });
+
+        let paginationObject = await getPaginationObjectOnlyProducts(num_rows);
+
+        //Pagination
+        if (pagination) {
+            if (page_num >= 1 && page_num <= paginationObject.numPages) {
+                //Calculate start index and end-index
+                let startIndex = (page_num - 1) * num_rows;
+                let endIndex = startIndex + num_rows;
+
+                if (startIndex < 0)
+                    startIndex = 0
+                if (endIndex >= products.length)
+                    endIndex = products.length - 1
+
+                products = products.splice(startIndex, num_rows)
+                return products;
+            } else {
+                //Return 0 prods? Out of punds
+                return []
+            }
+        } else {
+            return products;
         }
 
-        return products;
+
+
     } catch (error) {
         console.log(error)
         res.sendStatus(400, "SOmething went wrong")
@@ -162,7 +228,7 @@ const getCategoryWithId = async(catID) => {
 const getProducts = async() => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT * FROM product");
+        const products = await dbConnection.all("SELECT * FROM product ORDER BY orders DESC");
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -174,7 +240,7 @@ const getProducts = async() => {
 const getProductsByProdID = async(prodID, propID = -1) => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?)`, [prodID]);
+        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?) ORDER BY orders DESC`, [prodID]);
         let res = await generateListOfProductTypes(products, propID);
         return res;
     } catch (error) {
@@ -187,7 +253,7 @@ const getPropertyProductByPropID = async(propID) => {
 
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?)`, [prodID]);
+        const products = await dbConnection.all(`SELECT * FROM product WHERE prodID = (?) ORDER BY orders DESC`, [prodID]);
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -703,7 +769,7 @@ const searchBar = async(search) => {
 const getProductsDeal = async() => {
     try {
         const dbConnection = await dbPromise;
-        const products = await dbConnection.all("SELECT * FROM product WHERE deal > 0");
+        const products = await dbConnection.all("SELECT * FROM product WHERE deal > 0 ORDER BY orders DESC");
         let res = await generateListOfProductTypes(products);
         return res;
     } catch (error) {
@@ -890,6 +956,7 @@ module.exports = {
     getPicture: getPicture,
     removePicture: removePicture,
     getColors: getColors,
+    getColorObject: getColorObject,
     getProductPropertiesByProdAndColorID: getProductPropertiesByProdAndColorID,
     getAllProductsWithPropertiesByIdAndColor: getAllProductsWithPropertiesByIdAndColor,
     removeProduct: removeProduct,
@@ -907,7 +974,8 @@ module.exports = {
     addOrders: addOrders,
     editOrderStatus: editOrderStatus,
     deleteOrder: deleteOrder,
-    getOrders: getOrders
+    getOrders: getOrders,
+    getPaginationObjectOnlyProducts: getPaginationObjectOnlyProducts
 
 
 }

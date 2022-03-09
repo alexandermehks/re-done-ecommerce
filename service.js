@@ -18,6 +18,7 @@ const prod_routes = require('./routes/product_routes')
 const auth_routes = require('./routes/authentication')
 const services_routes = require('./routes/services')
 const admin_routes = require('./routes/admin_routes')
+const klarna_routes = require('./routes/klarna_api')
 
 
 
@@ -53,6 +54,7 @@ app.use('/products', prod_routes);
 app.use('/auth', auth_routes);
 app.use('/services', services_routes)
 app.use('/admin', admin_routes)
+app.use('/klarna', klarna_routes)
 
 
 /**

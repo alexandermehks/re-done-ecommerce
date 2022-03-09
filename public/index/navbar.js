@@ -134,7 +134,7 @@ const navbarvm = new Vue({
 
                         }
                     }
-                    this.searched = final;
+                    this.searched = result;
 
 
                 }

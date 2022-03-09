@@ -31,13 +31,15 @@ const vm = new Vue({
         },
         choosenCatIdAdd: 1,
         addTags: [],
+        currentPage: 1,
+        num_rows: 7,
+        paginationObject: {}
 
 
 
     },
 
     beforeMount() {
-
         this.updateAll();
         this.getColors();
         $("#footer").load("footer.html");
@@ -48,8 +50,11 @@ const vm = new Vue({
     },
 
     methods: {
-        do_test() {
-            console.log("test")
+        changePage(page) {
+            if (page >= this.paginationObject.firstPage && page <= this.paginationObject.lastPage) {
+                this.currentPage = page;
+                this.updateAll();
+            }
         },
         getBBHTML(bbcode) {
             //Replace all new lines with [br] tag
@@ -62,7 +67,6 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.products = result;
-                    console.log("Hello?")
                     for (let i in this.products) {
                         this.products[i].tagsArray = this.tagStringToArray(this.products[i].tags)
                     }
@@ -90,29 +94,39 @@ const vm = new Vue({
                             res.push(cat2);
                         }
                     }
-
-
-
                     this.categories = res;
+                }
+            })
+        },
+        getPaginationObjectOnlyProducts() {
+            const data = {
+                num_rows: this.num_rows,
 
-
-
-
-
-
-
-
+            }
+            $.ajax({
+                url: '/products/paginationObjectOnlyProducts',
+                method: "POST",
+                data: data,
+                success: (result) => {
+                    //console.log(result)
+                    this.paginationObject = result;
+                    this.getOnlyProducts();
 
                 }
             })
         },
         getOnlyProducts() {
+
+            const data = {
+                num_rows: this.num_rows,
+                page_num: this.currentPage
+            }
             $.ajax({
-                url: '/products/allOnlyProduct',
-                type: 'GET',
+                url: '/products/allOnlyProductPagination',
+                method: "POST",
+                data: data,
                 success: (result) => {
-                    console.log("Okey we add?")
-                        //console.log(result)
+                    //console.log(result)
                     this.onlyProducts = result;
                     for (let i in this.onlyProducts) {
                         this.onlyProducts[i].tagsArray = this.tagStringToArray(this.onlyProducts[i].tags)
@@ -135,6 +149,10 @@ const vm = new Vue({
         },
         getAllProductsWithPropertiesByIdAndColor() {
             //products/getAllProductsWithPropertiesByIdAndColor
+
+
+
+
             $.ajax({
                 url: '/products/getAllProductsWithPropertiesByIdAndColor',
                 type: 'GET',
@@ -248,7 +266,7 @@ const vm = new Vue({
         },
         updateAll() {
             this.getProducts()
-            this.getOnlyProducts()
+            this.getPaginationObjectOnlyProducts()
             this.getAllProductsWithPropertiesByIdAndColor()
             this.getAllCategories();
             this.updateDomPictures();
@@ -256,7 +274,6 @@ const vm = new Vue({
 
         },
         getFormValues(submitEvent) {
-            console.log(submitEvent.target.elements)
             const name = submitEvent.target.elements["productName"].value;
             const type = submitEvent.target.elements["productType"].value;
             const price = submitEvent.target.elements["productPrice"].value;
@@ -269,8 +286,6 @@ const vm = new Vue({
             for (let i = 0; i < image.length; i++) {
                 images.append("file", image[i])
             }
-
-            console.log(name, type, price, desc, spec)
 
             let tag = this.addTags.join(",");
             if (this.addTags.length == 0)
@@ -458,8 +473,7 @@ const vm = new Vue({
 
             }.bind(this));
 
-
-
+            window.scrollTo(0, 0);
 
 
         },
