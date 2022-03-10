@@ -62,6 +62,7 @@ routes.post('/doLogIn', async(req, res) => {
             current_session.user.type = "GOOGLE";
             current_session.user.shoppingcart = {};
             current_session.user.totalInCart = 0;
+            current_session.user.klarna_html = "";
         }
         const match = await dbService.comparePassword(req.body.email, req.body.password);
         if (match) {
@@ -74,6 +75,7 @@ routes.post('/doLogIn', async(req, res) => {
             current_session.user.role = user.role;
             current_session.user.shoppingcart = {};
             current_session.user.totalInCart = 0;
+            current_session.user.klarna_html = "";
             res.json(current_session.user)
         } else {
             res.send("Cant log you in")
@@ -213,6 +215,21 @@ routes.post('/updateEmail', async(req, res) => {
         res.sendStatus(400, "Something went wrong")
     }
 })
+
+
+routes.post('/updateKlarnaHtml', async (req, res) => {
+     try{
+          if(current_session.user){
+               current_session.user.klarna_html = req.body 
+               console.log(current_session.user.klarna_html)
+               res.send("OK")
+          }
+     }catch(error){
+          res.sendStatus(400, "Something went wrong")
+     }
+})
+
+
 
 
 

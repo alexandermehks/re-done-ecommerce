@@ -5,11 +5,13 @@ const checkoutvm = new Vue({
         loggedin: {},
         test_html: "",
         klarna_obj: {}
+
     },
     mounted() {
         $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
         this.getLoggedInUser();
+        $("#KCO").html(this.loggedin.klarna_html)
     },
     methods: {
 
@@ -128,6 +130,7 @@ const checkoutvm = new Vue({
                         parentNode.removeChild(scriptsTags[i])
                         parentNode.appendChild(newScriptTag)
                     }
+
 
                 }
 
