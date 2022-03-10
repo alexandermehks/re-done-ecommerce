@@ -45,7 +45,7 @@
                                             <figure class="itemside align-items-center">
                                                 <div class="aside"><img v-bind:src="l.picURL" class="img-sm"></div>
                                                 <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true"> {{ l.name }}</a>
-                                                    <p class="text-muted small">SIZE: {{ l.size }} <br> Brand: <br> Colour: {{ l.colorID }} <br> </p>
+                                                    <p class="text-muted small">SIZE: {{ l.size }} <br> Brand: <br> Color: {{ l.colorID }} <br> </p>
                                                 </figcaption>
                                             </figure>
                                         </td>
@@ -57,7 +57,8 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="price-wrap"> <var class="price"> {{ l.price }}</var> </div>
+                                            <div class="price-wrap"> <span class="price" v-if="l.price == l.newPrice"> {{ l.newPrice }} kr </span> <span v-if="l.price != l.newPrice" class="price" style="color: rgb(230, 69, 69);"> {{ l.newPrice }} kr </span><span style="text-decoration: line-through; font-size: 12px"
+                                                    class="price" v-if="l.price != l.newPrice"> {{ l.price }} kr </span> </div>
                                         </td>
                                         <td class="text-right d-none d-md-block"> <button class="btn btn-light" v-on:click="removeFromCart(l.propID)" data-abc="true"> Remove</button> </td>
                                     </tr>
@@ -74,13 +75,9 @@
                         <div class="card-body">
                             <dl class="dlist-align">
                                 <dt>Total price:</dt>
-                                <dd class="text-right ml-3"> <b>{{loggedin.totalInCart}}</b></dd>
-
-
+                                <dd class="text-right ml-3"> <b>{{parseInt(loggedin.totalInCart * 1.25)}} kr</b></dd>
                             </dl>
-                            <dl class="dlist-align">
-                                <dt><b>Discount: WHAT TO PUT HERE</b></dt>
-                            </dl>
+
 
 
                             <hr> <a href="#" v-on:click="makeKlarnaOrder()" class="btn btn-out btn-warning btn-square btn-main" data-abc="true"> Proceed to Checkout </a> <a href="/designproduct" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>

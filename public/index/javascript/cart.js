@@ -119,6 +119,23 @@ const checkoutvm = new Vue({
                     console.log(result)
                     this.klarna_obj = result
 
+                    //Save klarna_obj in session
+                    const data = {
+                        "klarna_obj": this.klarna_obj,
+                    }
+
+                    $.ajax({
+                        url: '/auth/updateKlarnaObj',
+                        method: "POST",
+                        data: data,
+                        success: (result) => {
+                            console.log("Klarna object added", result)
+                            this.getLoggedInUser();
+                        }
+                    });
+
+
+
                     var checkoutContainer = document.getElementById('my-checkout-container')
                     checkoutContainer.innerHTML = this.klarna_obj.html_snippet;
                     var scriptsTags = checkoutContainer.getElementsByTagName('script')
