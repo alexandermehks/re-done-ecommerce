@@ -95,12 +95,12 @@ routes.post('/pushToShoppingCart', async(req, res) => {
 
             if (propID in cart) {
                 cart[propID].amount = cart[propID].amount + 1
-                let parseval = parseInt(req.body.price)
+                let parseval = parseInt(req.body.newPrice)
                 current_session.user.totalInCart += parseval;
             } else {
                 cart[propID] = req.body
                 cart[propID]["amount"] = 1
-                let parseval = parseInt(req.body.price)
+                let parseval = parseInt(req.body.newPrice)
                 current_session.user.totalInCart += parseval;
             }
 
@@ -112,74 +112,94 @@ routes.post('/pushToShoppingCart', async(req, res) => {
 })
 
 routes.post('/removeFromShoppingCart', async(req, res) => {
-        try {
-            const cart = current_session.user.shoppingcart;
-            let keys = Object.keys(cart)
-            for (let i = 0; i < keys.length; i++) {
-                if (keys[i].toString() === req.body.prodID.toString()) {
-                    current_session.user.totalInCart -= cart[req.body.prodID].price * cart[req.body.prodID].amount
-                    delete cart[req.body.prodID]
-                    res.send("OK")
+    try {
+        const cart = current_session.user.shoppingcart;
+        let keys = Object.keys(cart)
+        for (let i = 0; i < keys.length; i++) {
+            if (keys[i].toString() === req.body.prodID.toString()) {
+                current_session.user.totalInCart -= cart[req.body.prodID].price * cart[req.body.prodID].amount
+                delete cart[req.body.prodID]
+                res.send("OK")
+            }
+        }
+
+
+
+    } catch (error) {
+        res.sendStatus(400, "something went wrong")
+    }
+})
+
+routes.post('/updateAmount', async(req, res) => {
+    try {
+        const propID = req.body.propID;
+        const value = req.body.value;
+        let cart = current_session.user.shoppingcart;
+        let totalInCart = current_session.user.totalInCart;
+        let keys = Object.keys(cart)
+
+        for (let i = 0; i < keys.length; i++) {
+            if (keys[i].toString() === propID.toString()) {
+                //FOR DECREMENT OF AMOUNT
+                if (cart[propID].amount != 0 && value === "-1") {
+                    cart[propID].amount += -1;
+                    current_session.user.totalInCart -= parseInt(cart[propID].price)
+                } else if (value === "1" && cart[propID].amount != 10) {
+                    cart[propID].amount += 1;
+                    current_session.user.totalInCart += parseInt(cart[propID].price)
                 }
+
             }
-
-
-
-        } catch (error) {
-            res.sendStatus(400, "something went wrong")
         }
-    }),
 
-    routes.post('/updateAmount', async(req, res) => {
-        try {
-            const propID = req.body.propID;
-            const value = req.body.value;
-            let cart = current_session.user.shoppingcart;
-            let totalInCart = current_session.user.totalInCart;
-            let keys = Object.keys(cart)
+        res.send("OK")
 
-            for (let i = 0; i < keys.length; i++) {
-                if (keys[i].toString() === propID.toString()) {
-                    //FOR DECREMENT OF AMOUNT
-                    if (cart[propID].amount != 0 && value === "-1") {
-                        cart[propID].amount += -1;
-                        current_session.user.totalInCart -= parseInt(cart[propID].price)
-                    } else if (value === "1" && cart[propID].amount != 10) {
-                        cart[propID].amount += 1;
-                        current_session.user.totalInCart += parseInt(cart[propID].price)
-                    }
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
+})
 
-                }
-            }
 
-            res.send("OK")
+routes.get('/loggedInUser', async(req, res) => {
+    try {
+        let user = {}
+        user = req.session;
 
-        } catch (error) {
-            res.sendStatus(400, "Something went wrong")
+        if (!current_session.user || !current_session) {
+            user['status'] = false;
+            res.json(user)
+        } else if (current_session.user) {
+            user = current_session.user;
+            user['status'] = true;
+            res.json(user)
+        } else {
+            user['status'] = false;
+            res.json(user)
         }
-    }),
+    } catch (error) {
+        res.send("No user logged in.")
+    }
+})
 
+routes.get('/clearCart', async(req, res) => {
+    try {
+        let user = {}
+        user = req.session;
 
-    routes.get('/loggedInUser', async(req, res) => {
-        try {
-            let user = {}
-            user = req.session;
-
-            if (!current_session.user || !current_session) {
-                user['status'] = false;
-                res.json(user)
-            } else if (current_session.user) {
-                user = current_session.user;
-                user['status'] = true;
-                res.json(user)
-            } else {
-                user['status'] = false;
-                res.json(user)
-            }
-        } catch (error) {
-            res.send("No user logged in.")
+        if (!current_session.user || !current_session) {
+            res.send("Could not empty cart")
+        } else if (current_session.user) {
+            current_session.user.shoppingcart = {};
+            current_session.user.totalInCart = 0
+            res.send("Cart cleared")
+        } else {
+            user['status'] = false;
+            res.send(user)
         }
-    })
+    } catch (error) {
+        res.send("No user logged in.")
+    }
+})
 
 
 routes.get('/logout', async(req, res) => {
@@ -217,17 +237,36 @@ routes.post('/updateEmail', async(req, res) => {
 })
 
 
-routes.post('/updateKlarnaHtml', async (req, res) => {
-     try{
-          if(current_session.user){
-               current_session.user.klarna_html = req.body 
-               console.log(current_session.user.klarna_html)
-               res.send("OK")
-          }
-     }catch(error){
-          res.sendStatus(400, "Something went wrong")
-     }
+routes.post('/updateKlarnaHtml', async(req, res) => {
+    try {
+        if (current_session.user) {
+            current_session.user.klarna_html = req.body
+            console.log(current_session.user.klarna_html)
+            res.send("OK")
+        }
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
 })
+
+routes.post('/updateKlarnaObj', async(req, res) => {
+    try {
+        if (current_session.user) {
+
+            if (req.body.klarna_obj) {
+                current_session.user.klarna_obj = req.body.klarna_obj
+                res.send("OK")
+            } else {
+                res.sendStatus(400, "Something went wrong")
+            }
+        }
+    } catch (error) {
+        res.sendStatus(400, "Something went wrong")
+    }
+})
+
+
+
 
 
 

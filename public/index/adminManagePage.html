@@ -68,14 +68,20 @@
             </div>
             <div class="orders" id="orders" style="display: none">
                 <h5>Orders</h5>
+                <div class="manageoptions" style="margin-top: 0!important">
+                    <button class="manageOptionItems" :class="{active: order_filter == 'All'}" v-on:click="changeOrderFilter('All')">All</button>
+                    <button class="manageOptionItems" :class="{active: order_filter == 'Recieved'}" v-on:click=" changeOrderFilter( 'Recieved') ">Recieved</button>
+                    <button class="manageOptionItems" :class="{active: order_filter == 'Packing'}" v-on:click="changeOrderFilter('Packing')">Packing</button>
+                    <button class="manageOptionItems" :class="{active: order_filter == 'Delivered'}" v-on:click=" changeOrderFilter( 'Delivered') ">Delivered</button>
+                </div>
                 <div class="manageOrders">
                     <div class="manageOrdersflex">
-                        <div style="padding-right: 100px; padding-left: 100px;">
+                        <div style="padding-right: 100px; padding-left: 100px; ">
 
-                            <div id="orderHistory">
-                                <div class="container-fluid">
+                            <div id="orderHistory ">
+                                <div class="container-fluid ">
 
-                                    <div v-for="order in orders">
+                                    <div v-for="order in orders " v-if="order_filter=='All' || order_filter==order.status ">
                                         <p><b>OrderID:</b> {{order.orderID}}</p>
                                         <p><b>Date:</b> {{order.date}}</p>
                                         <p><b>Status:</b> {{order.status}}</p>
@@ -83,38 +89,38 @@
 
 
                                         <!----       testing            -->
-                                        <div class="radioB" v-on:click="updateOrderStatus(order.orderID)">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Delivered">
-                                                <label class="form-check-label" for="inlineRadio1">Delivered</label>
+                                        <div class="radioB " v-on:click="updateOrderStatus(order.orderID) ">
+                                            <div class="form-check form-check-inline ">
+                                                <input :checked="order.status == 'Delivered'" class="form-check-input " type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Delivered">
+                                                <label class="form-check-label " for="inlineRadio1 ">Delivered</label>
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Packing">
-                                                <label class="form-check-label" for="inlineRadio2">Packing</label>
+                                            <div class="form-check form-check-inline ">
+                                                <input :checked="order.status == 'Packing'" class="form-check-input " type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Packing">
+                                                <label class="form-check-label " for="inlineRadio2 ">Packing</label>
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Recieved">
-                                                <label class="form-check-label">Recieved</label>
+                                            <div class="form-check form-check-inline ">
+                                                <input :checked="order.status == 'Recieved'" class="form-check-input " type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Recieved">
+                                                <label class="form-check-label ">Recieved</label>
                                             </div>
                                         </div>
                                         <!----             testing -->
 
-                                        <button class="AdminManageButtonsDelete" v-on:click="deleteOrder(order.orderID)">Delete Order</button>
+                                        <button class="AdminManageButtonsDelete " v-on:click="deleteOrder(order.orderID) ">Delete Order</button>
 
-                                        <table class="table table-striped">
+                                        <table class="table table-striped ">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col"></th>
-                                                    <th scope="col">Product</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Amount</th>
-                                                    <th scope="col">Total</th>
+                                                    <th scope="col "></th>
+                                                    <th scope="col ">Product</th>
+                                                    <th scope="col ">Price</th>
+                                                    <th scope="col ">Amount</th>
+                                                    <th scope="col ">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="product in order.products">
-                                                    <th scope="row">
-                                                        <img :src="product.productObject.picURL" style="height: 50px; width:50px; border-radius: 50px; border: 1px solid rgba(0, 0, 0, 0.199);">
+                                                <tr v-for="product in order.products ">
+                                                    <th scope="row ">
+                                                        <img :src="product.productObject.picURL " style="height: 50px; width:50px; border-radius: 50px; border: 1px solid rgba(0, 0, 0, 0.199); ">
                                                     </th>
                                                     <td>
                                                         <strong>{{product.productObject.name}}</strong>
@@ -126,7 +132,7 @@
                                                     <td>{{product.productObject.newPrice * product.amount}} kr</td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row">
+                                                    <th scope="row ">
                                                     </th>
                                                     <td>
 
@@ -146,11 +152,7 @@
                         </div>
 
                     </div>
-                    <button class="showAllProdButton" v-on:click="toggleShowOrderProducts()">Show all products</button>
-                    <div class="ShowProductsContainer" id="ShowProductsContainer" style="display: none;">
-                        <p>Product Info Here</p>
 
-                    </div>
                 </div>
             </div>
 
@@ -168,7 +170,7 @@
 
     </div>
 
-    <div id="footer"></div>
+    <div id="footer "></div>
 
     <script src="http://code.jquery.com/jquery-3.5.1.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>

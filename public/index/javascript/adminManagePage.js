@@ -4,6 +4,7 @@ const vm = new Vue({
         testAccount: "luca123",
         users: [],
         orders: [],
+        order_filter: "All" // All, Recieved, Packing, Delivered 
 
     },
 
@@ -16,7 +17,9 @@ const vm = new Vue({
 
     },
     methods: {
-
+        changeOrderFilter(filter) {
+            this.order_filter = filter;
+        },
         loadUsers() {
             $.ajax({
                 url: 'admin/users/',

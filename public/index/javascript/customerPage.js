@@ -1,15 +1,17 @@
+const { data } = require("node-env-file");
 
 const vm = new Vue({
     el: "#app",
     data: {
-        loggedin:{},
+        loggedin: {},
+        klarna_obj: {}
     },
 
     mounted() {
         $(function() {
             $("#navbar").load("navbar.html");
             $("#footer").load("footer.html");
-            
+
         });
         this.getLoggedInUser();
 
@@ -22,6 +24,10 @@ const vm = new Vue({
                 success: (result) => {
                     this.loggedin = result;
                     console.log(this.loggedin);
+
+
+
+
                 }
             })
         },

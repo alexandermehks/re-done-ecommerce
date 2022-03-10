@@ -881,7 +881,7 @@ const addOrders = async(loggedin) => {
             if (Object.keys(shoppingcart).length > 0) {
                 console.log(shoppingcart)
 
-                const response = await dbConnection.run(`INSERT INTO orders (userID, status) VALUES (?,?)`, [userID, "recieved"])
+                const response = await dbConnection.run(`INSERT INTO orders (userID, status) VALUES (?,?)`, [userID, "Recieved"])
 
                 const orderID = response.lastID;
 
