@@ -112,7 +112,7 @@ const checkoutvm = new Vue({
                 type: 'POST',
                 data: obj,
                 success: (result) => {
-                    console.log("OK")
+                    console.log(result)
                 }
 
             })

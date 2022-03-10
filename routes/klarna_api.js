@@ -84,9 +84,8 @@ routes.post('/generateKlarnaOrderId', async(req, res) => {
 			headers: headers 
 		})
  		.then(response => response.json())
- 		.then(json => console.log(json))
+ 		.then(json => res.json(json))
  		.catch(error => console.log(error))
- 		res.send("OK")
 
     } catch (error) {
         console.log(error)
