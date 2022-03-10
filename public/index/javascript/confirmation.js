@@ -66,7 +66,16 @@ const vm = new Vue({
         },
         addOrder() {
             //console.log("NAVBAR", navbarvm.loggedin)
-            navbarvm.checkout()
+            $.ajax({
+                url:'/services/email',
+                type:'POST',
+                data: this.loggedin,
+                success: (result) => {
+                    console.log("EMAIL")                
+                    navbarvm.checkout()
+
+                }
+            })
         }
 
 
