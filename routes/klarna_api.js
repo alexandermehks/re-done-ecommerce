@@ -31,15 +31,25 @@ routes.post('/generateKlarnaOrderId', async(req, res) => {
             let parsedAmount = parseInt(amount)
 
             let final_total = parseInt((parsedP + (t_tax_amount / parsedAmount)) * 1000) * parsedAmount
+
+            let unit_price = Math.round(parsedP * 1.25)
+            const tax_rate = 2500 
+            let total_amount = Math.round(unit_price*amount) 
+
+            let tax_amount = total_amount-total_amount*10000/(10000+tax_rate)
+            console.log("UNIT PRICE", unit_price)
+            console.log("TOTAL AMOUINT", total_amount)
+            console.log("TAX AMOUNT" , tax_amount)
+            console.log(unit_price)
             shopping_products["reference"] = propID
             shopping_products['name'] = name
             shopping_products['quantity'] = parsedAmount
             shopping_products['quantity_unit'] = "pcs"
-            shopping_products['unit_price'] = parseInt((parsedP + (t_tax_amount / parsedAmount)) * 1000)
-            shopping_products['tax_rate'] = 2500
-            shopping_products['total_amount'] = parseInt((parsedP + (t_tax_amount / parsedAmount)) * 1000) * parsedAmount
+            shopping_products['unit_price'] = unit_price * 100
+            shopping_products['tax_rate'] = tax_rate 
+            shopping_products['total_amount'] = total_amount * 100
             shopping_products['total_discount_amount'] = 0
-            shopping_products['total_tax_amount'] = parseInt(final_total - final_total * 10000 / (10000 + 2500))
+            shopping_products['total_tax_amount'] = tax_amount * 100
             arr.push(shopping_products)
             shopping_products = {}
 
@@ -85,6 +95,7 @@ routes.post('/generateKlarnaOrderId', async(req, res) => {
                 headers: headers
             })
             .then(response => response.json())
+            //.then(json => console.log(json))
             .then(json => res.json(json))
             .catch(error => console.log(error))
 
