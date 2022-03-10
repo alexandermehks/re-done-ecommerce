@@ -77,58 +77,30 @@
                                 <dd class="text-right ml-3"> <b>{{loggedin.totalInCart}}</b></dd>
 
 
-                        </dl>
-                        <dl class="dlist-align">
-                            <dt><b>Discount: WHAT TO PUT HERE</b></dt>
-                        </dl>
-                        
-                        
-                        <hr> <a href="#" v-on:click="makeKlarnaOrder()" class="btn btn-out btn-warning btn-square btn-main" data-abc="true"> Proceed to Checkout </a> <a href="/designproduct" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt><b>Discount: WHAT TO PUT HERE</b></dt>
+                            </dl>
 
-                    </div>
+
+                            <hr> <a href="#" v-on:click="makeKlarnaOrder()" class="btn btn-out btn-warning btn-square btn-main" data-abc="true"> Proceed to Checkout </a> <a href="/designproduct" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+
+                        </div>
                 </aside>
+                </div>
             </div>
         </div>
 
         <div id="appcheckout">
 
-    <textarea style="display: none" id="KCO" >
+            <div id="my-checkout-container"></div>
 
-        <div v-html="loggedin.klarna_html"></div>
-
-    </textarea>
-
-
-
-
-    <div id="my-checkout-container"></div>
-
-
-
-    <!-- START - Dont edit -->
-    <script type="text/javascript">
-        var checkoutContainer = document.getElementById('my-checkout-container')
-        checkoutContainer.innerHTML = (document.getElementById("KCO").value).replace(/\\"/g, "\"").replace(/\\n/g, "");
-        var scriptsTags = checkoutContainer.getElementsByTagName('script')
-        for (var i = 0; i < scriptsTags.length; i++) {
-            var parentNode = scriptsTags[i].parentNode
-            var newScriptTag = document.createElement('script')
-            newScriptTag.type = 'text/javascript'
-            newScriptTag.text = scriptsTags[i].text
-            parentNode.removeChild(scriptsTags[i])
-            parentNode.appendChild(newScriptTag)
-        }
-    </script>
-    <!-- END -->
-
-    
-</div>
-        
+        </div>
     </div>
-
     <!--Cart END-->
     <!--Footer-->
     <div id="footer"></div>
+
 
     <script src="javascript/nav.js "></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
