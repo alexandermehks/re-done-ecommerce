@@ -4,11 +4,13 @@ const checkoutvm = new Vue({
     data: {
         loggedin: {},
         
+        
     },
     mounted() {
         $("#navbar").load("navbar.html");
         $("#footer").load("footer.html");
         this.getLoggedInUser();
+        $("#KCO").html(this.loggedin.klarna_html)
     },
     methods: {
      
@@ -112,7 +114,18 @@ const checkoutvm = new Vue({
                 type: 'POST',
                 data: obj,
                 success: (result) => {
-                    console.log(result)
+                    let html = result.html_snippet
+
+                    $.ajax({
+                        url: '/auth/updateKlarnaHtml',
+                        type: 'POST',
+                        data: html,
+                        success: (result) => {
+                            this.getLoggedInUser()
+                            navbarvm.getLoggedInUser()
+                            window.location.href = "klarna_checkout"
+                        }
+                    })
                 }
 
             })
