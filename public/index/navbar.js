@@ -47,6 +47,21 @@ const navbarvm = new Vue({
 
                     console.log(result)
 
+                    this.clearCart();
+
+
+
+                }
+            })
+        },
+        clearCart() {
+            $.ajax({
+                url: '/auth/clearCart',
+                type: 'GET',
+                success: (result) => {
+                    console.log("CART CLEARED")
+                    this.getLoggedInUser()
+
                 }
             })
         },
