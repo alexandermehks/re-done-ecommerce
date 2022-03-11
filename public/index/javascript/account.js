@@ -58,28 +58,23 @@ const vm = new Vue({
                                 console.log("Logged in user updated", result)
                                 this.getLoggedInUser();
                             }
-
                         });
-
-
-
-
                     },
                 });
             } else {
+                window.alert("Enter same Emailadress")
                 console.log("please enter same email")
             }
         },
         updatePassword() {
-            const user = {
+            if ($('#InputPassword').val() == $('#ConfirmInputPassword').val()) {
 
+            const user = {
                 "userID": this.loggedin.id,
                 "name": this.loggedin.name,
                 "email": this.loggedin.email,
                 "role": this.loggedin.role,
                 "password": $('#InputPassword').val(),
-
-
             }
             console.log(user);
             $.ajax({
@@ -88,9 +83,12 @@ const vm = new Vue({
                 data: user,
                 success: () => {
                     console.log("password changed")
-
                 },
             });
+        } else {
+            window.alert("Enter same Password")
+            console.log("please enter same password")
+        }
         },
     }
 
