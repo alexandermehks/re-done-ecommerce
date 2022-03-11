@@ -54,6 +54,7 @@ const req = require('express/lib/request');
  */
 routes.post('/doLogIn', async(req, res) => {
     try {
+        let login_Google = false
         if (req.body.type === "GOOGLE") {
             current_session = req.session;
             current_session.user = {};
@@ -63,7 +64,10 @@ routes.post('/doLogIn', async(req, res) => {
             current_session.user.shoppingcart = {};
             current_session.user.totalInCart = 0;
             current_session.user.klarna_html = "";
+            login_Google = true
+            res.json(current_session.user)
         }
+        if(!login_Google){
         const match = await dbService.comparePassword(req.body.email, req.body.password);
         if (match) {
             const user = await dbService.getUser(req.body.email);
@@ -80,7 +84,7 @@ routes.post('/doLogIn', async(req, res) => {
         } else {
             res.send("Cant log you in")
         }
-    } catch (error) {
+    }} catch (error) {
         res.sendStatus(400, "Cant log in");
     }
 })
