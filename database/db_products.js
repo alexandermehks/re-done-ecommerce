@@ -874,7 +874,7 @@ const addOrders = async(loggedin) => {
     try {
         const dbConnection = await dbPromise;
         //const orders = await dbConnection.run(`SELECT * from orders WHERE orderID = ?`, [orderID])
-
+        //UPDATE
         let userID = loggedin.id;
         let shoppingcart = loggedin.shoppingcart;
         let userEmail = loggedin.email;
