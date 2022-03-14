@@ -36,10 +36,13 @@ const vm = new Vue({
             const dat = {
                 "userID": userID
             }
+            const email = {
+                "email": this.loggedin.email
+            }
             $.ajax({
                 url: '/products/getOrdersByUserID',
                 type: 'POST',
-                data: dat,
+                data: email,
                 success: (result) => {
                     this.orders = result;
 

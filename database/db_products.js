@@ -877,11 +877,13 @@ const addOrders = async(loggedin) => {
 
         let userID = loggedin.id;
         let shoppingcart = loggedin.shoppingcart;
+        let userEmail = loggedin.email;
         if (shoppingcart) {
             if (Object.keys(shoppingcart).length > 0) {
                 console.log(shoppingcart)
 
-                const response = await dbConnection.run(`INSERT INTO orders (userID, status) VALUES (?,?)`, [userID, "Recieved"])
+                console.log("EMAILHASDAD", userEmail)
+                const response = await dbConnection.run(`INSERT INTO orders (userID, status) VALUES (?,?)`, [userEmail, "Recieved"])
 
                 const orderID = response.lastID;
 
