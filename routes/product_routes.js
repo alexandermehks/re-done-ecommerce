@@ -155,7 +155,8 @@ routes.get('/getAllOrders', async(req, res) => {
 
 routes.post('/getOrdersByUserID', async(req, res) => {
     try {
-        const orders = await dbService.getOrdersByUserID(req.body.userID);
+        console.log(req.body)
+        const orders = await dbService.getOrdersByUserID(req.body.email);
         res.send(orders);
     } catch (error) {
         res.sendStatus(400, "Something went wrong");
