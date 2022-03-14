@@ -1,5 +1,3 @@
-const { data } = require("node-env-file");
-
 const vm = new Vue({
     el: "#app",
     data: {

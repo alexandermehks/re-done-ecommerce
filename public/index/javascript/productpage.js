@@ -324,7 +324,7 @@ const vm = new Vue({
         updateAllFilter() {
             this.currentShow = []
             const allProd = !this.choosenSizes[1] && !this.choosenSizes[2] && !this.choosenSizes[3] && !this.choosenSizes[4] && !this.choosenSizes[5];
-            const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4] && !this.choosenColor[5];
+            const allColor = !this.choosenColor[1] && !this.choosenColor[2] && !this.choosenColor[3] && !this.choosenColor[4] && !this.choosenColor[5] && !this.choosenColor[6] && !this.choosenColor[7] && !this.choosenColor[8] && !this.choosenColor[9] && !this.choosenColor[10];
             for (var i = 0; i < this.products.length; i++) {
                 let product = this.products[i]
                 if (product.categoryObject.catID === this.choosenCategory || product.categoryObject.parentCategory === this.choosenCategory || this.choosenCategory === 0) {
