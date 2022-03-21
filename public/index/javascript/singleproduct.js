@@ -53,7 +53,6 @@ const vm = new Vue({
         this.loadProduct(prodID)
         this.loadReviews(prodID)
         this.getAllCategories();
-        this.getLoggedInUser();
 
 
 
@@ -156,6 +155,8 @@ const vm = new Vue({
                     if (this.reviews.length == 0) {
                         this.rating = 0
                     }
+                    this.getLoggedInUser();
+
 
                 },
                 error: (data) => {
@@ -489,7 +490,7 @@ const vm = new Vue({
                     this.loggedin = result;
 
                     for (var i = 0; i < this.reviews.length; i++) {
-
+                        console.log(this.loggedin.id, this.reviews[i].userID)
                         if (this.loggedin.id === this.reviews[i].userID) {
                             this.loggedinreview = 1
                         }

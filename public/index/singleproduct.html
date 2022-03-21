@@ -176,7 +176,7 @@
                         </div>
 
                         <h4>{{rating}}/5</h4>
-                        <button class="review_button" id="reviewbutton" v-if="loggedin.status && loggedin.review === 0" v-on:click="openReviewContainer()">Write
+                        <button class="review_button" id="reviewbutton" v-if="loggedin.status && loggedinreview === 0" v-on:click="openReviewContainer()">Write
                                    Review</button>
                         <h4 v-if="!loggedin.status">Please log in to post reviews</h4>
                         <h4 v-if="loggedin.status && loggedin.review === 1">You have already posted a review</h4>
