@@ -33,7 +33,8 @@ const vm = new Vue({
         addTags: [],
         currentPage: 1,
         num_rows: 7,
-        paginationObject: {}
+        paginationObject: {},
+        loggedin: {}
 
 
 
@@ -42,7 +43,7 @@ const vm = new Vue({
     beforeMount() {
         this.updateAll();
         this.getColors();
-        $("#footer").load("footer.html");
+        this.getLoggedInUser();
     },
     mounted() {
         $("#navbar").load("navbar.html");
@@ -50,6 +51,15 @@ const vm = new Vue({
     },
 
     methods: {
+        getLoggedInUser() {
+            $.ajax({
+                url: '/auth/loggedInUser',
+                type: 'GET',
+                success: (result) => {
+                    this.loggedin = result;
+                }
+            })
+        },
         changePage(page) {
             if (page >= this.paginationObject.firstPage && page <= this.paginationObject.lastPage) {
                 this.currentPage = page;
@@ -787,7 +797,6 @@ $(document).ready(function() {
         $(this).attr("rows", rows);
     });
 
-    productDescription
 
     $('#productDescription').bind('input propertychange', function() {
         vm.new_prod_desc_rendered = $(this).val()

@@ -258,9 +258,7 @@
 
 .bb-ul ul {}
 
-.bb-ul li {
-    background-color: red;
-}
+.bb-ul li {}
 
 .catOption:disabled {
     background-color: rgba(122, 122, 122, 0.384);

@@ -25,7 +25,7 @@
         <!-- Navbar End-->
         <br>
         <br><br>
-        <div class="adminManageContainer">
+        <div class="adminManageContainer" v-if="loggedin.status == 1 && loggedin.role == 1">
 
             <div class="manageoptions">
 
@@ -166,6 +166,10 @@
 
 
 
+        </div>
+        <div v-else>
+            <br><br>
+            <h2>Please log in to an admin account</h2>
         </div>
 
     </div>

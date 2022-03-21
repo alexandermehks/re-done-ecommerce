@@ -4,7 +4,8 @@ const vm = new Vue({
         testAccount: "luca123",
         users: [],
         orders: [],
-        order_filter: "All" // All, Recieved, Packing, Delivered 
+        order_filter: "All", // All, Recieved, Packing, Delivered 
+        loggedin: {}
 
     },
 
@@ -14,9 +15,18 @@ const vm = new Vue({
             $("#footer").load("footer.html");
         });
         this.loadUsers()
-
+        this.getLoggedInUser();
     },
     methods: {
+        getLoggedInUser() {
+            $.ajax({
+                url: '/auth/loggedInUser',
+                type: 'GET',
+                success: (result) => {
+                    this.loggedin = result;
+                }
+            })
+        },
         changeOrderFilter(filter) {
             this.order_filter = filter;
         },
