@@ -147,6 +147,7 @@ const vm = new Vue({
                 type: 'GET',
                 success: (result) => {
                     this.reviews = result
+                    console.log(this.reviews)
                     var totalrating = 0
                     for (var i = 0; i < this.reviews.length; i++) {
                         totalrating += this.reviews[i].ratingnumber
@@ -496,9 +497,6 @@ const vm = new Vue({
                         }
 
                     }
-                    //console.log(this.reviews)
-                    //console.log(this.loggedinreview)
-
 
                 }
             })

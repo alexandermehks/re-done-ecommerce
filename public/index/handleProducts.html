@@ -17,7 +17,7 @@
     <div id="app">
         <div id="navbar"></div>
 
-        <div class="wrapper ">
+        <div class="wrapper" v-if="loggedin.status == 1 && loggedin.role == 1">
             <div class="handle-products">
                 <h3>Products</h3>
 
@@ -561,10 +561,10 @@
             <div>
             </div>
 
-
-
-
             <div id="footer"></div>
+        </div>
+        <div v-else class="wrapper">
+            <h2>Please log in to an admin account</h2>
         </div>
 
     </div>

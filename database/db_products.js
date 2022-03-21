@@ -685,8 +685,15 @@ const getReviewsByProdID = async(prodID) => {
         for (let i = 0; i < res.length; i++) {
 
             let name = await getUserNameByReviews(res[i].userID);
-            res[i].name = name[0]['name']
-            res[i].userID = name[0]['userID']
+
+
+            if (name.length > 0) {
+                res[i].name = name[0]['name']
+                res[i].userID = name[0]['userID']
+            } else {
+                res[i].name = "John Doe"
+                res[i].userID = "-1"
+            }
         }
 
         return res;
